@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Dera</string>
+    <string name="signIn">Login</string>
+    <string name="signUp">Register</string>
+    <string name="forget">Forget Password?</string>
+    <string name="terms">Terms of Service</string>
+    <string name="policy">Privacy Policy</string>
 </resources>
