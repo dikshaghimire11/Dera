@@ -10,4 +10,5 @@
     <color name="themecolor">#444473</color>
     <color name="textboxcolor">#ebeced</color>
     <color name="textcolor">#797171</color>
+    <color name="pricecolor">#45A20D</color>
 </resources>

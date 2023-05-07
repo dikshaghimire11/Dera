@@ -52,7 +52,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Email"
@@ -79,7 +79,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/passwordET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Password"
@@ -107,7 +107,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/repasswordET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:hint="Confirm Password"
                 android:fontFamily="@font/robotofont"

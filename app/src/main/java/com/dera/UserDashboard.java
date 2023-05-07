@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,13 @@ public class UserDashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment myFragment = new UserHome();
+        fragmentTransaction.add(R.id.fragmentlayout, myFragment);
+
+        fragmentTransaction.commit();
         setContentView(R.layout.activity_user_dashboard);
         ImageView home = findViewById(R.id.homeIV);
         ImageView booking = findViewById(R.id.bookingIV);
