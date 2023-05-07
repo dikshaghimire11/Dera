@@ -7,63 +7,151 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="760dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/homeIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/homeicon" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/bookingIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/bookingsicon" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/historyIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/historyicon" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/profileIV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/profileicon" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </com.google.android.material.card.MaterialCardView>
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottonV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragmentlayout"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/textboxcolor"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/homeIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="10dp"
+        android:translationY="23dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toTopOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/bottonV"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="@+id/bottonV"
+        app:layout_constraintTop_toTopOf="@+id/bottonV"
+        app:layout_constraintVertical_bias="0.95"
+        app:srcCompat="@drawable/home" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bookingIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="23dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toTopOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toStartOf="@+id/bottonV"
+        app:layout_constraintTop_toTopOf="@+id/bottonV"
+        app:layout_constraintVertical_bias="0.95"
+        android:translationZ="10dp"
+        app:srcCompat="@drawable/subtract" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/historyIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="23dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toTopOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/bottonV"
+        app:layout_constraintHorizontal_bias="0.61"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="@+id/bottonV"
+        app:layout_constraintTop_toTopOf="@+id/bottonV"
+        app:layout_constraintVertical_bias="0.95"
+        app:srcCompat="@drawable/history" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/profileIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="10dp"
+        android:translationY="23dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toTopOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/bottonV"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toStartOf="@+id/bottonV"
+        app:layout_constraintTop_toTopOf="@+id/bottonV"
+        app:layout_constraintVertical_bias="0.95"
+        app:srcCompat="@drawable/profile" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/homeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:textColor="@color/textcolor"
+        android:translationZ="10dp"
+        android:translationY="10dp"
+        android:layout_gravity="bottom"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/homeIV"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/homeIV"
+        app:layout_constraintTop_toTopOf="@+id/homeIV"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/bokingTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="10dp"
+        android:text="Bookings"
+        android:layout_gravity="bottom"
+        android:translationY="10dp"
+        android:textColor="@color/textcolor"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/bookingIV"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/bookingIV"
+        app:layout_constraintTop_toTopOf="@+id/bookingIV"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/historyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="History"
+        android:textColor="@color/textcolor"
+        android:textSize="15sp"
+        android:translationY="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/historyIV"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/historyIV"
+        app:layout_constraintTop_toTopOf="@+id/historyIV"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/profileTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:layout_gravity="bottom"
+        android:textColor="@color/textcolor"
+        android:textSize="15sp"
+        android:translationZ="10dp"
+        android:translationY="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottonV"
+        app:layout_constraintEnd_toEndOf="@+id/profileIV"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/profileIV"
+        app:layout_constraintTop_toTopOf="@+id/profileIV"
+        app:layout_constraintVertical_bias="0.8" />
+
+
+    <FrameLayout
+        android:id="@+id/fragmentlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
