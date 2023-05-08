@@ -25,6 +25,8 @@ public class UserDashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_dashboard);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -33,7 +35,6 @@ public class UserDashboard extends AppCompatActivity {
 
         fragmentTransaction.commit();
         
-        setContentView(R.layout.activity_user_dashboard);
         ImageView home = findViewById(R.id.homeIV);
         ImageView booking = findViewById(R.id.bookingIV);
         ImageView  history = findViewById(R.id.historyIV);

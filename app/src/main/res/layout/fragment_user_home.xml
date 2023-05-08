@@ -92,40 +92,20 @@
                 app:layout_constraintStart_toStartOf="@+id/advertiseMCV"
                 app:layout_constraintTop_toTopOf="@+id/advertiseMCV" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/categoryTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Categories"
-                android:textColor="@color/themecolor"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
-                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
-                app:layout_constraintTop_toTopOf="@id/AdvertisementBottomBarrier"
-                app:layout_constraintVertical_bias="0.04000002" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/categoryMCV"
+            <FrameLayout
+                android:id="@+id/categoryFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/textboxcolor"
-                app:cardCornerRadius="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/advertiseMCV"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
-                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/categoryTV"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+                app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+                app:layout_constraintWidth_percent="0.95"
+                app:layout_constraintVertical_bias="0.08" />
 
-                <GridView
-                    android:id="@+id/categoryList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numColumns="4"
-                    android:translationY="5dp" />
-            </com.google.android.material.card.MaterialCardView>
+
+
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/propertiesTV"
@@ -136,11 +116,11 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/RightInnerGuideLine"
                 app:layout_constraintHorizontal_bias="0.05"
-                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
-                app:layout_constraintTop_toBottomOf="@+id/categoryMCV"
-                app:layout_constraintVertical_bias="0.06999999" />
+                app:layout_constraintStart_toStartOf="@+id/LeftInnerGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/categoryFragment"
+                app:layout_constraintVertical_bias="0.16000003" />
 
             <GridView
                 android:id="@+id/propertieslist"
@@ -151,10 +131,10 @@
                 android:padding="10dp"
                 android:verticalSpacing="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+                app:layout_constraintEnd_toEndOf="@id/RightInnerGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/LeftInnerGuideLine"
                 app:layout_constraintTop_toBottomOf="@+id/propertiesTV"
-                app:layout_constraintVertical_bias="0.07999998" />
+                app:layout_constraintVertical_bias="0.04000002" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/LeftGuideLine"
@@ -162,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
 
-                app:layout_constraintGuide_begin="20dp"
+                app:layout_constraintGuide_begin="21dp"
                 app:layout_constraintWidth_percent="10" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -194,6 +174,20 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="advertiseMCV"
                 tools:layout_editor_absoluteY="85dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/LeftInnerGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="38dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/RightInnerGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="38dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

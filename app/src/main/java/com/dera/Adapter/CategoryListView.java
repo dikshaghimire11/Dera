@@ -14,12 +14,15 @@ public class CategoryListView extends ArrayAdapter<String> {
     Activity context;
     String[] title;
 
+    View parentList;
+
     int[] image;
     public CategoryListView(Activity context, String[] title,int[] image){
         super(context , R.layout.categorygridview,title);
         this.context=context;
         this.title=title;
         this.image=image;
+
     }
     public View getView(int position, View view, ViewGroup parent){
         LayoutInflater inflater=context.getLayoutInflater();
