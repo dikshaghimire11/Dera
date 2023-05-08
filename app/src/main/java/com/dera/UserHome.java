@@ -36,11 +36,11 @@ public class UserHome extends Fragment {
 
 
         propertiesList=view.findViewById(R.id.propertieslist);
-        String[] heading={"Room","Flat","House","Shutter","Rooms"};
-        String[] location={"kathmandu","bhaktapur","sankhapul","koteshwor","lokanthali"};
-        String[] price={"2000","15000","2000000","20000","8000"};
-        String[] number={"1","2bkh","1","2","3"};
-        int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon};
+        String[] heading={"Room","Flat","House","Shutter","Rooms","flat","house","flat","house"};
+        String[] location={"kathmandu","bhaktapur","sankhapul","koteshwor","lokanthali","koteshwor","lokanthali","koteshwor","lokanthali"};
+        String[] price={"2000","15000","2000000","20000","8000","20000","8000","2000000","20000"};
+        String[] number={"1","2bkh","1","2","3","2","3","2bkh","1"};
+        int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon};
         PropertyGridView propertyGridView=new PropertyGridView(getActivity(),heading,number,location,photo,price);
         propertiesList.setAdapter(propertyGridView);
     }
