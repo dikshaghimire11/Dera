@@ -8,23 +8,24 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/searchMCV"
-            android:layout_width="308dp"
-            android:layout_height="41dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.050000012" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/searchMCV"
+                android:layout_width="0dp"
+                android:layout_height="41dp"
+                android:backgroundTint="@color/textboxcolor"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/filter"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+                app:layout_constraintTop_toTopOf="@+id/TopGuideLine"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/searchIcon"
@@ -40,44 +41,43 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchET"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
                 android:background="@null"
                 android:hint="Search"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp"
-                android:translationZ="10dp"
+                android:translationZ="1dp"
                 app:layout_constraintBottom_toBottomOf="@+id/searchMCV"
                 app:layout_constraintEnd_toEndOf="@+id/searchMCV"
-                app:layout_constraintHorizontal_bias="0.16"
-                app:layout_constraintStart_toStartOf="@+id/searchMCV"
+                app:layout_constraintStart_toEndOf="@+id/searchIcon"
                 app:layout_constraintTop_toTopOf="@+id/searchMCV" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/filter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.42"
-            app:layout_constraintStart_toEndOf="@+id/searchMCV"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.050000012" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/filter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
+                app:layout_constraintStart_toEndOf="@+id/searchMCV"
+                app:layout_constraintTop_toTopOf="@+id/TopGuideLine"
+                app:layout_constraintVertical_bias="0.0" />
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/advertiseMCV"
-            android:layout_width="355dp"
-            android:layout_height="155dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.64"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchMCV"
-            app:layout_constraintVertical_bias="0.01999998" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/advertiseMCV"
+                android:layout_width="0dp"
+                android:layout_height="155dp"
+                android:backgroundTint="@color/textboxcolor"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+                app:layout_constraintTop_toBottomOf="@id/SearchBottomBarrier"
+                app:layout_constraintVertical_bias="0.04000002" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/advertiseTV"
@@ -92,42 +92,40 @@
                 app:layout_constraintStart_toStartOf="@+id/advertiseMCV"
                 app:layout_constraintTop_toTopOf="@+id/advertiseMCV" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/categoryTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Categories"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/advertiseMCV"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/categoryMCV"
-            android:layout_width="352dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryTV"
-            app:layout_constraintVertical_bias="0.0">
-
-            <GridView
-                android:id="@+id/categoryList"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/categoryTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:numColumns="4"
-                android:translationY="5dp" />
-        </com.google.android.material.card.MaterialCardView>
+                android:text="Categories"
+                android:textColor="@color/themecolor"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+                app:layout_constraintTop_toTopOf="@id/AdvertisementBottomBarrier"
+                app:layout_constraintVertical_bias="0.04000002" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/categoryMCV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/textboxcolor"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+                app:layout_constraintTop_toBottomOf="@+id/categoryTV"
+                app:layout_constraintVertical_bias="0.0">
+
+                <GridView
+                    android:id="@+id/categoryList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numColumns="4"
+                    android:translationY="5dp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/propertiesTV"
@@ -139,25 +137,64 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.09"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
                 app:layout_constraintTop_toBottomOf="@+id/categoryMCV"
                 app:layout_constraintVertical_bias="0.06999999" />
 
             <GridView
                 android:id="@+id/propertieslist"
-                android:numColumns="2"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:padding="10dp"
+                android:verticalSpacing="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/propertiesTV"
                 app:layout_constraintVertical_bias="0.07999998" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/LeftGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                app:layout_constraintGuide_begin="20dp"
+                app:layout_constraintWidth_percent="10" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/RightGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/TopGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/SearchBottomBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="searchMCV"
+                tools:layout_editor_absoluteY="20dp" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/AdvertisementBottomBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="advertiseMCV"
+                tools:layout_editor_absoluteY="85dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>

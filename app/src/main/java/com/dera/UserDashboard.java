@@ -32,6 +32,7 @@ public class UserDashboard extends AppCompatActivity {
         fragmentTransaction.add(R.id.fragmentlayout, myFragment);
 
         fragmentTransaction.commit();
+        
         setContentView(R.layout.activity_user_dashboard);
         ImageView home = findViewById(R.id.homeIV);
         ImageView booking = findViewById(R.id.bookingIV);

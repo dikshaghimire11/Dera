@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageIV"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/materialCardView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/roomicon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002" />
+        android:layout_margin="0dp"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="false"
+
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageIV"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:cropToPadding="true"
+            android:foregroundGravity="top|left|bottom|right"
+
+
+            android:scaleType="centerCrop"
+            android:src="@mipmap/category_room"
+            app:strokeWidth="0dp" />
+
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="text"
         android:textColor="@color/black"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageIV"
-        app:layout_constraintVertical_bias="0.06999999" />
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView3"
+        app:layout_constraintStart_toStartOf="@+id/materialCardView3"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView3"
+        tools:text="Text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

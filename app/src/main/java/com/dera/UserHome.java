@@ -29,7 +29,7 @@ public class UserHome extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         categorylist=view.findViewById(R.id.categoryList);
         String [] title={"Room","Flat","House","Shutter"};
-        int[] image={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon};
+        int[] image={R.mipmap.myroom,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon};
         CategoryListView categoryListView=new CategoryListView(getActivity(),title,image);
         categorylist.setAdapter(categoryListView);
 
