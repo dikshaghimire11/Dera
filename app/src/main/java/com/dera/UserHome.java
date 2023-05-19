@@ -33,6 +33,27 @@ public class UserHome extends Fragment {
         fragmentTransaction.add(R.id.categoryFragment, myFragment);
 
         fragmentTransaction.commit();
+
+        FragmentManager fragmentmanager = getFragmentManager();
+        FragmentTransaction fragmenttransaction = fragmentManager.beginTransaction();
+        Fragment search_filter=new Search_filter();
+        fragmenttransaction.add(R.id.search_filter,search_filter);
+        fragmenttransaction.commit();
+
+        FragmentManager fragmentmanag = getFragmentManager();
+        FragmentTransaction f = fragmentmanag.beginTransaction();
+        Fragment advertisement=new user_Advertisement();
+        fragmenttransaction.add(R.id.advertiseMCV,advertisement);
+        f.commit();
+
+
+
+        FragmentManager fragmentManager1 = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager1.beginTransaction();
+        Fragment property=new user_properties();
+        fragmenttransaction.add(R.id.propertiesTV,property);
+        transaction.commit();
+
         return inflater.inflate(R.layout.fragment_user_home, container, false);
     }
 
@@ -43,13 +64,5 @@ public class UserHome extends Fragment {
 
 
 
-        propertiesList=view.findViewById(R.id.propertieslist);
-        String[] heading={"Room","Flat","House","Shutter","Rooms","flat","house","flat","house"};
-        String[] location={"kathmandu","bhaktapur","sankhapul","koteshwor","lokanthali","koteshwor","lokanthali","koteshwor","lokanthali"};
-        String[] price={"2000","15000","2000000","20000","8000","20000","8000","2000000","20000"};
-        String[] number={"1","2bkh","1","2","3","2","3","2bkh","1"};
-        int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon};
-        PropertyGridView propertyGridView=new PropertyGridView(getActivity(),heading,number,location,photo,price);
-        propertiesList.setAdapter(propertyGridView);
     }
 }
