@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 
 import com.dera.Adapter.PropertyGridView;
 
@@ -36,5 +37,33 @@ GridView propertiesList;
         int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon,R.drawable.roomicon};
         PropertyGridView propertyGridView=new PropertyGridView(getActivity(),heading,number,location,photo,price);
         propertiesList.setAdapter(propertyGridView);
+
+        setDynamicHeight(propertiesList);
+    }
+    private void setDynamicHeight(GridView gridView) {
+        ListAdapter gridViewAdapter = gridView.getAdapter();
+        if (gridViewAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int items = gridViewAdapter.getCount();
+        int rows = 0;
+
+        View listItem = gridViewAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+        float x = 1;
+        if( items > 2 ){
+            x = items/2;
+            rows = (int) (x + 1);
+            totalHeight *= rows;
+
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
     }
 }

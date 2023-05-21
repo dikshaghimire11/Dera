@@ -15,53 +15,54 @@
 
             <FrameLayout
                 android:id="@+id/search_filter"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/advertiseMCV"
                 app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
                 app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.050000012" />
+                android:layout_marginVertical="10dp"/>
 
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/advertiseMCV"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/categoryFragment"
                 app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
                 app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
-                app:layout_constraintTop_toBottomOf="@id/SearchBottomBarrier"
-                app:layout_constraintVertical_bias="0.04000002"/>
+                app:layout_constraintTop_toBottomOf="@id/search_filter"
+                android:layout_marginVertical="10dp"
+                />
 
             <FrameLayout
                 android:id="@+id/categoryFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/advertiseMCV"
-                app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintBottom_toTopOf="@id/propertiesTV"
                 app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
                 app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
-                app:layout_constraintWidth_percent="0.95"
-                app:layout_constraintVertical_bias="0.08" />
+                android:layout_marginVertical="10dp"
+
+               />
 
             <FrameLayout
                 android:id="@+id/propertiesTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/RightInnerGuideLine"
-                app:layout_constraintHorizontal_bias="0.05"
-                app:layout_constraintStart_toStartOf="@+id/LeftInnerGuideLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
                 app:layout_constraintTop_toBottomOf="@+id/categoryFragment"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginVertical="10dp"
+              />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/LeftGuideLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
                 app:layout_constraintGuide_begin="21dp"
                 app:layout_constraintWidth_percent="10" />
 
@@ -79,21 +80,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="20dp" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/SearchBottomBarrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="search_filter"
-                tools:layout_editor_absoluteY="20dp" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/AdvertisementBottomBarrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="advertiseMCV"
-                tools:layout_editor_absoluteY="85dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/LeftInnerGuideLine"
