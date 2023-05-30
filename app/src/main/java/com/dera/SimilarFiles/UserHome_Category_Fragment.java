@@ -1,4 +1,4 @@
-package com.dera;
+package com.dera.SimilarFiles;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.dera.Adapter.CategoryListView;
+import com.dera.R;
 
 
 public class UserHome_Category_Fragment extends Fragment {

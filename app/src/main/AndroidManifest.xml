@@ -12,8 +12,8 @@
         android:theme="@style/Theme.Dera"
         tools:targetApi="31">
         <activity
-            android:name=".SplashActivity"
-            android:exported="true" >
+            android:name=".houseowner.houseOwnerDashboard"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,16 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserDashboard"
+            android:name=".SplashActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".customer.UserDashboard"
             android:exported="true"></activity>
         <activity
-            android:name=".Register"
-            android:exported="true"></activity>
+            android:name=".SimilarFiles.Login"
+            android:exported="true" />
+        <activity
+            android:name=".SimilarFiles.Register"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />

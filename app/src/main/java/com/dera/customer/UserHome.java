@@ -1,4 +1,4 @@
-package com.dera;
+package com.dera.customer;
 
 import android.os.Bundle;
 
@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.dera.Adapter.CategoryListView;
-import com.dera.Adapter.PropertyGridView;
-import com.google.android.material.card.MaterialCardView;
+import com.dera.R;
+import com.dera.SimilarFiles.Search_filter;
+import com.dera.SimilarFiles.UserHome_Category_Fragment;
+import com.dera.SimilarFiles.user_Advertisement;
+import com.dera.SimilarFiles.user_properties;
 
 public class UserHome extends Fragment {
     GridView propertiesList;

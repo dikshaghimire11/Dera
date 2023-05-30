@@ -1,8 +1,10 @@
-package com.dera;
+package com.dera.SimilarFiles;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.dera.R;
 
 public class Login extends AppCompatActivity {
 
