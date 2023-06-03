@@ -37,6 +37,78 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logoIV" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/errorTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Please enter your email!"
+            app:layout_constraintTop_toBottomOf="@id/createaccountTV"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:paddingTop="18dp"
+
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/nameMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/errorTV"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/red"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Name"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mobileMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameMCV"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/red"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/mobileET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Mobile"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/emailMCV"
             android:layout_width="match_parent"
@@ -47,7 +119,10 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createaccountTV">
+            app:layout_constraintTop_toBottomOf="@+id/mobileMCV"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/red"
+            >
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailET"
@@ -74,7 +149,9 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailMCV">
+            app:layout_constraintTop_toBottomOf="@+id/emailMCV"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/red">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/passwordET"
@@ -102,7 +179,9 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordMCV">
+            app:layout_constraintTop_toBottomOf="@+id/passwordMCV"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/red">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/repasswordET"
@@ -116,24 +195,42 @@
                 android:paddingLeft="17dp"
                 android:paddingRight="100dp"
                 android:textColor="@color/textcolor"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
         </com.google.android.material.card.MaterialCardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/privacyerrorTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Please enter your email!"
+            app:layout_constraintTop_toBottomOf="@id/repasswordMCV"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:paddingTop="18dp"
+
+            />
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/termsLLC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repasswordMCV">
+            app:layout_constraintTop_toBottomOf="@+id/privacyerrorTV">
+
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkboxCB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="31dp" />
+                android:layout_marginLeft="31dp"
+
+                ></androidx.appcompat.widget.AppCompatCheckBox>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
