@@ -35,7 +35,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoIV" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/errorTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Please enter your email!"
+        app:layout_constraintTop_toBottomOf="@id/welcomeTV"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:paddingTop="18dp"
 
+        />
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/emailMCV"
         android:layout_width="match_parent"
@@ -89,6 +102,7 @@
             android:textColor="@color/textcolor"
             android:textSize="20sp" />
     </com.google.android.material.card.MaterialCardView>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,7 +152,7 @@
             android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/loginlink"
+            android:id="@+id/signUplink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

@@ -24,6 +24,7 @@ public class UserHome_Category_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_home__category_, container, false);
+
     }
 
     @Override

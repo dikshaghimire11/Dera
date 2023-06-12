@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".houseowner.AddressInfo">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/select_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotofont"
+            android:gravity="center_horizontal|top"
+            android:text="Enter Address Information"
+            android:textColor="@color/themecolor"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/robotofont"
+            android:gravity="center_horizontal|top"
+            android:text="State"
+            android:textColor="@color/themecolor"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/stateMCV"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/select_category" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/stateMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/state">
+
+            <Spinner
+                android:id="@+id/stateSp"
+                android:layout_width="match_parent"
+                android:backgroundTint="@color/themecolor"
+                android:layout_height="41dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/districtTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/robotofont"
+            android:gravity="center_horizontal|top"
+            android:text="District"
+            android:textColor="@color/themecolor"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/districtMCV"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/stateMCV" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/districtMCV"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/districtTV">
+
+            <Spinner
+                android:id="@+id/districtSp"
+                android:backgroundTint="@color/themecolor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/LocalLevelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/robotofont"
+            android:gravity="center_horizontal|top"
+            android:text="Local Level"
+            android:textColor="@color/themecolor"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/locallevelMCV"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/districtMCV" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/locallevelMCV"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/LocalLevelTV">
+
+            <Spinner
+                android:id="@+id/locallevelSp"
+                android:backgroundTint="@color/themecolor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/wardTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/robotofont"
+            android:gravity="center_horizontal|top"
+            android:text="Ward No"
+            android:textColor="@color/themecolor"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/wardMCV"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/locallevelMCV" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/wardMCV"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/wardTV">
+
+            <Spinner
+                android:id="@+id/wardSp"
+                android:backgroundTint="@color/themecolor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/toleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/robotofont"
+            android:text="Tole"
+            android:textColor="@color/themecolor"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/toleMCV"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/wardMCV" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/toleMCV"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/toleTV">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="20dp"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Tole Number"
+                android:textColor="@color/textcolor" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/continuebtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/themecolor"
+            android:text="Continue"
+            android:textSize="20sp"
+            android:fontFamily="@font/robotofont"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/toleMCV" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/LeftGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="21dp"
+            app:layout_constraintWidth_percent="10" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/RightGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

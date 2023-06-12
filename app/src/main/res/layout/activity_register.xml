@@ -62,8 +62,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/errorTV"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/red"
             >
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -91,8 +89,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameMCV"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/red"
             >
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -120,14 +116,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mobileMCV"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/red"
             >
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailET"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Email"
@@ -150,8 +144,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailMCV"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/red">
+          >
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/passwordET"
@@ -179,9 +172,7 @@
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordMCV"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/red">
+            app:layout_constraintTop_toBottomOf="@+id/passwordMCV">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/repasswordET"
