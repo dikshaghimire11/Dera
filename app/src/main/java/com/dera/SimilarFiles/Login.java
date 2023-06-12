@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.FormValidation;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.customer.UserBooking;
 import com.dera.customer.UserDashboard;
@@ -86,7 +87,7 @@ public class Login extends AppCompatActivity {
                     ProgressDialog progressDialog=new ProgressDialog(Login.this);
                     progressDialog.setMessage("Please wait.....");
                     progressDialog.show();
-                    String uri = "http://192.168.1.34:80/api/authenticate?email=" + email + "&password=" + password;
+                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/authenticate?email=" + email + "&password=" + password;
                     StringRequest stringRequest=new StringRequest(Request.Method.GET, uri, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

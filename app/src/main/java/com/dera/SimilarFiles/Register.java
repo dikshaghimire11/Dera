@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.FormValidation;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.customer.UserDashboard;
 import com.google.android.material.button.MaterialButton;
@@ -176,7 +177,8 @@ public class Register extends AppCompatActivity {
                     progressDialog.setMessage("Please wait.....");
                     progressDialog.show();
                     errorTV.setText("");
-                    String uri = "http://192.168.1.34:80/api/AddUser";
+                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/AddUser";
+                    Log.d("url",""+uri);
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

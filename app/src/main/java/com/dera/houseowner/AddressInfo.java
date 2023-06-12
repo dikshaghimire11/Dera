@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Login;
 
@@ -87,7 +88,7 @@ public class AddressInfo extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         provinceSpinner=view.findViewById(R.id.stateSp);
-        String url = "http://192.168.1.34:80/api/ProvinceInfo";
+        String url = "http://"+ IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
