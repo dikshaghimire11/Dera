@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +19,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.dera.FormValidation;
+import com.dera.StaticClasses;
 import com.dera.IpStatic;
 import com.dera.R;
-import com.dera.customer.UserDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -34,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -47,7 +43,7 @@ public class Register extends AppCompatActivity {
     AppCompatTextView errorTV, privacyErrorTV;
 
     MaterialCardView emailMCV, passwordMCV, repasswordMCV, nameMCV, mobileMCV;
-    FormValidation fm;
+
     TextView loginTV;
 
 
@@ -56,7 +52,6 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        fm = new FormValidation();
         signUpButton = findViewById(R.id.SignUpBtn);
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
@@ -109,27 +104,27 @@ public class Register extends AppCompatActivity {
 
 
                 }*/
-                nameError = fm.cantBeEmpty(name, nameMCV, 4,Register.this);
+                nameError = StaticClasses.FormValidation.cantBeEmpty(name, nameMCV, 4,Register.this);
                 if (nameError) {
                     errorCount++;
                 }
-                mobileError = fm.cantBeEmpty(mobile, mobileMCV, 4,Register.this);
+                mobileError = StaticClasses.FormValidation.cantBeEmpty(mobile, mobileMCV, 4,Register.this);
                 if (mobileError) {
                     errorCount++;
                 }
 
 
 
-                emailError = fm.cantBeEmpty(email, emailMCV, 4,Register.this);
+                emailError = StaticClasses.FormValidation.cantBeEmpty(email, emailMCV, 4,Register.this);
                 if (emailError) {
                     errorCount++;
                 }
 
-                passwordError = fm.cantBeEmpty(password, passwordMCV, 4,Register.this);
+                passwordError = StaticClasses.FormValidation.cantBeEmpty(password, passwordMCV, 4,Register.this);
                 if (passwordError) {
                     errorCount++;
                 }
-                rePasswordError = fm.cantBeEmpty(confirmPassword, repasswordMCV,4 ,Register.this);
+                rePasswordError = StaticClasses.FormValidation.cantBeEmpty(confirmPassword, repasswordMCV,4 ,Register.this);
                 if (rePasswordError) {
                     errorCount++;
                 }

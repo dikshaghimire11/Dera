@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,20 +18,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.dera.FormValidation;
+import com.dera.StaticClasses;
 import com.dera.IpStatic;
 import com.dera.R;
-import com.dera.customer.UserBooking;
 import com.dera.customer.UserDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
@@ -40,7 +36,7 @@ public class Login extends AppCompatActivity {
     MaterialButton loginbtn;
     EditText emailET, passwordET;
     TextView signUpTv,errorTV;
-    FormValidation fm;
+
 
     MaterialCardView emailMCV,passwordMCV;
 
@@ -55,7 +51,6 @@ public class Login extends AppCompatActivity {
         emailMCV=findViewById(R.id.emailMCV);
         passwordMCV=findViewById(R.id.passwordMCV);
         errorTV=findViewById(R.id.errorTV);
-        fm = new FormValidation();
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,12 +66,12 @@ public class Login extends AppCompatActivity {
                 String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
                 int errorCount = 0;
-                emailError = fm.cantBeEmpty(email, emailMCV, 4,Login.this);
+                emailError = StaticClasses.FormValidation.cantBeEmpty(email, emailMCV, 4,Login.this);
                 if (emailError) {
                     errorCount++;
                 }
 
-                passwordError = fm.cantBeEmpty(password, passwordMCV, 4,Login.this);
+                passwordError = StaticClasses.FormValidation.cantBeEmpty(password, passwordMCV, 4,Login.this);
                 if (passwordError) {
                     errorCount++;
                 }
