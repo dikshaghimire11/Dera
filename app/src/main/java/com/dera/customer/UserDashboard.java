@@ -23,10 +23,8 @@ public class UserDashboard extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         Fragment myFragment = new UserHome();
         fragmentTransaction.add(R.id.fragmentlayout, myFragment);
-
         fragmentTransaction.commit();
         
         ImageView home = findViewById(R.id.homeIV);
@@ -42,6 +40,7 @@ public class UserDashboard extends AppCompatActivity {
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
+
             }
         });
         booking.setOnClickListener(new View.OnClickListener() {

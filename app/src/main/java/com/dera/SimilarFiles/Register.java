@@ -67,10 +67,15 @@ public class Register extends AppCompatActivity {
         mobileMCV = findViewById(R.id.mobileMCV);
         nameMCV = findViewById(R.id.nameMCV);
         loginTV=findViewById(R.id.loginlink);
+        Intent intent=getIntent();
+        int userid=0;
+       int userType= intent.getIntExtra("usertype",userid);
+
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Register.this, Login.class);
+                intent.putExtra("usertype",userType);
                 startActivity(intent);
             }
         });
@@ -191,7 +196,9 @@ public class Register extends AppCompatActivity {
                                     confirmPasswordEt.setText("");
                                     privacyPolicyCB.setChecked(false);
                                     Intent intent=new Intent(Register.this, Login.class);
+                                    intent.putExtra("usertype",userType);
                                     startActivity(intent);
+
                                 }
                                 if(status.compareTo("422")==0){
 
@@ -231,7 +238,7 @@ public class Register extends AppCompatActivity {
                             params.put("mobile",mobile);
                             params.put("email",email);
                             params.put("password",password);
-                            params.put("type","1");
+                            params.put("type",String.valueOf(userType));
                             return params;
                         }
                     };

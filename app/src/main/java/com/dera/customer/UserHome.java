@@ -1,5 +1,6 @@
 package com.dera.customer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.dera.ChooseUserType;
 import com.dera.R;
 import com.dera.SimilarFiles.Search_filter;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
@@ -59,12 +62,5 @@ public class UserHome extends Fragment {
         return inflater.inflate(R.layout.fragment_user_home, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-
-
-
-    }
 }

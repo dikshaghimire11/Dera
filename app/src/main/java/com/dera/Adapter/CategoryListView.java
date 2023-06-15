@@ -1,6 +1,7 @@
 package com.dera.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dera.ChooseUserType;
 import com.dera.R;
 
 public class CategoryListView extends ArrayAdapter<String> {

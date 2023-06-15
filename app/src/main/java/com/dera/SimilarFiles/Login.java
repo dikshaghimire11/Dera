@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.dera.StaticClasses;
 import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.customer.UserDashboard;
+import com.dera.houseowner.houseOwnerDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -51,10 +53,14 @@ public class Login extends AppCompatActivity {
         emailMCV=findViewById(R.id.emailMCV);
         passwordMCV=findViewById(R.id.passwordMCV);
         errorTV=findViewById(R.id.errorTV);
+        int usertype=0;
+        Intent intent=getIntent();
+        int usertypeid=intent.getIntExtra("usertype",usertype);
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Login.this, Register.class);
+                intent.putExtra("usertype",usertypeid);
                 startActivity(intent);
             }
         });
@@ -82,7 +88,7 @@ public class Login extends AppCompatActivity {
                     ProgressDialog progressDialog=new ProgressDialog(Login.this);
                     progressDialog.setMessage("Please wait.....");
                     progressDialog.show();
-                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/authenticate?email=" + email + "&password=" + password;
+                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/authenticate?email=" + email + "&password=" + password+"&type="+usertypeid;
                     StringRequest stringRequest=new StringRequest(Request.Method.GET, uri, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -96,9 +102,14 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
                                     passwordET.setText("");
-                                    Intent intent=new Intent(Login.this, UserDashboard.class);
-                                    startActivity(intent);
-
+                                    if(usertypeid==2){
+                                        Intent intent=new Intent(Login.this, houseOwnerDashboard.class);
+                                        startActivity(intent);
+                                    }
+                                    if(usertypeid==3) {
+                                        Intent intent = new Intent(Login.this,UserDashboard.class);
+                                        startActivity(intent);
+                                    }
                                 }
                                 if(status.compareTo("422")==0){
                                     Toast.makeText(Login.this,"Invalid Username/Password!",Toast.LENGTH_LONG).show();
@@ -123,6 +134,7 @@ public class Login extends AppCompatActivity {
                             Map<String,String> params=new HashMap<String,String>();
                             params.put("email",email);
                             params.put("password",password);
+                            params.put("type",String.valueOf(usertypeid));
                             return params;
                         }
                     };
