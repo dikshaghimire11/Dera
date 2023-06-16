@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.dera.R;
@@ -23,15 +25,16 @@ import com.google.android.material.card.MaterialCardView;
 
 public class chooseCategory extends Fragment {
 
+    UserHome_Category_Fragment userHome;
+    View mainFragmentView;
+    View childFragmentView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentManager fragmentManager = getFragmentManager();
+        userHome=new UserHome_Category_Fragment();
+        FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Fragment myFragment = new UserHome_Category_Fragment();
-        fragmentTransaction.add(R.id.categoryFragment, myFragment);
-
+        fragmentTransaction.add(R.id.categoryFragment, userHome);
         fragmentTransaction.commit();
 
     }
@@ -40,28 +43,49 @@ public class chooseCategory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_category, container, false);
-
+        mainFragmentView= inflater.inflate(R.layout.fragment_choose_category, container, false);
+        return mainFragmentView;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         LayoutInflater inflater=getLayoutInflater();
-        View v=inflater.inflate(R.layout.categorygridview,null,true);
-        ImageView imageView=v.findViewById(R.id.imageIV);
-        MaterialButton btn=view.findViewById(R.id.submit);
-        btn.setOnClickListener(new View.OnClickListener() {
+        childFragmentView=mainFragmentView.findViewById(R.id.categoryFragment);
+        View fragmentView=inflater.inflate(R.layout.fragment_user_home__category_,null,true);
+        GridView gridView=childFragmentView.findViewById(R.id.categoryList);
+        Log.d("GridView",""+gridView);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Bundle addPropertyDataBundle=new Bundle();
+               if(i==0){
+                   Log.d("Item Clicked","Room");
+                   addPropertyDataBundle.putString("PropertyType","1");
+               }
+                if(i==1){
+                    Log.d("Item Clicked","Flat");
+                    addPropertyDataBundle.putString("PropertyType","2");
+                }
+                if(i==2){
+                    Log.d("Item Clicked","House");
+                    addPropertyDataBundle.putString("PropertyType","3");
+                }
+                if(i==3){
+                    Log.d("Item Clicked","Shutter");
+                    addPropertyDataBundle.putString("PropertyType","4");
+                }
+                Fragment addressInfoFragment = new AddressInfo();
+                addressInfoFragment.setArguments(addPropertyDataBundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                Fragment myFragment = new AddressInfo();
-                fragmentTransaction.replace(R.id.fragmentlayout, myFragment);
-
+                fragmentTransaction.replace(R.id.fragmentlayout, addressInfoFragment);
                 fragmentTransaction.commit();
+
             }
         });
+
     }
 }

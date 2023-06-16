@@ -88,8 +88,8 @@ public class Login extends AppCompatActivity {
                     ProgressDialog progressDialog=new ProgressDialog(Login.this);
                     progressDialog.setMessage("Please wait.....");
                     progressDialog.show();
-                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/authenticate?email=" + email + "&password=" + password+"&type="+usertypeid;
-                    StringRequest stringRequest=new StringRequest(Request.Method.GET, uri, new Response.Listener<String>() {
+                    String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/authenticate";
+                    StringRequest stringRequest=new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
@@ -98,7 +98,10 @@ public class Login extends AppCompatActivity {
                                 String status=object.getString("status");
 
 
+
+
                                 if(status.compareTo("200")==0){
+                                    StaticClasses.loginInfo.loginToken=object.getString("access_token");
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
                                     passwordET.setText("");
@@ -111,7 +114,7 @@ public class Login extends AppCompatActivity {
                                         startActivity(intent);
                                     }
                                 }
-                                if(status.compareTo("422")==0){
+                                if(status.compareTo("401")==0){
                                     Toast.makeText(Login.this,"Invalid Username/Password!",Toast.LENGTH_LONG).show();
                                     errorTV.setText("Invalid Username/Password!");
                                 }
@@ -137,6 +140,7 @@ public class Login extends AppCompatActivity {
                             params.put("type",String.valueOf(usertypeid));
                             return params;
                         }
+
                     };
 
                     RequestQueue requestQueue= Volley.newRequestQueue(Login.this);
