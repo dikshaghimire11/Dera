@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ public class UserHome_Category_Fragment extends Fragment {
     GridView categorylist;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_user_home__category_, container, false);
 
     }
@@ -36,4 +39,5 @@ public class UserHome_Category_Fragment extends Fragment {
         categorylist.setAdapter(categoryListView);
         super.onViewCreated(view, savedInstanceState);
     }
+
 }

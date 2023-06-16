@@ -33,6 +33,7 @@ public class CategoryListView extends ArrayAdapter<String> {
         ImageView imageView=(ImageView) rowView.findViewById(R.id.imageIV);
         textView.setText(title[position]);
         imageView.setImageResource(image[position]);
+
         return  rowView;
     }
 }
