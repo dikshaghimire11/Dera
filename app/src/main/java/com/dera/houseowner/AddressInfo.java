@@ -57,6 +57,9 @@ public class AddressInfo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         provinceSpinner=view.findViewById(R.id.stateSp);
         String url = "http://"+ IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
+        super.onViewCreated(view, savedInstanceState);
+    }
+    public void SelectAddress(String url){
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -90,6 +93,5 @@ public class AddressInfo extends Fragment {
         };
         RequestQueue requestQueue= Volley.newRequestQueue(requireContext());
         requestQueue.add(stringRequest);
-        super.onViewCreated(view, savedInstanceState);
     }
 }
