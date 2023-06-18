@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".SimilarFiles.Register">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logoIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="128dp"
+            android:layout_marginTop="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/createaccountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="83dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="85dp"
+            android:text="Create a New Account"
+            android:fontFamily="@font/robotofont"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoIV" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/errorTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Please enter your email!"
+            app:layout_constraintTop_toBottomOf="@id/createaccountTV"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:paddingTop="18dp"
+
+            />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/nameMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/errorTV"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Name"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mobileMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameMCV"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/mobileET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Mobile"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/emailMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mobileMCV"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/emailET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Email"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/passwordMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="23dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailMCV"
+          >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/passwordET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/robotofont"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="160dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/repasswordMCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="23dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordMCV">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/repasswordET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="Confirm Password"
+                android:fontFamily="@font/robotofont"
+                android:inputType="textPassword"
+                android:paddingVertical="18dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="100dp"
+                android:textColor="@color/textcolor"
+                android:textSize="20sp"
+                />
+
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/privacyerrorTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Please enter your email!"
+            app:layout_constraintTop_toBottomOf="@id/repasswordMCV"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:paddingTop="18dp"
+
+            />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/termsLLC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privacyerrorTV">
+
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkboxCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+
+                ></androidx.appcompat.widget.AppCompatCheckBox>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textcolor"
+               android:layout_marginLeft="-15dp"
+                android:textSize="15sp"
+                android:text="I agree with the"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/terms"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/themecolor"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="and"
+                android:textColor="@color/textcolor"
+                android:textSize="15sp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/termsLLC"
+            android:id="@+id/policy"
+            android:textSize="15sp"
+            android:text="@string/policy"
+            android:layout_marginRight="170dp"
+            android:textStyle="bold"
+            android:textColor="@color/themecolor"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/SignUpBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/themecolor"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:fontFamily="@font/robotofont"
+            android:textSize="25sp"
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/policy" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUpBtn">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="Already have an Account?"
+                android:textColor="@color/textcolor"
+                android:fontFamily="@font/robotofont"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/loginlink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/signIn"
+                android:textColor="@color/themecolor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/robotofont"
+                android:layout_marginBottom="30dp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChooseUserType">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/continueTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotofont"
+        android:text="Continue as:"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17000002" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/houseOwnerMCV"
+        android:layout_width="172dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/continueTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/houseownerTV"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/houseownerIV"
+            android:layout_width="172dp"
+            android:layout_height="150dp"
+          android:src="@mipmap/ic_house_owner"
+            />
+    </com.google.android.material.card.MaterialCardView>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/houseownerTV"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:text="House Owner"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:fontFamily="@font/robotofont"
+        app:layout_constraintTop_toBottomOf="@+id/houseOwnerMCV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/RoomfinderMCV"
+        android:layout_width="172dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/houseownerTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/RoomfinderTV"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="172dp"
+            android:id="@+id/roomfinderIV"
+            android:layout_height="150dp"
+            android:src="@mipmap/ic_room_finder"
+
+            />
+    </com.google.android.material.card.MaterialCardView>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/RoomfinderTV"
+        android:layout_height="wrap_content"
+        android:text="Room Finder"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:fontFamily="@font/robotofont"
+        app:layout_constraintTop_toBottomOf="@+id/RoomfinderMCV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

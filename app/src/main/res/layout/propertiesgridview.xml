@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+      >
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="159dp"
+            android:layout_height="160dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/merotauko"
+                android:layout_width="match_parent"
+                android:layout_height="101dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="3dp"
+                android:src="@mipmap/ic_launcher"
+                android:translationZ="10dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="110dp"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:backgroundTint="@color/textboxcolor"
+                    android:text="Shutter"
+                    android:textColor="@color/themecolor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:translationZ="10dp"
+                    tools:layout_editor_absoluteZ="140dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:backgroundTint="@color/textboxcolor"
+                    android:text=":"
+                    android:textColor="@color/themecolor"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:translationZ="10dp"
+                    tools:layout_editor_absoluteZ="140dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    android:text="2"
+                    android:textColor="@color/textcolor"
+                    android:textSize="12sp"
+                    android:translationZ="10dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="125dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/locationIV"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/locationlogo"
+                    android:translationZ="10dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/locationTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="Kathmandu"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp"
+                    android:translationZ="10dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="140dp"
+                android:orientation="horizontal"
+                >
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs:"
+                android:textColor="@color/pricecolor"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:translationZ="10dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/priceTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000"
+                android:textColor="@color/pricecolor"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:translationZ="10dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

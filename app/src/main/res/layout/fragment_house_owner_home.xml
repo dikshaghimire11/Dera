@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".houseowner.houseOwnerHome">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+     <FrameLayout
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:id="@+id/advertiseMCV"
+         app:layout_constraintBottom_toTopOf="@+id/propertiesTV"
+         app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
+         app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+         app:layout_constraintTop_toTopOf="parent"
+         android:layout_marginVertical="10dp"
+         />
+     <FrameLayout
+         android:id="@+id/propertiesTV"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+         app:layout_constraintTop_toBottomOf="@+id/advertiseMCV"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:layout_marginVertical="10dp"
+         />
+
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/LeftGuideLine"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         app:layout_constraintGuide_begin="21dp"
+         app:layout_constraintWidth_percent="10" />
+
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/RightGuideLine"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         app:layout_constraintGuide_end="20dp" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>
