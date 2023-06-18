@@ -1,5 +1,7 @@
 package com.dera.houseowner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -51,12 +53,14 @@ public class AddressInfo extends Fragment {
         addPropertyDataBundle=getArguments();
         return inflater.inflate(R.layout.fragment_address_info, container, false);
 
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("Token Receive",""+StaticClasses.loginInfo.loginToken);
         provinceSpinner=view.findViewById(R.id.stateSp);
-        String url = "http://"+ IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
+        String url = "http://"+IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -82,9 +86,10 @@ public class AddressInfo extends Fragment {
 
             }
         }){
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer "+ StaticClasses.loginInfo.loginToken);
+                headers.put("Authorization", "Bearer "+StaticClasses.loginInfo.loginToken);
                 return headers;
             }
         };
