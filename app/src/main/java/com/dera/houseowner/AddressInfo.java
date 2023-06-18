@@ -1,5 +1,7 @@
 package com.dera.houseowner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -51,15 +53,21 @@ public class AddressInfo extends Fragment {
         addPropertyDataBundle=getArguments();
         return inflater.inflate(R.layout.fragment_address_info, container, false);
 
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("Token Receive",""+StaticClasses.loginInfo.loginToken);
         provinceSpinner=view.findViewById(R.id.stateSp);
+<<<<<<< HEAD
+        String url = "http://"+IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
+=======
         String url = "http://"+ IpStatic.IpAddress.ip+":80/api/ProvinceInfo";
         super.onViewCreated(view, savedInstanceState);
     }
     public void SelectAddress(String url){
+>>>>>>> a39645624101b9a1083e419c250256d15578781c
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -85,9 +93,10 @@ public class AddressInfo extends Fragment {
 
             }
         }){
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer "+ StaticClasses.loginInfo.loginToken);
+                headers.put("Authorization", "Bearer "+StaticClasses.loginInfo.loginToken);
                 return headers;
             }
         };
