@@ -101,6 +101,7 @@
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
+                android:inputType="phone"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
@@ -128,6 +129,7 @@
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 

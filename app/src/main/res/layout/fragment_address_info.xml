@@ -189,12 +189,13 @@
             app:layout_constraintTop_toBottomOf="@+id/toleTV">
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/toleET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
-                android:hint="Tole Number"
+                android:hint="Tole Name"
                 android:textColor="@color/textcolor" />
         </com.google.android.material.card.MaterialCardView>
 
