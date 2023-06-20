@@ -98,6 +98,7 @@
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Mobile"
+                android:inputType="phone"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
@@ -128,6 +129,7 @@
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
