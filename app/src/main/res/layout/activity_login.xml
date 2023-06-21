@@ -68,6 +68,7 @@
             android:background="@null"
             android:fontFamily="@font/robotofont"
             android:hint="Email"
+            android:inputType="textEmailAddress"
             android:paddingVertical="18dp"
             android:paddingLeft="17dp"
             android:paddingRight="160dp"

@@ -71,6 +71,7 @@
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Name"
+                android:inputType="textPersonName"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
@@ -84,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="30dp"
+
             android:backgroundTint="@color/textboxcolor"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +104,6 @@
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
                 android:paddingRight="160dp"
-                android:inputType="phone"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
