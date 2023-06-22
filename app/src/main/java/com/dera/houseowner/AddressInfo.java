@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.SimilarFiles.Register;
 import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 
@@ -40,7 +41,6 @@ import java.util.Map;
 
 
 public class AddressInfo extends Fragment {
-
 
     ArrayAdapter<String> provinceAdapter, districtAdapter, locallevelAdapter, wardnoAdapter;
     Bundle addPropertyDataBundle;
@@ -65,7 +65,6 @@ public class AddressInfo extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d("Token Receive", "" + StaticClasses.loginInfo.loginToken);
         Spinner provinceSpinner, districtSpinner, localLevelSpinner, wardnoSpinner;
         ArrayList<String> provinceList = new ArrayList<>();
         ArrayList<String> districtList = new ArrayList<>();
@@ -208,14 +207,16 @@ public class AddressInfo extends Fragment {
                 addPropertyDataBundle.putString("districtId",String.valueOf(districtId));
                 addPropertyDataBundle.putString("local_levelId",String.valueOf(local_levelId));
                 addPropertyDataBundle.putString("ward_noId",String.valueOf(ward_noId));
-
-
-                Fragment addBasicInfoPropertiesFragment = new AddBasicInfoProperties();
-                addBasicInfoPropertiesFragment.setArguments(addPropertyDataBundle);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentlayout, addBasicInfoPropertiesFragment);
-                fragmentTransaction.commit();
+                if(tole.length()==0) {
+                    Toast.makeText(getContext(),"Please enter tole!",Toast.LENGTH_LONG).show();
+                }else {
+                    Fragment addBasicInfoPropertiesFragment = new AddBasicInfoProperties();
+                    addBasicInfoPropertiesFragment.setArguments(addPropertyDataBundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentlayout, addBasicInfoPropertiesFragment);
+                    fragmentTransaction.commit();
+                }
             }
         });
     }
