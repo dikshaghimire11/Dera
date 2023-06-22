@@ -1,6 +1,8 @@
 package com.dera.houseowner;
 
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -39,6 +41,7 @@ public class AddBasicInfoProperties extends Fragment {
     TextView UploadPhoto;
     EditText priceEt;
     Bitmap bitmap;
+    Bundle bundle;
     Spinner bedroomSp, livingroomSp, bathroomSp,
             kitchenSp, floorSp, carparkingSp,
             bikeparkingSp, householdwaterSp, drinkingwaterSp,
@@ -92,22 +95,7 @@ public class AddBasicInfoProperties extends Fragment {
             }
         });
 
-        addpropertyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ByteArrayOutputStream byteArrayOutputStream;
-                byteArrayOutputStream=new ByteArrayOutputStream();
-                if(bitmap!=null){
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-                byte[] bytes=byteArrayOutputStream.toByteArray();
-                imageName= Base64.encodeToString(bytes,Base64.DEFAULT);
-                }else {
-                    Toast.makeText(getContext(),"Select the image first",Toast.LENGTH_LONG).show();
-                }
-                Intent intent=new Intent(getContext(), houseOwnerDashboard.class);
-                startActivity(intent);
-            }
-        });
+
 
 //finding the value of spinner's item selected
         bedroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -282,6 +270,24 @@ public class AddBasicInfoProperties extends Fragment {
         });
 
 //end of finding the value of spinner's item selected
+
+        addpropertyBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ByteArrayOutputStream byteArrayOutputStream;
+                byteArrayOutputStream=new ByteArrayOutputStream();
+                if(bitmap!=null){
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+                    byte[] bytes=byteArrayOutputStream.toByteArray();
+                    imageName= Base64.encodeToString(bytes,Base64.DEFAULT);
+                }else {
+                    Toast.makeText(getContext(),"Select the image first",Toast.LENGTH_LONG).show();
+                }
+                Intent intent=new Intent(getContext(), houseOwnerDashboard.class);
+                startActivity(intent);
+            }
+        });
 
         super.onViewCreated(view, savedInstanceState);
     }
