@@ -64,14 +64,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailET"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:fontFamily="@font/robotofont"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingVertical="18dp"
             android:paddingLeft="17dp"
-            android:paddingRight="160dp"
             android:textColor="@color/textcolor"
             android:textSize="20sp" />
 
@@ -99,7 +98,6 @@
             android:inputType="textPassword"
             android:paddingVertical="18dp"
             android:paddingLeft="17dp"
-            android:paddingRight="160dp"
             android:textColor="@color/textcolor"
             android:textSize="20sp" />
     </com.google.android.material.card.MaterialCardView>

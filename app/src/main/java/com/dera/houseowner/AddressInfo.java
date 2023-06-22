@@ -1,8 +1,5 @@
 package com.dera.houseowner;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.metrics.EditingSession;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,10 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.dera.AddBasicInfoProperties;
 import com.dera.IpStatic;
 import com.dera.R;
-import com.dera.SimilarFiles.Login;
 import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 
@@ -151,7 +146,7 @@ public class AddressInfo extends Fragment {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String addressName = jsonObject.getString("name");
                         List.add(addressName);
-                        provinceAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, List);
+                        provinceAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, List);
                         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(provinceAdapter);
                     }
