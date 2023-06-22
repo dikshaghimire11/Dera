@@ -60,6 +60,9 @@ public class AddBasicInfoProperties extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Bundle addPropertyDataBundle=getArguments();
+        Log.d("DistrictId",addPropertyDataBundle.getString("districtId"));
+
         uploadBtn = view.findViewById(R.id.UploadImageIv);
         Photo = view.findViewById(R.id.propertyIv);
         UploadPhoto = view.findViewById(R.id.UploadImageTV);

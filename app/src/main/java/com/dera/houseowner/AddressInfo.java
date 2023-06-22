@@ -88,11 +88,12 @@ public class AddressInfo extends Fragment {
 
                 districtList.clear();
                 String selectProvince = parent.getSelectedItem().toString();
-                String districturl = "http://" + IpStatic.IpAddress.ip + ":80/api/DistrictInfo?province=" + selectProvince;
-                SelectAddress(districturl, districtSpinner, districtList);
                 String provinceID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=province&name="+selectProvince;
                 provinceId=selectId(provinceID_URL);
                 Log.d("Id",Integer.toString(provinceId));
+                String districturl = "http://" + IpStatic.IpAddress.ip + ":80/api/DistrictInfo?province=" + selectProvince;
+                SelectAddress(districturl, districtSpinner, districtList);
+
             }
 
             @Override
@@ -105,35 +106,15 @@ public class AddressInfo extends Fragment {
         districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                locallevelList.clear();
-                String selectDistrict = parent.getSelectedItem().toString();
-                String locallevelurl = "http://" + IpStatic.IpAddress.ip + ":80/api/LocalLevelInfo?district=" + selectDistrict;
-                SelectAddress(locallevelurl, localLevelSpinner, locallevelList);
+                Log.d("DistrictId","Hello logging");
+//                locallevelList.clear();
+
+               String selectDistrict = parent.getSelectedItem().toString();
                 String districtID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=district&name="+selectDistrict;
                 districtId=selectId(districtID_URL);
-                Log.d("Id",Integer.toString(districtId));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Handle no selection
-
-            }
-        });
-
-        localLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Handle item selection
-
-                wardnoList.clear();
-                String selectLocalLevel = parent.getSelectedItem().toString();
-                String wardurl = "http://" + IpStatic.IpAddress.ip + ":80/api/WardNoInfo?locallevel="+selectLocalLevel;
-                SelectAddress(wardurl, wardnoSpinner, wardnoList);
-                String local_level_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=local_level&name="+selectLocalLevel;
-                local_levelId=selectId(local_level_ID_URL);
-                Log.d("Id",Integer.toString(local_levelId));
+                Log.d("DistrictId",Integer.toString(districtId));
+//                String locallevelurl = "http://" + IpStatic.IpAddress.ip + ":80/api/LocalLevelInfo?district=" + selectDistrict;
+//                SelectAddress(locallevelurl, localLevelSpinner, locallevelList);
 
 
             }
@@ -141,24 +122,50 @@ public class AddressInfo extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Handle no selection
-            }
-        });
-        wardnoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
-                String selectWard= parent.getSelectedItem().toString();
-                String ward_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=ward_no&name="+selectWard;
-                ward_noId=selectId(ward_ID_URL);
-                Log.d("Id",Integer.toString(ward_noId));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
+//        localLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                // Handle item selection
+//
+//                wardnoList.clear();
+//                String selectLocalLevel = parent.getSelectedItem().toString();
+//                String local_level_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=local_level&name="+selectLocalLevel;
+//                local_levelId=selectId(local_level_ID_URL);
+//                Log.d("Id",Integer.toString(local_levelId));
+//
+//                String wardurl = "http://" + IpStatic.IpAddress.ip + ":80/api/WardNoInfo?locallevel="+selectLocalLevel;
+//                SelectAddress(wardurl, wardnoSpinner, wardnoList);
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Handle no selection
+//            }
+//        });
+//        wardnoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
+//                String selectWard= parent.getSelectedItem().toString();
+//                String ward_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=ward_no&name="+selectWard;
+//                ward_noId=selectId(ward_ID_URL);
+//                Log.d("Id",Integer.toString(ward_noId));
+//
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -221,19 +228,24 @@ public class AddressInfo extends Fragment {
     }
     public int selectId(String url){
         Log.d("SelectId","running");
+        final int[] localContainer = new int[1];
         StringRequest stringRequest= new StringRequest(Request.Method.GET,url,new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject=new JSONObject(response);
+
                     Log.d("JSONRESPONSE", String.valueOf(jsonObject.getInt("id")));
-                    container=jsonObject.getInt("id");
+                    localContainer[0] =jsonObject.getInt("id");
+                    Log.d("ContainerId",String.valueOf(localContainer[0]));
+
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -246,6 +258,8 @@ public class AddressInfo extends Fragment {
         };
         RequestQueue requestQueue=Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
-        return container;
+
+        Log.d("ContainerId","2 " +String.valueOf(localContainer[0]));
+        return localContainer[0];
     }
 }
