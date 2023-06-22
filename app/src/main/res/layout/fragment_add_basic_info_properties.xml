@@ -1,527 +1,576 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AddBasicInfoProperties">
+    tools:context=".houseowner.AddBasicInfoProperties">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
-        app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:id="@+id/AddProperty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Add Property Information:"
-            android:textColor="@color/themecolor"
-            android:textSize="26dp"
-            android:textStyle="bold"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="352dp"
-            android:layout_height="195dp"
-            app:cardCornerRadius="15dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/imageMCV">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="352dp"
-                android:layout_height="195dp"
-                android:id="@+id/propertyIv"
-                android:src="@mipmap/myroom"/>
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/UploadImageIv"
-                android:translationZ="10dp"
-                android:layout_marginTop="90dp"
-                android:layout_marginLeft="150dp"
-                android:src="@drawable/plus_icon"
-                android:textColor="@color/textcolor"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+                app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Upload Image"
-            android:translationZ="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="90dp"
-            android:id="@+id/UploadImageTV"
-            />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/AddProperty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Add Property Information:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/imageMCV"
+                    android:layout_width="300dp"
+                    android:layout_height="195dp"
+                    android:layout_marginTop="20dp"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="2dp"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/propertyIv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="110dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="90dp"
+                            android:layout_marginTop="90dp"
+                            android:backgroundTint="@color/black"
+                            android:padding="16dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/UploadImageIv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/plus_icon"
+                                android:translationZ="10dp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/UploadImageTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="39dp"
+                                android:text="Upload Image"
+                                android:textColor="@color/white"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:translationY="8dp"
+                                android:translationZ="10dp" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Price (Monthly):"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/priceMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/priceSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@null"
+                        android:fontFamily="@font/robotofont"
+                        android:hint="Enter Amount"
+                        android:inputType="number"
+                        android:textColor="@color/textcolor" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bedRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="BedRooms:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bedRoomMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/bedRoomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/bedroom" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/Kitchen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Kitchen:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/kitchenMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/KitchenSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/kitchen" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/livingRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Living Rooms:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/livingRoomMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/livingRoomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/livingroom" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bathRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Bathroom:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bathRoomMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/bathRoomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/bathroom" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/floor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Floor:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/floorMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/floorSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/floor" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/carParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="CarParking:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/carParkingMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/carParkingSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/CarParking" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bikeParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="BikeParking:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/bikeParkingMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/bikeParkingSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/bikeParking" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/internet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Sharing Internet:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/internetMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/internetSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/SharingInternet" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/householdWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Household Water:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/householdWaterMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/householdWaterSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/HouseholdWater" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/drinkingWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Drinking Water:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/drinkingWaterMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/drinkingWaterSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/DrinkingWater" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noOfFlat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Number of Flats:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noOfFlatMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/noOfFlatSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/noOfFlats" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noOfbathroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Number of Bathrooms:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noOfbathroomMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/noOfbathroomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/noOfbathroom" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noOfroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Number of Rooms (Shutter):"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noOfroomsMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/noOfroomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/noOfShutter" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/noOfstoreRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/robotofont"
+                    android:gravity="center_horizontal|top"
+                    android:text="Number of Store Rooms:"
+                    android:textColor="@color/themecolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noOfstoreRoomMCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/textboxcolor"
+                    app:cardCornerRadius="10dp">
+
+                    <Spinner
+                        android:id="@+id/noOfstoreRoomSp"
+                        android:layout_width="match_parent"
+                        android:layout_height="41dp"
+                        android:backgroundTint="@color/themecolor"
+                        android:entries="@array/NoOfStore" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/AddPropertybtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/themecolor"
+                    android:fontFamily="@font/robotofont"
+                    android:text="Add Properties"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:cornerRadius="10dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </com.google.android.material.card.MaterialCardView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/LeftGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="21dp"
+                app:layout_constraintWidth_percent="10" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Price (Monthly):"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-         />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/priceMCV"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/priceSp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:background="@null"
-                android:fontFamily="@font/robotofont"
-                android:hint="Enter Amount"
-                android:textColor="@color/textcolor"/>
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/bedRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="BedRooms:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/bedRoomMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/bedRoomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/livingRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Living Rooms:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/livingRoomMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/livingRoomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/bathRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Bathroom:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/bathRoomMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/bathRoomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/floor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Floor:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/floorMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/floorSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/carParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="CarParking:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/carParkingMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/carParkingSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/bikeParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="BikeParking:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/bikeParkingMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/bikeParkingSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/internet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Sharing Internet:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/internetMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/internetSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/householdWater"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Household Water:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/householdWaterMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/householdWaterSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/drinkingWater"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Drinking Water:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/drinkingWaterMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/drinkingWaterSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/noOfFlat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Number of Flats:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/noOfFlatMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/noOfFlatSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/noOfbathroom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Number of Bathrooms:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/noOfbathroomMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/noOfbathroomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/noOfroom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Number of Rooms (Shutter):"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/noOfroomsMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/noOfroomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/noOfstoreRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/robotofont"
-            android:gravity="center_horizontal|top"
-            android:text="Number of Store Rooms:"
-            android:textColor="@color/themecolor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/noOfstoreRoomMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp">
-
-            <Spinner
-                android:id="@+id/noOfstoreRoomSp"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/themecolor"
-                android:layout_height="41dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/continuebtn"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/themecolor"
-            android:text="Continue"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/robotofont"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:cornerRadius="10dp"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/LeftGuideLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="21dp"
-        app:layout_constraintWidth_percent="10" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/RightGuideLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="20dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/RightGuideLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </FrameLayout>

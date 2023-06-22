@@ -67,14 +67,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/nameET"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:fontFamily="@font/robotofont"
                 android:hint="Name"
+
                 android:inputType="textPersonName"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
-                android:paddingRight="160dp"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
@@ -103,7 +103,6 @@
                 android:inputType="phone"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
-                android:paddingRight="160dp"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
@@ -130,7 +129,6 @@
                 android:hint="Email"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
-                android:paddingRight="160dp"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
@@ -160,7 +158,6 @@
                 android:inputType="textPassword"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
-                android:paddingRight="160dp"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp" />
 
@@ -188,7 +185,6 @@
                 android:inputType="textPassword"
                 android:paddingVertical="18dp"
                 android:paddingLeft="17dp"
-                android:paddingRight="100dp"
                 android:textColor="@color/textcolor"
                 android:textSize="20sp"
                 />
