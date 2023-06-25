@@ -41,7 +41,9 @@ import java.util.Map;
 
 
 public class AddressInfo extends Fragment {
-
+    public interface SelectIdCallback {
+        void onIdSelected(int currentID);
+    }
     ArrayAdapter<String> provinceAdapter, districtAdapter, locallevelAdapter, wardnoAdapter;
     Bundle addPropertyDataBundle;
     MaterialButton continueButton;
@@ -87,11 +89,19 @@ public class AddressInfo extends Fragment {
 
                 districtList.clear();
                 String selectProvince = parent.getSelectedItem().toString();
+                String provinceID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=province&name="+selectProvince;
+               selectId(provinceID_URL, new SelectIdCallback() {
+                    @Override
+                    public void onIdSelected(int currentID) {
+                        addPropertyDataBundle.putInt("provinceId",currentID);
+
+
+                    }
+                });
+
                 String districturl = "http://" + IpStatic.IpAddress.ip + ":80/api/DistrictInfo?province=" + selectProvince;
                 SelectAddress(districturl, districtSpinner, districtList);
-                String provinceID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=province&name="+selectProvince;
-                provinceId=selectId(provinceID_URL);
-                Log.d("Id",Integer.toString(provinceId));
+
             }
 
             @Override
@@ -105,12 +115,20 @@ public class AddressInfo extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 locallevelList.clear();
-                String selectDistrict = parent.getSelectedItem().toString();
+
+               String selectDistrict = parent.getSelectedItem().toString();
+                String districtID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=district&name="+selectDistrict;
+                selectId(districtID_URL, new SelectIdCallback() {
+                    @Override
+                    public void onIdSelected(int currentID) {
+                        addPropertyDataBundle.putInt("districtId",currentID);
+
+                    }
+                });
+
                 String locallevelurl = "http://" + IpStatic.IpAddress.ip + ":80/api/LocalLevelInfo?district=" + selectDistrict;
                 SelectAddress(locallevelurl, localLevelSpinner, locallevelList);
-                String districtID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=district&name="+selectDistrict;
-                districtId=selectId(districtID_URL);
-                Log.d("Id",Integer.toString(districtId));
+
 
             }
 
@@ -128,11 +146,19 @@ public class AddressInfo extends Fragment {
 
                 wardnoList.clear();
                 String selectLocalLevel = parent.getSelectedItem().toString();
+                String local_level_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=local_level&name="+selectLocalLevel;
+                selectId(local_level_ID_URL, new SelectIdCallback() {
+                    @Override
+                    public void onIdSelected(int currentID) {
+                        addPropertyDataBundle.putInt("local_levelId",currentID);
+
+                    }
+                });
+                Log.d("Id",Integer.toString(local_levelId));
+
                 String wardurl = "http://" + IpStatic.IpAddress.ip + ":80/api/WardNoInfo?locallevel="+selectLocalLevel;
                 SelectAddress(wardurl, wardnoSpinner, wardnoList);
-                String local_level_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=local_level&name="+selectLocalLevel;
-                local_levelId=selectId(local_level_ID_URL);
-                Log.d("Id",Integer.toString(local_levelId));
+
 
 
             }
@@ -147,8 +173,14 @@ public class AddressInfo extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
                 String selectWard= parent.getSelectedItem().toString();
                 String ward_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=ward_no&name="+selectWard;
-                ward_noId=selectId(ward_ID_URL);
+               selectId(ward_ID_URL, new SelectIdCallback() {
+                    @Override
+                    public void onIdSelected(int currentID) {
+                        addPropertyDataBundle.putInt("ward_noId",currentID);
+                    }
+                });
                 Log.d("Id",Integer.toString(ward_noId));
+
 
             }
 
@@ -160,7 +192,7 @@ public class AddressInfo extends Fragment {
 
 
         super.onViewCreated(view, savedInstanceState);
-    }
+  }
 
     public void SelectAddress(String url, Spinner spinner, ArrayList<String> List) {
 
@@ -189,11 +221,16 @@ public class AddressInfo extends Fragment {
             }
         }) {
 
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
-                return headers;
-            }
+
+//Code for Sending User Authentication login token with API so that it only executes if user is logged in:
+ //----------------------------------------------------------------------------------
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+//                return headers;
+//            }
+
+            //---------------------------------------------------------------
         };
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(stringRequest);
@@ -203,10 +240,7 @@ public class AddressInfo extends Fragment {
             public void onClick(View view) {
                 tole=toleNameEt.getText().toString();
                 addPropertyDataBundle.putString("tole",tole);
-                addPropertyDataBundle.putString("provinceId",String.valueOf(provinceId));
-                addPropertyDataBundle.putString("districtId",String.valueOf(districtId));
-                addPropertyDataBundle.putString("local_levelId",String.valueOf(local_levelId));
-                addPropertyDataBundle.putString("ward_noId",String.valueOf(ward_noId));
+
                 if(tole.length()==0) {
                     Toast.makeText(getContext(),"Please enter tole!",Toast.LENGTH_LONG).show();
                 }else {
@@ -220,21 +254,23 @@ public class AddressInfo extends Fragment {
             }
         });
     }
-    public int selectId(String url){
-        Log.d("SelectId","running");
+    public void selectId(String url,final SelectIdCallback callback){
+
+
         StringRequest stringRequest= new StringRequest(Request.Method.GET,url,new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject=new JSONObject(response);
-                    Log.d("JSONRESPONSE", String.valueOf(jsonObject.getInt("id")));
-                    container=jsonObject.getInt("id");
+                     container=jsonObject.getInt("id");
+                    callback.onIdSelected(container);
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -247,6 +283,5 @@ public class AddressInfo extends Fragment {
         };
         RequestQueue requestQueue=Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
-        return container;
     }
 }
