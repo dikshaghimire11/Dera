@@ -33,6 +33,11 @@ import com.google.android.material.button.MaterialButton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+
 
 public class AddBasicInfoProperties extends Fragment {
 

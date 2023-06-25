@@ -11,6 +11,7 @@ What type of Property do you
         want to add?
 </string>
     <string-array name="bedroom">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -53,6 +54,7 @@ What type of Property do you
         <item>40</item>
     </string-array>
     <string-array name="livingroom">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -95,6 +97,7 @@ What type of Property do you
         <item>40</item>
     </string-array>
     <string-array name="kitchen">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -125,6 +128,7 @@ What type of Property do you
         <item>Tenth</item>
     </string-array>
     <string-array name="CarParking">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -137,6 +141,7 @@ What type of Property do you
         <item>10</item>
     </string-array>
     <string-array name="bikeParking">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -162,6 +167,7 @@ What type of Property do you
         <item> Scarcity</item>
     </string-array>
     <string-array name="noOfFlats">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -174,6 +180,7 @@ What type of Property do you
         <item>10</item>
     </string-array>
     <string-array name="noOfbathroom">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -186,6 +193,7 @@ What type of Property do you
         <item>10</item>
     </string-array>
     <string-array name="noOfShutter">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -198,6 +206,7 @@ What type of Property do you
         <item>10</item>
     </string-array>
     <string-array name="NoOfStore">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
