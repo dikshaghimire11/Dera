@@ -25,13 +25,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.StaticClasses;
 import com.dera.customer.UserDashboard;
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Multipart;
@@ -47,6 +60,8 @@ public class AddBasicInfoProperties extends Fragment {
     EditText priceEt;
     Bitmap bitmap;
     Bundle bundle;
+    String category_Id;
+    String tole;
     Spinner bedroomSp, livingroomSp, bathroomSp,
             kitchenSp, floorSp, carparkingSp,
             bikeparkingSp, householdwaterSp, drinkingwaterSp,
@@ -55,7 +70,11 @@ public class AddBasicInfoProperties extends Fragment {
     String selectbedroom, selectlivingroom, selectbathroom, selectkitchen, selectfloor, selectcarparking,
             selectbikeparking, selecthouseholdwater, selectdrinkingwater, selectsharinginternet, selectonofflat,
             selectnoofbathroom, selectnoofstoreroom, selectnoofshutter;
+
+    int provinceId,districtId,wardId,local_level_ID;
       String imageName;
+      String jsonValue="{";
+      String updatedJson;
     MaterialButton addpropertyBtn;
     private final int Gallery_Request_Code = 1000;
 
@@ -68,6 +87,18 @@ public class AddBasicInfoProperties extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Bundle addPropertyDataBundle=getArguments();
+        category_Id=addPropertyDataBundle.getString("PropertyType");
+        tole=addPropertyDataBundle.getString("tole");
+        provinceId=addPropertyDataBundle.getInt("provinceId");
+        districtId=addPropertyDataBundle.getInt("districtId");
+        wardId=addPropertyDataBundle.getInt("ward_noId");
+        local_level_ID=addPropertyDataBundle.getInt("local_levelId");
+        Log.d("AllId: ","Province: "+provinceId+"District: "+districtId+"Ward: "+wardId+"Local: "+local_level_ID);
+
+
+
+
         uploadBtn = view.findViewById(R.id.UploadImageIv);
         Photo = view.findViewById(R.id.propertyIv);
         UploadPhoto = view.findViewById(R.id.UploadImageTV);
@@ -86,6 +117,7 @@ public class AddBasicInfoProperties extends Fragment {
         noofflatsSp = view.findViewById(R.id.noOfFlatSp);
         noofshutterSp = view.findViewById(R.id.noOfroomSp);
         noofstoreSp = view.findViewById(R.id.noOfstoreRoomSp);
+        priceEt=view.findViewById(R.id.priceSp);
 
         addpropertyBtn = view.findViewById(R.id.AddPropertybtn);
 //insert Image from Gallery
@@ -108,6 +140,8 @@ public class AddBasicInfoProperties extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectbedroom = parent.getSelectedItem().toString();
                 Log.d("selectbedroom", "" + selectbedroom);
+                jsonValue=jsonValue+"\"BedRoom\":\""+selectbedroom+"\",";
+
             }
 
             @Override
@@ -120,6 +154,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectbathroom = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"BathroomType\":\""+selectbathroom+"\",";
             }
 
             @Override
@@ -132,6 +167,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectlivingroom = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"LivingRoom\":\""+selectlivingroom+"\",";
             }
 
             @Override
@@ -144,6 +180,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectfloor = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"Floor\":\""+selectfloor+"\",";
             }
 
             @Override
@@ -156,6 +193,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectcarparking = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"CarParking\":\""+selectcarparking+"\",";
             }
 
             @Override
@@ -168,6 +206,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectbikeparking = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"BikeParking\":\""+selectbikeparking+"\",";
             }
 
             @Override
@@ -180,6 +219,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectkitchen = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"Kitchen\":\""+selectkitchen+"\",";
             }
 
             @Override
@@ -192,6 +232,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selecthouseholdwater = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"HouseHoldWater\":\""+selecthouseholdwater+"\",";
             }
 
             @Override
@@ -205,6 +246,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectdrinkingwater = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"DrinkingWater\":\""+selectdrinkingwater+"\",";
             }
 
             @Override
@@ -217,6 +259,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectsharinginternet = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"SharingInternet\":\""+selectsharinginternet+"\",";
             }
 
             @Override
@@ -229,6 +272,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectnoofstoreroom = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"NumberOfStore\":\""+selectnoofstoreroom+"\",";
             }
 
             @Override
@@ -241,6 +285,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectnoofbathroom = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"NoOfBathroom\":\""+selectnoofbathroom+"\",";
             }
 
             @Override
@@ -253,6 +298,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectonofflat = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"NoOfFlats\":\""+selectonofflat+"\",";
             }
 
             @Override
@@ -265,6 +311,7 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectnoofshutter = parent.getSelectedItem().toString();
+                jsonValue=jsonValue+"\"NoOfShutter\":\""+selectnoofshutter+"\",";
             }
 
             @Override
@@ -280,6 +327,11 @@ public class AddBasicInfoProperties extends Fragment {
 
             @Override
             public void onClick(View view) {
+               updatedJson=jsonValue.substring(0, jsonValue.length() - 1);
+                updatedJson=updatedJson+"}";
+
+
+
                 ByteArrayOutputStream byteArrayOutputStream;
                 byteArrayOutputStream=new ByteArrayOutputStream();
                 if(bitmap!=null){
@@ -289,8 +341,53 @@ public class AddBasicInfoProperties extends Fragment {
                 }else {
                     Toast.makeText(getContext(),"Select the image first",Toast.LENGTH_LONG).show();
                 }
-                Intent intent=new Intent(getContext(), houseOwnerDashboard.class);
-                startActivity(intent);
+                String addPropertyURL="http://"+IpStatic.IpAddress.ip+":80/api/add_property";
+                StringRequest stringRequest=new StringRequest(Request.Method.POST, addPropertyURL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject=new JSONObject(response);
+                            String status=jsonObject.getString("status");
+                            if(status.compareTo("200")==0){
+                                Toast.makeText(getContext(),"Data Inserted Sucessfully!",Toast.LENGTH_LONG).show();
+                                Intent intent=new Intent(getContext(), houseOwnerDashboard.class);
+                                startActivity(intent);
+
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(),"Something Went Wrong:"+error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> propertyMap=new HashMap<>();
+                        propertyMap.put("photo","imageName");
+                        propertyMap.put("price",priceEt.getText().toString());
+                        propertyMap.put("status","1");
+                        propertyMap.put("total_bookings","1");
+                        propertyMap.put("tole",tole);
+                        propertyMap.put("category_id",category_Id);
+                        propertyMap.put("houseowner_id","11");
+                        propertyMap.put("province_id","1");
+                        propertyMap.put("district_id","1");
+                        propertyMap.put("local_level_id","7");
+                        propertyMap.put("ward_no_id","1");
+                        propertyMap.put("property_details",updatedJson);
+
+                        return propertyMap;
+
+                    }
+                };
+                RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+                requestQueue.add(stringRequest);
+
             }
         });
 
