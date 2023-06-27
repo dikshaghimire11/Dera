@@ -122,7 +122,6 @@ public class AddressInfo extends Fragment {
                     @Override
                     public void onIdSelected(int currentID) {
                         addPropertyDataBundle.putInt("districtId",currentID);
-
                     }
                 });
 
