@@ -66,6 +66,8 @@ public class AddBasicInfoProperties extends Fragment {
             selectbikeparking, selecthouseholdwater, selectdrinkingwater, selectsharinginternet, selectonofflat,
             selectnoofbathroom, selectnoofstoreroom, selectnoofshutter;
 
+    JSONObject propertyJson;
+
     int provinceId,districtId,wardId,local_level_ID;
       String imageName;
       String jsonValue="{";
@@ -83,6 +85,7 @@ public class AddBasicInfoProperties extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle addPropertyDataBundle=getArguments();
+        propertyJson=new JSONObject();
         category_Id=addPropertyDataBundle.getString("PropertyType");
         tole=addPropertyDataBundle.getString("tole");
         provinceId=addPropertyDataBundle.getInt("provinceId");
@@ -136,6 +139,11 @@ public class AddBasicInfoProperties extends Fragment {
                 selectbedroom = parent.getSelectedItem().toString();
                 Log.d("selectbedroom", "" + selectbedroom);
                 jsonValue=jsonValue+"\"BedRoom\":\""+selectbedroom+"\",";
+                try {
+                    propertyJson.put("BedRoom",selectbedroom);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
 
@@ -374,7 +382,7 @@ public class AddBasicInfoProperties extends Fragment {
                         propertyMap.put("district_id","1");
                         propertyMap.put("local_level_id","7");
                         propertyMap.put("ward_no_id","1");
-                        propertyMap.put("property_details",updatedJson);
+                        propertyMap.put("property_details",propertyJson.toString());
 
                         return propertyMap;
 
