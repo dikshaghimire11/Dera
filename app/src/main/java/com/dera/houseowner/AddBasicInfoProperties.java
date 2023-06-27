@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 public class AddBasicInfoProperties extends Fragment {
@@ -83,9 +83,11 @@ public interface IGetImageName{
             selectbikeparking, selecthouseholdwater, selectdrinkingwater, selectsharinginternet, selectonofflat,
             selectnoofbathroom, selectnoofstoreroom, selectnoofshutter;
 
-    int provinceId, districtId, wardId, local_level_ID;
-    String jsonValue = "{";
-    String updatedJson;
+    JSONObject propertyJson;
+
+    int provinceId,districtId,wardId,local_level_ID;
+      String jsonValue="{";
+      String updatedJson;
     MaterialButton addpropertyBtn;
     private final int Storage_code = 4655;
     public int Pick_image = 1;
@@ -100,14 +102,17 @@ public interface IGetImageName{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Bundle addPropertyDataBundle = getArguments();
-        category_Id = addPropertyDataBundle.getString("PropertyType");
-        tole = addPropertyDataBundle.getString("tole");
-        provinceId = addPropertyDataBundle.getInt("provinceId");
-        districtId = addPropertyDataBundle.getInt("districtId");
-        wardId = addPropertyDataBundle.getInt("ward_noId");
-        local_level_ID = addPropertyDataBundle.getInt("local_levelId");
-        Log.d("AllId: ", "Province: " + provinceId + "District: " + districtId + "Ward: " + wardId + "Local: " + local_level_ID);
+        Bundle addPropertyDataBundle=getArguments();
+        propertyJson=new JSONObject();
+        category_Id=addPropertyDataBundle.getString("PropertyType");
+        tole=addPropertyDataBundle.getString("tole");
+        provinceId=addPropertyDataBundle.getInt("provinceId");
+        districtId=addPropertyDataBundle.getInt("districtId");
+        wardId=addPropertyDataBundle.getInt("ward_noId");
+        local_level_ID=addPropertyDataBundle.getInt("local_levelId");
+        Log.d("AllId: ","Province: "+provinceId+"District: "+districtId+"Ward: "+wardId+"Local: "+local_level_ID);
+
+
 
 
         uploadBtn = view.findViewById(R.id.UploadImageIv);
@@ -128,7 +133,7 @@ public interface IGetImageName{
         noofflatsSp = view.findViewById(R.id.noOfFlatSp);
         noofshutterSp = view.findViewById(R.id.noOfroomSp);
         noofstoreSp = view.findViewById(R.id.noOfstoreRoomSp);
-        priceEt = view.findViewById(R.id.priceSp);
+        priceEt=view.findViewById(R.id.priceSp);
 
         addpropertyBtn = view.findViewById(R.id.AddPropertybtn);
 //insert Image from Gallery
@@ -171,13 +176,19 @@ public interface IGetImageName{
         });
 
 
+
 //finding the value of spinner's item selected
         bedroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectbedroom = parent.getSelectedItem().toString();
                 Log.d("selectbedroom", "" + selectbedroom);
-                jsonValue = jsonValue + "\"BedRoom\":\"" + selectbedroom + "\",";
+                jsonValue=jsonValue+"\"BedRoom\":\""+selectbedroom+"\",";
+                try {
+                    propertyJson.put("BedRoom",selectbedroom);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
 
