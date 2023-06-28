@@ -14,10 +14,14 @@ import android.widget.ListAdapter;
 
 import com.dera.Adapter.PropertyGridView;
 import com.dera.R;
+import com.dera.models.Property;
+
+import java.util.ArrayList;
 
 public class user_properties extends Fragment {
 
 GridView propertiesList;
+ArrayList<Property> properties;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,14 +33,20 @@ GridView propertiesList;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        properties=new ArrayList<Property>();
         propertiesList=view.findViewById(R.id.propertieslist);
+        Property property=new Property("Room","Kathmandu","1700","2","abc.jpg");
+        Property property1=new Property("Shutter","Bhaktapur","1800","3","abfc.jpg");
+        Property property2=new Property("Room","Lalitpur","2000","4","abdc.jpg");
+        properties.add(property);
+        properties.add(property1);
+        properties.add(property2);
         String[] heading={"Room","Flat","House","Shutter","Rooms","flat"};
         String[] location={"kathmandu","bhaktapur","sankhapul","koteshwor","lokanthali","koteshwor"};
         String[] price={"2000","15000","2000000","20000","8000","20000"};
         String[] number={"1","2bkh","1","2","3","2"};
         int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon};
-        PropertyGridView propertyGridView=new PropertyGridView(getActivity(),heading,number,location,photo,price);
+        PropertyGridView propertyGridView=new PropertyGridView(getActivity(),properties);
         propertiesList.setAdapter(propertyGridView);
 
         setDynamicHeight(propertiesList);

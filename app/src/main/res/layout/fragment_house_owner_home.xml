@@ -16,14 +16,14 @@
          android:layout_width="0dp"
          android:layout_height="wrap_content"
          android:id="@+id/advertiseMCV"
-         app:layout_constraintBottom_toTopOf="@+id/propertiesTV"
+         app:layout_constraintBottom_toTopOf="@+id/propertiesFragment"
          app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
          app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
          app:layout_constraintTop_toTopOf="parent"
          android:layout_marginVertical="10dp"
          />
      <FrameLayout
-         android:id="@+id/propertiesTV"
+         android:id="@+id/propertiesFragment"
          android:layout_width="0dp"
          android:layout_height="wrap_content"
          app:layout_constraintEnd_toEndOf="parent"
