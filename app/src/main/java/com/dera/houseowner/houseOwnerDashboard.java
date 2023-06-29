@@ -45,6 +45,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
                 create.setImageDrawable(null);
+                create.setClickable(false);
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
                create.setImageResource(R.drawable.create);
+                create.setClickable(true);
 
             }
         });
@@ -68,6 +70,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
                 create.setImageDrawable(null);
+                create.setClickable(false);
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
                 create.setImageDrawable(null);
+                create.setClickable(false);
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +94,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 transaction.replace(R.id.fragmentlayout, fragment);
                 transaction.commit();
                 create.setImageDrawable(null);
+                create.setClickable(false);
             }
         });
 
