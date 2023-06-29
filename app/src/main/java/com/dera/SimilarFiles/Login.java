@@ -38,6 +38,7 @@ public class Login extends AppCompatActivity {
     MaterialButton loginbtn;
     EditText emailET, passwordET;
     TextView signUpTv,errorTV;
+   String userId;
 
 
     MaterialCardView emailMCV,passwordMCV;
@@ -96,6 +97,8 @@ public class Login extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 JSONObject object=new JSONObject(response);
                                 String status=object.getString("status");
+                                userId=object.getString("id");
+
 
 
 
@@ -106,6 +109,7 @@ public class Login extends AppCompatActivity {
                                     emailET.setText("");
                                     passwordET.setText("");
                                     if(usertypeid==2){
+                                        StaticClasses.loginInfo.houseOwnerID=userId;
                                         Intent intent=new Intent(Login.this, houseOwnerDashboard.class);
                                         startActivity(intent);
                                     }

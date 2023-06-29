@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +59,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 public class AddBasicInfoProperties extends Fragment {
@@ -72,7 +72,7 @@ public class AddBasicInfoProperties extends Fragment {
     EditText priceEt;
     Bitmap bitmap;
     Bundle bundle;
-    String category_Id, tole, updatedJson, jsonValue = "{", extension;
+    String category_Id, tole,extension;
 
     byte[] bytes;
     String imageName;
@@ -93,6 +93,10 @@ public class AddBasicInfoProperties extends Fragment {
             selectnoofbathroom, selectnoofstoreroom, selectnoofshutter;
 
     int provinceId, districtId, wardId, local_level_ID;
+    JSONObject propertyJson;
+
+      String jsonValue="{";
+      String updatedJson;
     MaterialButton addpropertyBtn;
     private final int Storage_code = 4655;
     public Uri uri;
@@ -106,14 +110,17 @@ public class AddBasicInfoProperties extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Bundle addPropertyDataBundle = getArguments();
-        category_Id = addPropertyDataBundle.getString("PropertyType");
-        tole = addPropertyDataBundle.getString("tole");
-        provinceId = addPropertyDataBundle.getInt("provinceId");
-        districtId = addPropertyDataBundle.getInt("districtId");
-        wardId = addPropertyDataBundle.getInt("ward_noId");
-        local_level_ID = addPropertyDataBundle.getInt("local_levelId");
-        Log.d("AllId: ", "Province: " + provinceId + "District: " + districtId + "Ward: " + wardId + "Local: " + local_level_ID);
+        Bundle addPropertyDataBundle=getArguments();
+        propertyJson=new JSONObject();
+        category_Id=addPropertyDataBundle.getString("PropertyType");
+        tole=addPropertyDataBundle.getString("tole");
+        provinceId=addPropertyDataBundle.getInt("provinceId");
+        districtId=addPropertyDataBundle.getInt("districtId");
+        wardId=addPropertyDataBundle.getInt("ward_noId");
+        local_level_ID=addPropertyDataBundle.getInt("local_levelId");
+        Log.d("AllId: ","Province: "+provinceId+"District: "+districtId+"Ward: "+wardId+"Local: "+local_level_ID);
+
+
 
 
         uploadBtn = view.findViewById(R.id.UploadImageIv);
@@ -134,7 +141,7 @@ public class AddBasicInfoProperties extends Fragment {
         noofflatsSp = view.findViewById(R.id.noOfFlatSp);
         noofshutterSp = view.findViewById(R.id.noOfroomSp);
         noofstoreSp = view.findViewById(R.id.noOfstoreRoomSp);
-        priceEt = view.findViewById(R.id.priceSp);
+        priceEt=view.findViewById(R.id.priceSp);
 // Material Card view
         bathroomMcv = view.findViewById(R.id.bathRoomMCV);
         bedRoomCardView = view.findViewById(R.id.bedRoomMCV);
@@ -179,6 +186,7 @@ public class AddBasicInfoProperties extends Fragment {
                     try {
 
                         bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+
                         Photo.setImageBitmap(bitmap);
                         UploadPhoto.setText("Edit Photo");
 
@@ -221,12 +229,20 @@ public class AddBasicInfoProperties extends Fragment {
             noOfStoreMcv.setVisibility(View.GONE);
             noOfStoreTv.setVisibility(View.GONE);
             noofstoreSp.setVisibility(View.GONE);
-            bedroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectbedroom = parent.getSelectedItem().toString();
-                    Log.d("selectbedroom", "" + selectbedroom);
-                    jsonValue = jsonValue + "\"BedRoom\":\"" + selectbedroom + "\",";
+
+
+//finding the value of spinner's item selected
+        bedroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectbedroom = parent.getSelectedItem().toString();
+                Log.d("selectbedroom", "" + selectbedroom);
+                jsonValue=jsonValue+"\"BedRoom\":\""+selectbedroom+"\",";
+                try {
+                    propertyJson.put("BedRoom",selectbedroom);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
 
                 }
 

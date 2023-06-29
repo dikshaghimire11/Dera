@@ -22,6 +22,7 @@ public class StaticClasses {
     }
     public static class loginInfo{
         public static String loginToken;
+        public static String houseOwnerID;
     }
 
 }

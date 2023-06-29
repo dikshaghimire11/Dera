@@ -147,11 +147,11 @@ public class Register extends AppCompatActivity {
                     errorCount++;
                     emailMatchError = true;
                 }
-                if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
-                {
-                    passwordMatchError = true;
-                    errorCount++;
-                }
+//                if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$"))
+//                {
+//                    passwordMatchError = true;
+//                    errorCount++;
+//                }
                 if (!mobile.matches("^(97|98)\\d{8}$"))
                 {
                     mobileMatchError = true;
@@ -163,15 +163,10 @@ public class Register extends AppCompatActivity {
                     if(!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !passwordMatchError &&!mobileMatchError ){
                         errorTV.setText("Please enter valid email address!");
                     }
-                    if(!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !emailMatchError && !mobileMatchError ){
-                        errorTV.setText("Please enter valid password!");
-                    }
                     if(!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !emailMatchError && !passwordMatchError ){
                         errorTV.setText("Please enter valid Number which start with 97 or 98 and must be 10 digits!");
                     }
-                    if (!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !passwordMatchError && !emailMatchError && !mobileMatchError) {
-                        errorTV.setText("Password did not match");
-                    }
+
                 } else {
                     ProgressDialog progressDialog=new ProgressDialog(Register.this);
                     progressDialog.setMessage("Please wait.....");
