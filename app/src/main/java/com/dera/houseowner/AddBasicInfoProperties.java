@@ -3,6 +3,7 @@ package com.dera.houseowner;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -45,6 +46,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.SimilarFiles.Register;
+import com.dera.StaticClasses;
 import com.dera.VolleyMultipartRequest;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -65,17 +68,16 @@ public class AddBasicInfoProperties extends Fragment {
     public interface IGetImageName {
         public String getName();
     }
+    ProgressDialog progressDialog;
 
     ImageView Photo, uploadBtn;
     TextView UploadPhoto;
     EditText priceEt;
     Bitmap bitmap;
     Bundle bundle;
-    String category_Id;
-    String tole;
-    byte[] imagebytes,jsonbytes;
-    String extension;
+    String category_Id, tole,extension;
 
+    byte[] imagebytes,jsonbytes;
     String imageName;
     String addPropertyURL;
     AppCompatTextView bedRoomTextView, kitchenTextView, livingRoomTv,
@@ -119,9 +121,6 @@ public class AddBasicInfoProperties extends Fragment {
         districtId=addPropertyDataBundle.getInt("districtId");
         wardId=addPropertyDataBundle.getInt("ward_noId");
         local_level_ID=addPropertyDataBundle.getInt("local_levelId");
-        Log.d("AllId: ","Province: "+provinceId+"District: "+districtId+"Ward: "+wardId+"Local: "+local_level_ID);
-
-
 
 
         uploadBtn = view.findViewById(R.id.UploadImageIv);
@@ -610,15 +609,14 @@ public class AddBasicInfoProperties extends Fragment {
             public void onClick(View view) {
                 updatedJson = jsonValue.substring(0, jsonValue.length() - 1);
                 updatedJson = updatedJson + "}";
+                Log.d("UpdatedJson",""+updatedJson);
 //                String path=getPath(filepath);
 //               Log.d("ImageName","hello"+path.toString());
 
-                    ByteArrayOutputStream imagebyteArrayOutputStream=new ByteArrayOutputStream();
-
-                    if(bitmap !=null){
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,imagebyteArrayOutputStream);
-                        imagebytes =imagebyteArrayOutputStream.toByteArray();
-                        //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
+//                    ByteArrayOutputStream imagebyteArrayOutputStream=new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,imagebyteArrayOutputStream);
+//                        imagebytes =imagebyteArrayOutputStream.toByteArray();
+//                        //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
                 ByteArrayOutputStream byteArrayOutputStream;
                 byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -626,17 +624,21 @@ public class AddBasicInfoProperties extends Fragment {
                 if (bitmap != null) {
                     String imagePath = getRealPathFromURI(uri);
                     extension = imagePath.substring(imagePath.lastIndexOf(".") + 1);
-                    if (extension.equals("jpeg")) {
+                    if (extension.equals("jpeg") || extension.equals("jpg")) {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                        Log.d("Extension", ""+extension);
 
                     } else if (extension.equals("png")) {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                        Log.d("Extension", "png");
+                        Log.d("Extension", ""+extension);
                     }
                     imagebytes = byteArrayOutputStream.toByteArray();
                     if (priceEt.getText().toString().length() == 0) {
-                        Toast.makeText(getContext(), "Select enter price!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Enter price!", Toast.LENGTH_LONG).show();
                     } else {
+                        progressDialog=new ProgressDialog(getContext());
+                        progressDialog.setMessage("Please wait.....");
+                        progressDialog.show();
                         addPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/add_property";
                         SendData(new IGetImageName() {
                             @Override
@@ -652,6 +654,7 @@ public class AddBasicInfoProperties extends Fragment {
 
 
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(getContext(), "Select image first!", Toast.LENGTH_LONG).show();
                 }
 
@@ -714,10 +717,10 @@ public class AddBasicInfoProperties extends Fragment {
 
             });
 
+            super.onViewCreated(view, savedInstanceState);
+    }
 
-    }
-        super.onViewCreated(view, savedInstanceState);
-    }
+
 
 
     //    @Override
@@ -818,7 +821,6 @@ public class AddBasicInfoProperties extends Fragment {
                         Toast.makeText(getContext(), "Data Inserted Sucessfully!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getContext(), houseOwnerDashboard.class);
                         startActivity(intent);
-
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -827,6 +829,7 @@ public class AddBasicInfoProperties extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "Something Went Wrong:" + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
@@ -835,16 +838,15 @@ public class AddBasicInfoProperties extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> propertyMap = new HashMap<>();
-                propertyMap.put("photo", "imageName");
                 propertyMap.put("price", priceEt.getText().toString());
                 propertyMap.put("status", "1");
                 propertyMap.put("total_bookings", "1");
                 propertyMap.put("tole", tole);
                 propertyMap.put("category_id", category_Id);
-                propertyMap.put("houseowner_id", "11");
+                propertyMap.put("houseowner_id", StaticClasses.loginInfo.houseOwnerID);
                 propertyMap.put("province_id", String.valueOf(provinceId));
                 propertyMap.put("district_id", String.valueOf(districtId));
-                propertyMap.put("local_level_id", String.valueOf(local_level_ID));
+                propertyMap.put("local_level_id",String.valueOf(local_level_ID));
                 propertyMap.put("ward_no_id", String.valueOf(wardId));
                 propertyMap.put("property_details", updatedJson);
                 return propertyMap;
@@ -856,9 +858,11 @@ public class AddBasicInfoProperties extends Fragment {
             protected Map<String, DataPart> getByteData() throws AuthFailureError {
                 Map<String, DataPart> imageMap = new HashMap<>();
                 if (extension.equals("jpeg")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", bytes, "image/jpeg"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", imagebytes, "image/jpeg"));
                 } else if (extension.equals("png")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", bytes, "image/png"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", imagebytes, "image/png"));
+                }else if(extension.equals("jpg")){
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", imagebytes, "image/jpeg"));
                 }
                 return imageMap;
             }
@@ -867,24 +871,16 @@ public class AddBasicInfoProperties extends Fragment {
         requestQueue.add(volleyMultipartRequest);
     }
 
+
     private String getRealPathFromURI(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         String imagePath = cursor.getString(column_index);
+        Log.d("Image",""+imagePath);
         cursor.close();
         return imagePath;
     }
-        @Override
-        protected Map<String, DataPart> getByteData() throws AuthFailureError {
-            Map<String,DataPart> imageMap=new HashMap<>();
-            imageMap.put("image",new DataPart(iGetImageName.getName()+".jpg", imagebytes,"image/jpeg"));
 
-            return imageMap;
-        }
-    };
-    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-    requestQueue.add(volleyMultipartRequest);
-}
 }
