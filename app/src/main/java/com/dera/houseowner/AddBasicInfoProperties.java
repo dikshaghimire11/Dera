@@ -1,14 +1,10 @@
 package com.dera.houseowner;
 
 
-import static android.content.Intent.getIntent;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,8 +20,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +37,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
@@ -55,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +65,7 @@ public interface IGetImageName{
     Bundle bundle;
     String category_Id;
     String tole;
-    byte[] bytes;
+    byte[] imagebytes,jsonbytes;
     String imageName;
     String addPropertyURL;
     Spinner bedroomSp, livingroomSp, bathroomSp,
@@ -379,11 +373,12 @@ public interface IGetImageName{
                 updatedJson = updatedJson + "}";
 //                String path=getPath(filepath);
 //               Log.d("ImageName","hello"+path.toString());
-                    ByteArrayOutputStream byteArrayOutputStream;
-                    byteArrayOutputStream=new ByteArrayOutputStream();
+
+                    ByteArrayOutputStream imagebyteArrayOutputStream=new ByteArrayOutputStream();
+
                     if(bitmap !=null){
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-                        bytes=byteArrayOutputStream.toByteArray();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,imagebyteArrayOutputStream);
+                        imagebytes =imagebyteArrayOutputStream.toByteArray();
                         //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
                         addPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/add_property";
                         SendData(new IGetImageName() {
@@ -595,7 +590,8 @@ public void SendData(IGetImageName iGetImageName){
         @Override
         protected Map<String, DataPart> getByteData() throws AuthFailureError {
             Map<String,DataPart> imageMap=new HashMap<>();
-            imageMap.put("image",new DataPart(iGetImageName.getName()+".jpg",bytes,"image/jpeg"));
+            imageMap.put("image",new DataPart(iGetImageName.getName()+".jpg", imagebytes,"image/jpeg"));
+
             return imageMap;
         }
     };
