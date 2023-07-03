@@ -3,6 +3,7 @@ package com.dera.SimilarFiles;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,18 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent=getIntent();
+       String origin=intent.getStringExtra("Origin");
+       if(origin != null && origin.equals("Register")){
+           AlertDialog.Builder builder = new AlertDialog.Builder(this);
+           builder.setTitle("Password Sent");
+           builder.setMessage("Your password has been sent to your email. Please check your inbox.");
+           builder.setPositiveButton("Ok", (dialog, which) ->
+           {
+           });
+           AlertDialog alert = builder.create();
+           alert.show();
+       }
         loginbtn=findViewById(R.id.SignIpBtn);
         emailET=findViewById(R.id.emailET);
         passwordET=findViewById(R.id.passwordET);
@@ -55,7 +68,7 @@ public class Login extends AppCompatActivity {
         passwordMCV=findViewById(R.id.passwordMCV);
         errorTV=findViewById(R.id.errorTV);
         int usertype=0;
-        Intent intent=getIntent();
+
         int usertypeid=intent.getIntExtra("usertype",usertype);
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,13 +110,8 @@ public class Login extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 JSONObject object=new JSONObject(response);
                                 String status=object.getString("status");
-                                userId=object.getString("id");
-
-
-
-
-
                                 if(status.compareTo("200")==0){
+                                    userId=object.getString("id");
                                     StaticClasses.loginInfo.loginToken=object.getString("access_token");
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
@@ -114,6 +122,7 @@ public class Login extends AppCompatActivity {
                                         startActivity(intent);
                                     }
                                     if(usertypeid==3) {
+                                        StaticClasses.loginInfo.roomFinderID=userId;
                                         Intent intent = new Intent(Login.this,UserDashboard.class);
                                         startActivity(intent);
                                     }

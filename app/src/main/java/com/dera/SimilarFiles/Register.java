@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,13 +39,14 @@ import java.util.Map;
 public class Register extends AppCompatActivity {
 
     MaterialButton signUpButton;
-    AppCompatEditText emailET, passwordET, confirmPasswordEt, nameET, mobileET;
+    AppCompatEditText emailET, nameET, mobileET;
     AppCompatCheckBox privacyPolicyCB;
     AppCompatTextView errorTV, privacyErrorTV;
 
-    MaterialCardView emailMCV, passwordMCV, repasswordMCV, nameMCV, mobileMCV;
+    MaterialCardView emailMCV, nameMCV, mobileMCV;
 
     TextView loginTV;
+    static int count =0;
 
 
 
@@ -54,16 +56,12 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         signUpButton = findViewById(R.id.SignUpBtn);
         emailET = findViewById(R.id.emailET);
-        passwordET = findViewById(R.id.passwordET);
-        confirmPasswordEt = findViewById(R.id.repasswordET);
         mobileET = findViewById(R.id.mobileET);
         nameET = findViewById(R.id.nameET);
         privacyPolicyCB = findViewById(R.id.checkboxCB);
         errorTV = findViewById(R.id.errorTV);
         privacyErrorTV = findViewById(R.id.privacyerrorTV);
         emailMCV = findViewById(R.id.emailMCV);
-        passwordMCV = findViewById(R.id.passwordMCV);
-        repasswordMCV = findViewById(R.id.repasswordMCV);
         mobileMCV = findViewById(R.id.mobileMCV);
         nameMCV = findViewById(R.id.nameMCV);
         loginTV=findViewById(R.id.loginlink);
@@ -83,24 +81,19 @@ public class Register extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String email = emailET.getText().toString();
-                String password = passwordET.getText().toString();
-                String confirmPassword = confirmPasswordEt.getText().toString();
                 String name = nameET.getText().toString();
                 String mobile = mobileET.getText().toString();
                 boolean privacyPolicy = privacyPolicyCB.isChecked();
                 boolean emailError = false;
-                boolean passwordError = false;
-                boolean rePasswordError = false;
                 boolean checkboxError = false;
                 boolean nameError = false;
                 boolean mobileError = false;
                 boolean emailMatchError = false;
-                boolean passwordMatchError = false;
                 boolean mobileMatchError = false;
                 int errorCount = 0;
-
+                Log.d("Email",""+email);
+                Log.d("Mobile",""+mobile);
 
                 /*if(email.length()==0){
                     emailError = true;
@@ -124,21 +117,9 @@ public class Register extends AppCompatActivity {
                 if (emailError) {
                     errorCount++;
                 }
-
-                passwordError = StaticClasses.FormValidation.cantBeEmpty(password, passwordMCV, 4,Register.this);
-                if (passwordError) {
-                    errorCount++;
-                }
-                rePasswordError = StaticClasses.FormValidation.cantBeEmpty(confirmPassword, repasswordMCV,4 ,Register.this);
-                if (rePasswordError) {
-                    errorCount++;
-                }
-                if (password.compareTo(confirmPassword) != 0) {
-                    errorCount++;
-                }
                 if (privacyPolicy == false) {
                     checkboxError = true;
-                    privacyErrorTV.setText("Please Accpet our Privacy Policy!");
+
                 } else {
                     privacyErrorTV.setText("");
                 }
@@ -160,58 +141,44 @@ public class Register extends AppCompatActivity {
 
                 if (errorCount != 0) {
                     errorTV.setText("Enter the necessary Fields!");
-                    if(!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !passwordMatchError &&!mobileMatchError ){
+                    if(!nameError && !mobileError && !emailError  &&!mobileMatchError  ){
                         errorTV.setText("Please enter valid email address!");
                     }
-                    if(!nameError && !mobileError && !emailError && !passwordError && !rePasswordError && !emailMatchError && !passwordMatchError ){
+                    if(!nameError && !mobileError && !emailError  && !emailMatchError ){
                         errorTV.setText("Please enter valid Number which start with 97 or 98 and must be 10 digits!");
                     }
 
-                } else {
+                }else if(checkboxError){
+                    privacyErrorTV.setText("Please Accpet our Privacy Policy!");
+                }
+                else {
                     ProgressDialog progressDialog=new ProgressDialog(Register.this);
                     progressDialog.setMessage("Please wait.....");
                     progressDialog.show();
                     errorTV.setText("");
                     String uri = "http://"+ IpStatic.IpAddress.ip+":80/api/AddUser";
-                    Log.d("url",""+uri);
+
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 progressDialog.dismiss();
-
+                               // Log.d("Response: ",""+response);
                                 JSONObject object=new JSONObject(response);
+                               Log.d("Ball",""+response);
                                 String status=object.getString("status");
                                 if(status.compareTo("200")==0){
                                    Toast.makeText(Register.this,"Regisration Sucessful!",Toast.LENGTH_LONG).show();
                                     nameET.setText("");
                                     emailET.setText("");
-                                    passwordET.setText("");
                                     mobileET.setText("");
-                                    confirmPasswordEt.setText("");
                                     privacyPolicyCB.setChecked(false);
                                     Intent intent=new Intent(Register.this, Login.class);
                                     intent.putExtra("usertype",userType);
+                                    intent.putExtra("Origin","Register");
                                     startActivity(intent);
-
-                                }
-                                if(status.compareTo("422")==0){
-
-                                    JSONObject errors = object.getJSONObject("errors");
-                                    Iterator<String> iter = errors.keys();
-                                while(iter.hasNext()){
-                                    String key=iter.next();
-                                    JSONArray errorArray=errors.getJSONArray(key);
-                                    String errorMessages="";
-                                    for(int i=0;i<errorArray.length();i++){
-                                        errorMessages=errorMessages+errorArray.getString(i)+" ";
-                                    }
-                                    Toast.makeText(Register.this,errorMessages,Toast.LENGTH_LONG).show();
-                                    errorTV.setText(errorMessages);
-
                                 }
 
-                                }
 
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
@@ -221,24 +188,66 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressDialog.dismiss();
+                            Log.d("Response Code: ",""+error.networkResponse.statusCode);
+                            if(error.networkResponse.statusCode==422) {
+                                try {
+                                    JSONObject object = new JSONObject(new String(error.networkResponse.data));
+                                    JSONObject errors = object.getJSONObject("errors");
+                                    Iterator<String> iter = errors.keys();
+                                    while (iter.hasNext()) {
+                                        String key = iter.next();
+                                        JSONArray errorArray = errors.getJSONArray(key);
+                                        String errorMessages = "";
+                                        for (int i = 0; i < errorArray.length(); i++) {
+                                            errorMessages = errorMessages + errorArray.getString(i) + " ";
+                                        }
+                                        Toast.makeText(Register.this, errorMessages, Toast.LENGTH_LONG).show();
+                                        errorTV.setText(errorMessages);
+
+                                    }
+
+                                }catch (Exception e){
+                                    Log.d("Response Error", ""+e.getMessage());
+
+
+                                }
+                            }
                             Toast.makeText(Register.this,error.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }) {
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
                         @Nullable
                         @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                JSONObject jsonBody = new JSONObject();
+                                jsonBody.put("name", name);
+                                jsonBody.put("email", email);
+                                jsonBody.put("mobile", mobile);
+                                jsonBody.put("type", String.valueOf(userType));
+                                return jsonBody.toString().getBytes("utf-8");
+                            } catch (JSONException | UnsupportedEncodingException e) {
+                                throw new AuthFailureError(e.getMessage());
+                            }
+                        }
 
-                            Map<String,String> params=new HashMap<String,String>();
-                            params.put("name",name);
-                            params.put("mobile",mobile);
-                            params.put("email",email);
-                            params.put("password",password);
-                            params.put("type",String.valueOf(userType));
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+
+                            Map<String,String> params =new HashMap<String,String>();
+                            params.put("Accept","application/json");
+                            params.put("Content-Type","application/json");
                             return params;
                         }
                     };
+                    count++;
                     RequestQueue requestQueue= Volley.newRequestQueue(Register.this);
                     requestQueue.add(stringRequest);
+
+
 
 
 

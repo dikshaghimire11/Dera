@@ -135,67 +135,13 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/passwordMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="23dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailMCV"
-          >
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/passwordET"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/robotofont"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:paddingVertical="18dp"
-                android:paddingLeft="17dp"
-                android:textColor="@color/textcolor"
-                android:textSize="20sp" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/repasswordMCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="23dp"
-            android:backgroundTint="@color/textboxcolor"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordMCV">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/repasswordET"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="Confirm Password"
-                android:fontFamily="@font/robotofont"
-                android:inputType="textPassword"
-                android:paddingVertical="18dp"
-                android:paddingLeft="17dp"
-                android:textColor="@color/textcolor"
-                android:textSize="20sp"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/privacyerrorTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Please enter your email!"
-            app:layout_constraintTop_toBottomOf="@id/repasswordMCV"
+            app:layout_constraintTop_toBottomOf="@id/emailMCV"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAlignment="center"
@@ -204,8 +150,6 @@
             android:paddingTop="18dp"
 
             />
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/termsLLC"
             android:layout_width="match_parent"
