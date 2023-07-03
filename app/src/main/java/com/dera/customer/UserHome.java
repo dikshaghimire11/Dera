@@ -32,32 +32,31 @@ public class UserHome extends Fragment {
         // Inflate the layout for this fragment
 
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
 
-        Fragment myFragment = new UserHome_Category_Fragment();
-        fragmentTransaction.add(R.id.categoryFragment, myFragment);
+        Fragment userHomeFragment = new UserHome_Category_Fragment();
+        homeTransaction.add(R.id.categoryFragment, userHomeFragment);
 
-        fragmentTransaction.commit();
+        homeTransaction.commit();
 
-        FragmentManager fragmentmanager = getFragmentManager();
-        FragmentTransaction fragmenttransaction = fragmentManager.beginTransaction();
+
+        FragmentTransaction searchTransaction = fragmentManager.beginTransaction();
         Fragment search_filter=new Search_filter();
-        fragmenttransaction.add(R.id.search_filter,search_filter);
-        fragmenttransaction.commit();
+        searchTransaction.add(R.id.search_filter,search_filter);
+        searchTransaction.commit();
 
-        FragmentManager fragmentmanag = getFragmentManager();
-        FragmentTransaction f = fragmentmanag.beginTransaction();
+
+        FragmentTransaction advertisementTransaction = fragmentManager.beginTransaction();
         Fragment advertisement=new user_Advertisement();
-        fragmenttransaction.add(R.id.advertiseMCV,advertisement);
-        f.commit();
+        searchTransaction.add(R.id.advertiseMCV,advertisement);
+        advertisementTransaction.commit();
 
 
 
-        FragmentManager fragmentManager1 = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager1.beginTransaction();
+        FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();
         Fragment property=new user_properties();
-        fragmenttransaction.add(R.id.propertiesTV,property);
-        transaction.commit();
+        propertyTransaction.add(R.id.propertiesFragment,property);
+        propertyTransaction.commit();
 
         return inflater.inflate(R.layout.fragment_user_home, container, false);
     }

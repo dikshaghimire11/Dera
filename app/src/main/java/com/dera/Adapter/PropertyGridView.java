@@ -15,22 +15,29 @@ import androidx.annotation.Nullable;
 
 import com.dera.ChooseUserType;
 import com.dera.R;
+import com.dera.models.Property;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class PropertyGridView extends ArrayAdapter<String> {
+    ArrayList<Property> properties;
    Activity context;
    String[] title;
    String [] number;
    String[] location;
    int[] photo;
    String[] price;
-   public PropertyGridView(Activity context,String[] title,String[] number,String[] location,int[] photo,String[] price){
-       super(context,R.layout.propertiesgridview,title);
-       this.context=context;
-       this.title=title;
-       this.number=number;
-       this .location=location;
-       this.photo=photo;
-       this.price=price;
+   public PropertyGridView(Activity context, ArrayList<Property> properties){
+      super(context,R.layout.propertiesgridview);
+      this.context=context;
+      this.properties=properties;
+
+//       this.title=title;
+//       this.number=number;
+//       this .location=location;
+//       this.photo=photo;
+//       this.price=price;
    }
 
     @NonNull
@@ -43,13 +50,25 @@ public class PropertyGridView extends ArrayAdapter<String> {
         TextView numberView=rowView.findViewById(R.id.number);
         ImageView photoView=rowView.findViewById(R.id.merotauko);
         TextView locationView=rowView.findViewById(R.id.locationTV);
-        titleView.setText(title[position]);
-        photoView.setImageResource(photo[position]);
-        priceView.setText(price[position]);
-        numberView.setText(number[position]);
-        locationView.setText(location[position]);
+//        titleView.setText(title[position]);
+//        photoView.setImageResource(photo[position]);
+//        priceView.setText(price[position]);
+//        numberView.setText(number[position]);
+//        locationView.setText(location[position]);
+        titleView.setText(properties.get(position).getCategory());
+        photoView.setImageResource(R.mipmap.myroom);
+        priceView.setText(properties.get(position).getPrice());
+        numberView.setText(properties.get(position).getNumber());
+        locationView.setText(properties.get(position).getLocation());
         return rowView;
 
+
+
+    }
+    @NonNull
+    @Override
+    public int getCount() {
+        return properties.size(); // Return the number of items in the properties list
     }
 }
 

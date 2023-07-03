@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import com.dera.R;
 import com.dera.SimilarFiles.user_Advertisement;
@@ -39,7 +38,7 @@ public class houseOwnerHome extends Fragment {
         FragmentManager fragmentManager1 = getFragmentManager();
         FragmentTransaction transaction = fragmentManager1.beginTransaction();
         Fragment property = new user_properties();
-        transaction.add(R.id.propertiesTV, property);
+        transaction.add(R.id.propertiesFragment, property);
         transaction.commit();
 
 

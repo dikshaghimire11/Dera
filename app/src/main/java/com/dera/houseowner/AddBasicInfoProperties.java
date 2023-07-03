@@ -1,10 +1,7 @@
 package com.dera.houseowner;
 
 
-import static android.content.Intent.getIntent;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -60,8 +57,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+
 
 
 public class AddBasicInfoProperties extends Fragment {
@@ -78,7 +77,7 @@ public class AddBasicInfoProperties extends Fragment {
     Bundle bundle;
     String category_Id, tole,extension;
 
-    byte[] bytes;
+    byte[] imagebytes,jsonbytes;
     String imageName;
     String addPropertyURL;
     AppCompatTextView bedRoomTextView, kitchenTextView, livingRoomTv,
@@ -613,6 +612,11 @@ public class AddBasicInfoProperties extends Fragment {
                 Log.d("UpdatedJson",""+updatedJson);
 //                String path=getPath(filepath);
 //               Log.d("ImageName","hello"+path.toString());
+
+//                    ByteArrayOutputStream imagebyteArrayOutputStream=new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,imagebyteArrayOutputStream);
+//                        imagebytes =imagebyteArrayOutputStream.toByteArray();
+//                        //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
                 ByteArrayOutputStream byteArrayOutputStream;
                 byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -628,7 +632,7 @@ public class AddBasicInfoProperties extends Fragment {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                         Log.d("Extension", ""+extension);
                     }
-                    bytes = byteArrayOutputStream.toByteArray();
+                    imagebytes = byteArrayOutputStream.toByteArray();
                     if (priceEt.getText().toString().length() == 0) {
                         Toast.makeText(getContext(), "Enter price!", Toast.LENGTH_LONG).show();
                     } else {
@@ -711,10 +715,13 @@ public class AddBasicInfoProperties extends Fragment {
 
             }
 
-        });
+            });
 
-        super.onViewCreated(view, savedInstanceState);
+            super.onViewCreated(view, savedInstanceState);
     }
+
+
+
 
     //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -851,11 +858,11 @@ public class AddBasicInfoProperties extends Fragment {
             protected Map<String, DataPart> getByteData() throws AuthFailureError {
                 Map<String, DataPart> imageMap = new HashMap<>();
                 if (extension.equals("jpeg")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", bytes, "image/jpeg"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", imagebytes, "image/jpeg"));
                 } else if (extension.equals("png")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", bytes, "image/png"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", imagebytes, "image/png"));
                 }else if(extension.equals("jpg")){
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", bytes, "image/jpeg"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", imagebytes, "image/jpeg"));
                 }
                 return imageMap;
             }

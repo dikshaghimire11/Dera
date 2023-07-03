@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity {
         loginTV=findViewById(R.id.loginlink);
         Intent intent=getIntent();
         int userid=0;
-       int userType= intent.getIntExtra("usertype",userid);
+        int userType= intent.getIntExtra("usertype",userid);
 
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,12 +163,12 @@ public class Register extends AppCompatActivity {
                         public void onResponse(String response) {
                             try {
                                 progressDialog.dismiss();
-                               // Log.d("Response: ",""+response);
+                                // Log.d("Response: ",""+response);
                                 JSONObject object=new JSONObject(response);
-                               Log.d("Ball",""+response);
+                                Log.d("Ball",""+response);
                                 String status=object.getString("status");
                                 if(status.compareTo("200")==0){
-                                   Toast.makeText(Register.this,"Regisration Sucessful!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Register.this,"Regisration Sucessful!",Toast.LENGTH_LONG).show();
                                     nameET.setText("");
                                     emailET.setText("");
                                     mobileET.setText("");
