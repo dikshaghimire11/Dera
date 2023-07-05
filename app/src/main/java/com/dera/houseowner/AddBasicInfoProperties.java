@@ -60,7 +60,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Random;
+import java.util.UUID;
 
 
 public class AddBasicInfoProperties extends Fragment {
@@ -644,7 +645,7 @@ public class AddBasicInfoProperties extends Fragment {
                             @Override
                             public String getName() {
 
-                                return uri.toString();
+                                return UUID.randomUUID().toString();
                             }
                         });
 
@@ -858,11 +859,11 @@ public class AddBasicInfoProperties extends Fragment {
             protected Map<String, DataPart> getByteData() throws AuthFailureError {
                 Map<String, DataPart> imageMap = new HashMap<>();
                 if (extension.equals("jpeg")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", imagebytes, "image/jpeg"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName()+".jpeg", imagebytes, "image/jpeg"));
                 } else if (extension.equals("png")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", imagebytes, "image/png"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName()+".png", imagebytes, "image/png"));
                 }else if(extension.equals("jpg")){
-                    imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", imagebytes, "image/jpeg"));
+                    imageMap.put("image", new DataPart(iGetImageName.getName()+".jpg", imagebytes, "image/jpeg"));
                 }
                 return imageMap;
             }
