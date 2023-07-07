@@ -12,15 +12,18 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
         app:cardCornerRadius="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageIV"
-            android:layout_width="59dp"
-            android:layout_height="59dp"
-            android:src="@mipmap/category_room" />
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@mipmap/room_category_foreground"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
+            />
     </com.google.android.material.card.MaterialCardView>
 
 

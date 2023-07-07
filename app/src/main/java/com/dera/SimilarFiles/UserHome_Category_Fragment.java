@@ -34,7 +34,7 @@ public class UserHome_Category_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         categorylist=view.findViewById(R.id.categoryList);
         String [] title={"Room","Flat","House","Shutter"};
-        int[] image={R.mipmap.myroom,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon};
+        int[] image={R.mipmap.room_category_foreground,R.mipmap.flat_category_foreground,R.mipmap.house_category_foreground,R.mipmap.shutter_category_foreground};
         CategoryListView categoryListView=new CategoryListView(getActivity(),title,image);
         categorylist.setAdapter(categoryListView);
         super.onViewCreated(view, savedInstanceState);

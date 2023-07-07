@@ -3,6 +3,7 @@ package com.dera.Adapter;
 import android.app.Activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.dera.ChooseUserType;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.models.Property;
 
@@ -26,12 +32,14 @@ public class PropertyGridView extends ArrayAdapter<String> {
    String[] title;
    String [] number;
    String[] location;
-   int[] photo;
+   String imageurl;
    String[] price;
+
    public PropertyGridView(Activity context, ArrayList<Property> properties){
       super(context,R.layout.propertiesgridview);
       this.context=context;
       this.properties=properties;
+
 
 //       this.title=title;
 //       this.number=number;
@@ -56,10 +64,23 @@ public class PropertyGridView extends ArrayAdapter<String> {
 //        numberView.setText(number[position]);
 //        locationView.setText(location[position]);
         titleView.setText(properties.get(position).getCategory());
+
         photoView.setImageResource(R.mipmap.myroom);
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.mipmap.logo_in_bricks_foreground)
+                .error(R.mipmap.logo_in_bricks_foreground)
+                .override(600,400)
+                ;
+        String imageUrl ="http://"+ IpStatic.IpAddress.ip+"/"+properties.get(position).getPhoto();
+
+        Glide.with(this.context)
+                .load(imageUrl)
+                .apply(requestOptions)
+                .into(photoView);
         priceView.setText(properties.get(position).getPrice());
         numberView.setText(properties.get(position).getNumber());
         locationView.setText(properties.get(position).getLocation());
+
         return rowView;
 
 
@@ -70,5 +91,7 @@ public class PropertyGridView extends ArrayAdapter<String> {
     public int getCount() {
         return properties.size(); // Return the number of items in the properties list
     }
+
+
 }
 

@@ -237,7 +237,7 @@ public class UserDashboard extends AppCompatActivity {
                 Fragment fragment = new UserHome();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
+                transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
                 transaction.commit();
 
             }
