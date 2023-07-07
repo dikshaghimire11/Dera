@@ -843,10 +843,11 @@ public class AddBasicInfoProperties extends Fragment {
                 propertyMap.put("total_bookings", "1");
                 propertyMap.put("tole", tole);
                 propertyMap.put("category_id", category_Id);
-                propertyMap.put("houseowner_id", StaticClasses.loginInfo.houseOwnerID);
+                propertyMap.put("houseowner_id", StaticClasses.loginInfo.UserID);
                 propertyMap.put("province_id", String.valueOf(provinceId));
                 propertyMap.put("district_id", String.valueOf(districtId));
                 propertyMap.put("local_level_id",String.valueOf(local_level_ID));
+
                 propertyMap.put("ward_no_id", String.valueOf(wardId));
                 propertyMap.put("property_details", updatedJson);
                 return propertyMap;

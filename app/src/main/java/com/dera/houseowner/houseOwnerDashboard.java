@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,19 +27,16 @@ import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Login;
-import com.dera.SimilarFiles.Register;
 import com.dera.StaticClasses;
 import com.dera.customer.UserBooking;
 import com.dera.customer.UserHistory;
-import com.dera.customer.UserHome;
-import com.dera.customer.UserProfile;
+import com.dera.SimilarFiles.UserProfile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +49,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_owner_dashboard);
+
         String checkStatusURL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_password_status";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, checkStatusURL, new Response.Listener<String>() {
             @Override
@@ -61,7 +58,6 @@ public class houseOwnerDashboard extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
                     Log.d("Status",""+status);
-                    Log.d("houseOwnerId",""+StaticClasses.loginInfo.houseOwnerID);
                     if (status.compareTo("200") == 0) {
                         passwordStatus = jsonObject.getString("password_status");
                         if (passwordStatus.compareTo("0") == 0) {
@@ -130,7 +126,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
                                         JSONObject requestData = new JSONObject();
                                         try {
                                             requestData.put("password",password);
-                                            requestData.put("id",StaticClasses.loginInfo.houseOwnerID);
+                                            requestData.put("id",StaticClasses.loginInfo.UserID);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -218,7 +214,7 @@ public class houseOwnerDashboard extends AppCompatActivity {
             public byte[] getBody() throws AuthFailureError {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("id", StaticClasses.loginInfo.houseOwnerID);
+                    jsonObject.put("id", StaticClasses.loginInfo.UserID);
                     return jsonObject.toString().getBytes();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
