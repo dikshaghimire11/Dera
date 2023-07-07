@@ -867,6 +867,13 @@ public class AddBasicInfoProperties extends Fragment {
                 }
                 return imageMap;
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String ,String> headers=new HashMap<>();
+                headers.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                return headers;
+            }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(volleyMultipartRequest);

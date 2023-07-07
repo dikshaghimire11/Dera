@@ -55,7 +55,8 @@ public class UserHome extends Fragment {
 
         FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();
         Fragment property=new user_properties();
-        propertyTransaction.add(R.id.propertiesFragment,property);
+
+        propertyTransaction.add(R.id.propertiesFragment,property,"propertyFragment");
         propertyTransaction.commit();
 
         return inflater.inflate(R.layout.fragment_user_home, container, false);

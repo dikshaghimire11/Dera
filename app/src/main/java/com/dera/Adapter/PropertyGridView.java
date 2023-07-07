@@ -67,8 +67,9 @@ public class PropertyGridView extends ArrayAdapter<String> {
 
         photoView.setImageResource(R.mipmap.myroom);
         RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.mipmap.myroom)
-                .error(R.mipmap.myroom)
+                .placeholder(R.mipmap.logo_in_bricks_foreground)
+                .error(R.mipmap.logo_in_bricks_foreground)
+                .override(600,400)
                 ;
         String imageUrl ="http://"+ IpStatic.IpAddress.ip+"/"+properties.get(position).getPhoto();
 

@@ -22,19 +22,42 @@
                 app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
                 app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/AddProperty"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/robotofont"
-                    android:gravity="center_horizontal|top"
-                    android:text="Property Information:"
-                    android:textColor="@color/themecolor"
-                    android:textSize="26dp"
-                    android:textStyle="bold" />
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    >
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:backgroundTint="@color/themecolor"
+                        app:cardCornerRadius="5dp"
+                        android:id="@+id/backMCV"
+                        >
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_gravity="center"
+
+                            android:src="@drawable/baseline_arrow_back_ios_24"
+                            />
+                    </com.google.android.material.card.MaterialCardView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/PropertyTypeTV"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/robotofont"
+                        android:gravity="center_horizontal"
+                        android:text="Property Information:"
+                        android:textColor="@color/themecolor"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/imageMCV"
@@ -48,7 +71,9 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/propertyIv"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        />
 
 
                 </com.google.android.material.card.MaterialCardView>
