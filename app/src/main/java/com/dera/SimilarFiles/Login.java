@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +49,11 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+// Commit the changes
+
+
         setContentView(R.layout.activity_login);
         Intent intent=getIntent();
        String origin=intent.getStringExtra("Origin");
@@ -112,17 +119,27 @@ public class Login extends AppCompatActivity {
                                 String status=object.getString("status");
                                 if(status.compareTo("200")==0){
                                     userId=object.getString("id");
-                                    StaticClasses.loginInfo.loginToken=object.getString("access_token");
+
+
+                                    // Obtain an instance of SharedPreferences
+                                    SharedPreferences sharedPreferences = getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    String AccessToken = object.getString("access_token");
+                                    editor.putString("AccessToken", AccessToken);
+                                    editor.putString("UserId", userId);
+                                    editor.putInt("UserType",usertypeid );
+                                    editor.apply();
+                                    StaticClasses.loginInfo.loginToken=AccessToken;
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
                                     passwordET.setText("");
                                     if(usertypeid==2){
-                                        StaticClasses.loginInfo.houseOwnerID=userId;
+                                        StaticClasses.loginInfo.UserID=userId;
                                         Intent intent=new Intent(Login.this, houseOwnerDashboard.class);
                                         startActivity(intent);
                                     }
                                     if(usertypeid==3) {
-                                        StaticClasses.loginInfo.roomFinderID=userId;
+                                        StaticClasses.loginInfo.UserID=userId;
                                         Intent intent = new Intent(Login.this,UserDashboard.class);
                                         startActivity(intent);
                                     }

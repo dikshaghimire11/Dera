@@ -25,8 +25,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.SimilarFiles.UserProfile;
 import com.dera.StaticClasses;
-import com.dera.houseowner.houseOwnerDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -122,7 +122,7 @@ public class UserDashboard extends AppCompatActivity {
                                         JSONObject requestData = new JSONObject();
                                         try {
                                             requestData.put("password",password);
-                                            requestData.put("id",StaticClasses.loginInfo.roomFinderID);
+                                            requestData.put("id",StaticClasses.loginInfo.UserID);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -210,7 +210,7 @@ public class UserDashboard extends AppCompatActivity {
             public byte[] getBody() throws AuthFailureError {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("id", StaticClasses.loginInfo.roomFinderID);
+                    jsonObject.put("id", StaticClasses.loginInfo.UserID);
                     return jsonObject.toString().getBytes();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);

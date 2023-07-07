@@ -1,14 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".customer.UserProfile">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context=".SimilarFiles.UserProfile">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello from profile" />
+        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/MyProfileTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/robotofont"
+            android:text="My Profile"
+            android:textColor="@color/themecolor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/profileLLC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/MyProfileTv">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:strokeColor="@color/themecolor"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="50dp">
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/NameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/robotofont"
+                    android:textAllCaps="true"
+                    android:textColor="@color/themecolor"
+                    android:textSize="40dp"
+
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/numberTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:fontFamily="@font/robotofont"
+                    android:textColor="@color/themecolor"
+                    android:textSize="17dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Basic Information"
+            android:id="@+id/BasicInfoTv"
+            android:textSize="15sp"
+            android:fontFamily="@font/robotofont"
+            android:textColor="@color/textcolor"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/profileLLC"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/BasicInfoMCV"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/BasicInfoTv"
+            app:strokeColor="@color/themecolor"
+            app:strokeWidth="2dp">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="10dp"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MyInfoTV"
+        android:text="My Information"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/robotofont"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View your Basic information."
+        android:textSize="18sp"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MylogoutTV"
+                    android:text="Logout"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/robotofont"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout of this app."
+                    android:textSize="18sp"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Security Settings"
+            android:id="@+id/SecuritySettingTv"
+            android:textSize="15sp"
+            android:fontFamily="@font/robotofont"
+            android:textColor="@color/themecolor"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/BasicInfoMCV"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/securityMCV"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/SecuritySettingTv"
+            app:strokeColor="@color/themecolor"
+            app:strokeWidth="2dp">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ChangePasswordTV"
+                        android:text="Change Password"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/robotofont"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Change Password."
+                        android:textSize="18sp"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Edit Information"
+            android:id="@+id/EditInfoTv"
+            android:textSize="15sp"
+            android:fontFamily="@font/robotofont"
+            android:textColor="@color/textcolor"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/securityMCV"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/EditInfoMCV"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/RightGuideLine"
+            app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/EditInfoTv"
+            app:strokeColor="@color/themecolor"
+            app:strokeWidth="2dp">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/EditInformationTV"
+                        android:text="Edit Information"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/robotofont"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Edit your basic information."
+                        android:textSize="18sp"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/LeftGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="21dp"
+            app:layout_constraintWidth_percent="10" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/RightGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </FrameLayout>

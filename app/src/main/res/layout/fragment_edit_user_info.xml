@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SimilarFiles.edit_user_info">
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+     <androidx.appcompat.widget.AppCompatTextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/MyInformationTv"
+         android:text="Edit Information"
+         android:textColor="@color/themecolor"
+         android:textStyle="bold"
+         android:textSize="25sp"
+         android:layout_marginTop="20dp"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+         app:layout_constraintEnd_toEndOf="@id/RightGuideLine"/>
+     <com.google.android.material.card.MaterialCardView
+         android:layout_width="wrap_content"
+         android:layout_height="290dp"
+         android:id="@+id/EditInfoMCV"
+         app:strokeWidth="1dp"
+         android:layout_marginTop="30dp"
+         app:strokeColor="@color/themecolor"
+         app:cardCornerRadius="10dp"
+         app:layout_constraintTop_toBottomOf="@id/MyInformationTv"
+         app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+         app:layout_constraintEnd_toEndOf="@id/RightGuideLine">
+         <androidx.appcompat.widget.LinearLayoutCompat
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+             <androidx.appcompat.widget.AppCompatTextView
+                 android:id="@+id/errorTV"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 tools:text="Please enter your email!"
+                 android:textAlignment="center"
+                 android:textColor="@color/red"
+                 android:textSize="20sp"
+                 android:paddingTop="18dp"
+
+                 />
+   <androidx.appcompat.widget.LinearLayoutCompat
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/NameLLC"
+       android:orientation="horizontal"
+android:layout_marginVertical="10dp"
+       android:layout_marginHorizontal="10dp"
+       >
+       <androidx.appcompat.widget.AppCompatTextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Name:"
+           android:id="@+id/fullNameTv"
+           android:textSize="20sp"
+           android:layout_marginTop="5dp"
+           />
+       <com.google.android.material.card.MaterialCardView
+           android:layout_width="250dp"
+           android:layout_height="50dp"
+           android:backgroundTint="@color/textboxcolor"
+           app:cardCornerRadius="10dp"
+           android:layout_marginLeft="35dp"
+           >
+           <androidx.appcompat.widget.AppCompatEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Diksha Ghimire"
+               android:id="@+id/nameET"
+               android:inputType="textPersonName"
+               android:layout_marginTop="10dp"
+               android:layout_marginLeft="10dp"
+               android:background="@null"/>
+       </com.google.android.material.card.MaterialCardView>
+   </androidx.appcompat.widget.LinearLayoutCompat>
+
+     <androidx.appcompat.widget.LinearLayoutCompat
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/MobileLLC"
+         android:layout_marginTop="10dp"
+         android:layout_marginHorizontal="10dp"
+         android:orientation="horizontal"
+         >
+         <androidx.appcompat.widget.AppCompatTextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Mobile:"
+             android:id="@+id/mobileTv"
+             android:textSize="20sp"
+             android:layout_marginTop="5dp"
+             />
+         <com.google.android.material.card.MaterialCardView
+             android:layout_width="250dp"
+             android:layout_height="50dp"
+             android:backgroundTint="@color/textboxcolor"
+             app:cardCornerRadius="10dp"
+             android:layout_marginLeft="30dp"
+             >
+             <androidx.appcompat.widget.AppCompatEditText
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:hint="Diksha Ghimire"
+                 android:id="@+id/MobileET"
+                 android:inputType="number"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginLeft="10dp"
+                 android:background="@null"/>
+         </com.google.android.material.card.MaterialCardView>
+     </androidx.appcompat.widget.LinearLayoutCompat>
+             <com.google.android.material.button.MaterialButton
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="30dp"
+                 android:text="Edit Info"
+                 android:textAllCaps="false"
+                 android:layout_gravity="center"
+                 android:id="@+id/EditInfoBtn"/>
+         </androidx.appcompat.widget.LinearLayoutCompat>
+     </com.google.android.material.card.MaterialCardView>
+
+
+
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/LeftGuideLine"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         app:layout_constraintGuide_begin="21dp"
+         app:layout_constraintWidth_percent="10" />
+
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/RightGuideLine"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         app:layout_constraintGuide_end="20dp" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

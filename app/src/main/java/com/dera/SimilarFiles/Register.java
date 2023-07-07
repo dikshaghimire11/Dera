@@ -188,8 +188,7 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressDialog.dismiss();
-                            Log.d("Response Code: ",""+error.networkResponse.statusCode);
-                            if(error.networkResponse.statusCode==422) {
+                            if(error.networkResponse != null && error.networkResponse.statusCode==422) {
                                 try {
                                     JSONObject object = new JSONObject(new String(error.networkResponse.data));
                                     JSONObject errors = object.getJSONObject("errors");
