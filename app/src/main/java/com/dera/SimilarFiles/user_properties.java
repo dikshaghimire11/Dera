@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.ScrollView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,24 +35,45 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class user_properties extends Fragment {
+public class user_properties extends Fragment{
+
 
 GridView propertiesList;
+ScrollView homeScroll;
+
 ArrayList<Property> properties;
+private int gridViewScrollPosition=0;
+user_properties thisfragment;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_properties, container, false);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        gridViewScrollPosition=propertiesList.getFirstVisiblePosition();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        propertiesList.setSelection(gridViewScrollPosition);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
+        homeScroll=getActivity().findViewById(R.id.homeScroll);
         properties=new ArrayList<Property>();
         propertiesList=view.findViewById(R.id.propertieslist);
         String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_property";
@@ -74,10 +96,17 @@ ArrayList<Property> properties;
                             detailPropertyInformation detailFragment=new detailPropertyInformation();
                             Bundle bundle=new Bundle();
                             bundle.putSerializable("model",properties.get(i));
+                            bundle.putInt("scrollPosition",homeScroll.getVerticalScrollbarPosition());
+                            Log.d("Scroll",""+homeScroll.getVerticalScrollbarPosition());
                             detailFragment.setArguments(bundle);
                             FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.propertiesFragment,detailFragment);
+                            fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
+                            Log.d("Fragments",""+fragmentManager.getFragments());
+                            homeScroll.setVerticalScrollbarPosition(300);
+                            Log.d("HomeScroll",""+homeScroll);
+                            fragmentTransaction.add(R.id.propertiesFragment,detailFragment,"detailFragment");
+
                             fragmentTransaction.commit();
                         }
                     });
