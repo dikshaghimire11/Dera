@@ -22,25 +22,29 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
         String AccessToken = sharedPreferences.getString("AccessToken", null);
         int usertypeid=sharedPreferences.getInt("UserType",0);
-
+        String userid=sharedPreferences.getString("UserId",null);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 if (AccessToken != null) {
                     StaticClasses.loginInfo.loginToken=AccessToken;
+                    StaticClasses.loginInfo.UserID=userid;
                     if(usertypeid==2){
                         Intent intent=new Intent(SplashActivity.this, houseOwnerDashboard.class);
                         startActivity(intent);
+                        finish();
                     }
                     if(usertypeid==3) {
                         Intent intent = new Intent(SplashActivity.this,UserDashboard.class);
                         startActivity(intent);
+                        finish();
                     }
 
                 } else {
                     Intent intent= new Intent(SplashActivity.this, No_Login_UserDashboard.class);
                     startActivity(intent);
+                    finish();
                 }
 
 

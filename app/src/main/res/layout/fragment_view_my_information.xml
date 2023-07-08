@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="@id/RightGuideLine"/>
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
+            android:layout_height="280dp"
             android:id="@+id/EditInfoMCV"
             app:strokeWidth="1dp"
             android:layout_marginTop="30dp"
@@ -58,7 +58,7 @@
                         android:layout_height="50dp"
                         android:backgroundTint="@color/textboxcolor"
                         app:cardCornerRadius="10dp"
-                        android:layout_marginLeft="35dp"
+                        android:layout_marginLeft="14dp"
                         >
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                         android:layout_height="50dp"
                         android:backgroundTint="@color/textboxcolor"
                         app:cardCornerRadius="10dp"
-                        android:layout_marginLeft="35dp"
+                        android:layout_marginLeft="14dp"
                         >
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -126,7 +126,7 @@
                         android:layout_height="50dp"
                         android:backgroundTint="@color/textboxcolor"
                         app:cardCornerRadius="10dp"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="7dp"
                         >
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -140,6 +140,16 @@
                             android:background="@null"/>
                     </com.google.android.material.card.MaterialCardView>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/themecolor" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 

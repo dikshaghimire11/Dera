@@ -44,6 +44,7 @@ public class No_Login_UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(No_Login_UserDashboard.this,ChooseUserType.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

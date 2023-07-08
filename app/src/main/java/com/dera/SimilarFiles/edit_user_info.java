@@ -27,11 +27,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class edit_user_info extends Fragment {
     Bundle addUserInfo;
     TextView errorTv;
 
-    MaterialButton editInfobtn;
+    MaterialButton editInfobtn,CancleBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +58,7 @@ public class edit_user_info extends Fragment {
         mobileEt = view.findViewById(R.id.MobileET);
         editInfobtn = view.findViewById(R.id.EditInfoBtn);
         errorTv = view.findViewById(R.id.errorTV);
+        CancleBtn=view.findViewById(R.id.cancleBtn);
         String name = addUserInfo.getString("name");
         nameEt.setText(name);
         mobileEt.setText(addUserInfo.getString("number"));
@@ -84,7 +87,6 @@ public class edit_user_info extends Fragment {
                                 JSONObject object = new JSONObject(response);
                                 String status = object.getString("status");
                                 if (status.equals("200")) {
-
                                     Toast.makeText(getContext(), "Profile Edited successfully", Toast.LENGTH_SHORT).show();
                                     Fragment edit_user_info = new UserProfile();
                                     FragmentManager fragmentManager = getFragmentManager();
@@ -107,18 +109,41 @@ public class edit_user_info extends Fragment {
                         }
                     }) {
                         @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<>();
-                            params.put("id", "2"); // Replace with the actual user ID
-                            params.put("name", name);
-                            params.put("number", mobile);
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                JSONObject jsonBody = new JSONObject();
+                                jsonBody.put("name", name);
+                                jsonBody.put("number", mobile);
+                                jsonBody.put("id",StaticClasses.loginInfo.UserID);
+                                return jsonBody.toString().getBytes("utf-8");
+                            } catch (JSONException | UnsupportedEncodingException e) {
+                                throw new AuthFailureError(e.getMessage());
+                            }
+                        }
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String,String> params =new HashMap<String,String>();
+                            params.put("Accept","application/json");
+                            params.put("Content-Type","application/json");
                             return params;
+                        }
+                        public String getBodyContentType() {
+                            return "application/json";
                         }
                     };
 
                     RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                     requestQueue.add(stringRequest);
                 }
+            }
+        });
+        CancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment edit_user_info = new UserProfile();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentlayout, edit_user_info);
+                fragmentTransaction.commit();
             }
         });
 
