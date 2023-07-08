@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.dera.IpStatic;
 import com.dera.No_Login_UserDashboard;
 import com.dera.R;
 import com.dera.SimilarFiles.edit_user_info;
+import com.dera.StaticClasses;
 import com.dera.change_password;
 import com.dera.houseowner.AddBasicInfoProperties;
 import com.dera.view_my_information;
@@ -41,7 +43,7 @@ import java.util.Map;
 
 public class UserProfile extends Fragment {
 
-    TextView nameTv, mobileTv, MyInfoTv, LogoutTv, ChangePasswordTv, EditInfoTv;
+    TextView nameTv, mobileTv, MyInfoTv, LogoutTv, ChangePasswordTv, EditInfoTv,shortNameTv;
     Bundle addUserInfo;
 
     @Override
@@ -60,6 +62,8 @@ public class UserProfile extends Fragment {
         LogoutTv = view.findViewById(R.id.MylogoutTV);
         EditInfoTv = view.findViewById(R.id.EditInformationTV);
         ChangePasswordTv = view.findViewById(R.id.ChangePasswordTV);
+        shortNameTv=view.findViewById(R.id.shortNameTv);
+        Log.d("UserId",""+StaticClasses.loginInfo.UserID);
         String getUserInfourl = "http://" + IpStatic.IpAddress.ip + ":80/api/GetUserInfo";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getUserInfourl, new Response.Listener<String>() {
@@ -73,11 +77,26 @@ public class UserProfile extends Fragment {
                         String username = userObject.getString("name");
                         String email = userObject.getString("email");
                         String number = userObject.getString("mobile");
+                        String firstLetter = String.valueOf(username.charAt(0));
+
+                        // Find the index of the first space (if any)
+                        int spaceIndex = username.indexOf(' ');
+
+                        // Accessing the first letter after the space (if any)
+                        String firstLetterAfterSpace = "";
+                        if (spaceIndex != -1 && spaceIndex + 1 < username.length()) {
+                            firstLetterAfterSpace = String.valueOf(username.charAt(spaceIndex + 1));
+                        }
+
+                        // Combine the first letters into a single string
+                        String combinedLetters = firstLetter + firstLetterAfterSpace;
+                        Log.d("Full Name",""+combinedLetters);
                         nameTv.setText(username);
                         mobileTv.setText(number);
                         addUserInfo.putString("name", username);
                         addUserInfo.putString("email", email);
                         addUserInfo.putString("number", number);
+                        shortNameTv.setText(combinedLetters);
 
                     }
                     if (status.compareTo("404") == 0) {
@@ -103,13 +122,14 @@ public class UserProfile extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
                 return params;
             }
 
             public byte[] getBody() throws AuthFailureError {
                 try {
                     JSONObject jsonBody = new JSONObject();
-                    jsonBody.put("id", String.valueOf(2));
+                    jsonBody.put("id", StaticClasses.loginInfo.UserID);
                     return jsonBody.toString().getBytes("utf-8");
                 } catch (JSONException | UnsupportedEncodingException e) {
                     throw new AuthFailureError(e.getMessage());
@@ -135,7 +155,6 @@ public class UserProfile extends Fragment {
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-
                 editor.remove("AccessToken"); // Remove the "sessionToken" key
                 editor.remove("UserType");
                 editor.remove("UserId");
@@ -144,6 +163,7 @@ public class UserProfile extends Fragment {
                 startActivity(intent);
 
             }
+
         });
         ChangePasswordTv.setOnClickListener(new View.OnClickListener() {
             @Override

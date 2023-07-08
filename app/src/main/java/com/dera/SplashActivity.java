@@ -34,15 +34,18 @@ public class SplashActivity extends AppCompatActivity {
                     if(usertypeid==2){
                         Intent intent=new Intent(SplashActivity.this, houseOwnerDashboard.class);
                         startActivity(intent);
+                        finish();
                     }
                     if(usertypeid==3) {
                         Intent intent = new Intent(SplashActivity.this,UserDashboard.class);
                         startActivity(intent);
+                        finish();
                     }
 
                 } else {
                     Intent intent= new Intent(SplashActivity.this, No_Login_UserDashboard.class);
                     startActivity(intent);
+                    finish();
                 }
 
 

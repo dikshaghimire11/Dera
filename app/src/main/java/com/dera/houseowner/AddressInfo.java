@@ -223,11 +223,11 @@ public class AddressInfo extends Fragment {
 
 //Code for Sending User Authentication login token with API so that it only executes if user is logged in:
  //----------------------------------------------------------------------------------
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap<>();
-//                headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
-//                return headers;
-//            }
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                return headers;
+            }
 
             //---------------------------------------------------------------
         };

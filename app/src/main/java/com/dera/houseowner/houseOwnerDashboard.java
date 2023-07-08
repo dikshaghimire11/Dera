@@ -172,6 +172,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
                                                 Map<String,String> params =new HashMap<String,String>();
                                                 params.put("Accept","application/json");
                                                 params.put("Content-Type","application/json");
+                                                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+
                                                 return params;
                                             }
                                         };

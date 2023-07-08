@@ -25,6 +25,7 @@ public class ChooseUserType extends AppCompatActivity {
                 Intent intent=new Intent(ChooseUserType.this, Login.class);
                 intent.putExtra("usertype",userType);
                 startActivity(intent);
+                finish();
             }
         });
         roomFinder.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +36,7 @@ public class ChooseUserType extends AppCompatActivity {
                 Intent intent=new Intent(ChooseUserType.this, Login.class);
                 intent.putExtra("usertype",userType);
                 startActivity(intent);
+                finish();
             }
         });
     }

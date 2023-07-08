@@ -852,8 +852,6 @@ public class AddBasicInfoProperties extends Fragment {
                 propertyMap.put("ward_no_id", String.valueOf(wardId));
                 propertyMap.put("property_details", updatedJson);
                 return propertyMap;
-
-
             }
 
             @Override

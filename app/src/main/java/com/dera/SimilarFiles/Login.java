@@ -119,9 +119,8 @@ public class Login extends AppCompatActivity {
                                 String status=object.getString("status");
                                 if(status.compareTo("200")==0){
                                     userId=object.getString("id");
-
-
                                     // Obtain an instance of SharedPreferences
+
                                     SharedPreferences sharedPreferences = getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     String AccessToken = object.getString("access_token");
@@ -135,14 +134,14 @@ public class Login extends AppCompatActivity {
                                     emailET.setText("");
                                     passwordET.setText("");
                                     if(usertypeid==2){
-                                        StaticClasses.loginInfo.UserID=userId;
                                         Intent intent=new Intent(Login.this, houseOwnerDashboard.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                     if(usertypeid==3) {
-                                        StaticClasses.loginInfo.UserID=userId;
                                         Intent intent = new Intent(Login.this,UserDashboard.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                                 if(status.compareTo("401")==0){
