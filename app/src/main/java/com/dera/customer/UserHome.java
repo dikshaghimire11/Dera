@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,13 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.dera.ChooseUserType;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Search_filter;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
 import com.dera.SimilarFiles.user_Advertisement;
 import com.dera.SimilarFiles.user_properties;
+import com.dera.StaticClasses;
 
 public class UserHome extends Fragment {
     GridView propertiesList;
@@ -55,7 +58,11 @@ public class UserHome extends Fragment {
 
         FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();
         Fragment property=new user_properties();
-
+        String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_property";
+        Log.d("Url",""+url);
+        Bundle bundle=new Bundle();
+        bundle.putString("url",url);
+        property.setArguments(bundle);
         propertyTransaction.add(R.id.propertiesFragment,property,"propertyFragment");
         propertyTransaction.commit();
 

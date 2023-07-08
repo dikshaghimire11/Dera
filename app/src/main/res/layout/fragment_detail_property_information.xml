@@ -78,8 +78,109 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <GridView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/textboxcolor"
+                        android:text="Shutter"
+                        android:textColor="@color/themecolor"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                   />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/textboxcolor"
+                        android:text=":"
+                        android:textColor="@color/themecolor"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:translationZ="10dp"
+                        tools:layout_editor_absoluteZ="140dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:backgroundTint="@color/textboxcolor"
+                        android:text="2"
+                        android:textColor="@color/textcolor"
+                        android:textSize="18sp"
+                        android:translationZ="10dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                   >
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/locationIV"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/locationlogo"
+                        android:translationZ="10dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/locationTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="Kathmandu"
+                        android:textColor="@color/textcolor"
+                        android:textSize="15sp"
+                        android:translationZ="10dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+
+                    android:orientation="horizontal"
+                    >
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rs:"
+                        android:textColor="@color/pricecolor"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:translationZ="10dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/priceTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2000"
+                        android:textColor="@color/pricecolor"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:translationZ="10dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Other Details:"
                     android:layout_marginTop="20dp"
+                    android:textColor="@color/themecolor"
+                    />
+
+                <GridView
+                    android:layout_marginTop="5dp"
                     android:numColumns="2"
                     android:id="@+id/detailsGridView"
                     android:layout_width="match_parent"

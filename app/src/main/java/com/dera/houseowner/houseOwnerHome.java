@@ -8,14 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.user_Advertisement;
 import com.dera.SimilarFiles.user_properties;
+import com.dera.StaticClasses;
 
 
 public class houseOwnerHome extends Fragment {
@@ -38,7 +41,13 @@ public class houseOwnerHome extends Fragment {
         FragmentManager fragmentManager1 = getFragmentManager();
         FragmentTransaction transaction = fragmentManager1.beginTransaction();
         Fragment property = new user_properties();
-        transaction.add(R.id.propertiesFragment, property);
+        String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_houseowner_property?ownerId="+StaticClasses.loginInfo.UserID;
+        Log.d("Url",""+url);
+        Bundle bundle=new Bundle();
+        bundle.putString("url",url);
+        property.setArguments(bundle);
+        transaction.add(R.id.propertiesFragment, property,"propertyFragment");
+
         transaction.commit();
 
 

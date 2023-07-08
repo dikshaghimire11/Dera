@@ -21,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         SharedPreferences sharedPreferences = getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
         String AccessToken = sharedPreferences.getString("AccessToken", null);
+        String userId=sharedPreferences.getString("UserId",null);
         int usertypeid=sharedPreferences.getInt("UserType",0);
 
         new Handler().postDelayed(new Runnable() {
@@ -29,6 +30,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 if (AccessToken != null) {
                     StaticClasses.loginInfo.loginToken=AccessToken;
+                    StaticClasses.loginInfo.UserID=userId;
                     if(usertypeid==2){
                         Intent intent=new Intent(SplashActivity.this, houseOwnerDashboard.class);
                         startActivity(intent);

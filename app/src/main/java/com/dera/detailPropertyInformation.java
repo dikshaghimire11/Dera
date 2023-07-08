@@ -32,7 +32,7 @@ import java.util.Iterator;
 
 public class detailPropertyInformation extends Fragment {
     ImageView imageView;
-    TextView textView;
+    TextView textView,fullLocation,title,number,priceTV;
     GridView gridView;
     MaterialCardView backButton;
     ScrollView homeScroll;
@@ -53,6 +53,10 @@ public class detailPropertyInformation extends Fragment {
         imageView=view.findViewById(R.id.propertyIv);
         gridView=view.findViewById(R.id.detailsGridView);
         textView=view.findViewById(R.id.PropertyTypeTV);
+        fullLocation=view.findViewById(R.id.locationTV);
+        number=view.findViewById(R.id.number);
+        title=view.findViewById(R.id.title);
+        priceTV=view.findViewById(R.id.priceTV);
         backButton=view.findViewById(R.id.backMCV);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +77,11 @@ public class detailPropertyInformation extends Fragment {
         if(bundle!=null){
             Property property= (Property) bundle.getSerializable("model");
             textView.setText(property.getCategory());
+            title.setText(property.getCategory());
+            fullLocation.setText(property.getLocation());
+            priceTV.setText(property.getPrice());
+            number.setText(property.getNumber());
+
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.logo_in_bricks_foreground)
                     .error(R.mipmap.logo_in_bricks_foreground)
