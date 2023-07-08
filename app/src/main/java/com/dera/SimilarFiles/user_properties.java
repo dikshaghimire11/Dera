@@ -76,7 +76,8 @@ user_properties thisfragment;
         homeScroll=getActivity().findViewById(R.id.homeScroll);
         properties=new ArrayList<Property>();
         propertiesList=view.findViewById(R.id.propertieslist);
-        String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_property";
+        Bundle bundle=getArguments();
+        String url=bundle.getString("url");
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -101,7 +102,7 @@ user_properties thisfragment;
                             detailFragment.setArguments(bundle);
                             FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                            fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
+                           fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
                             Log.d("Fragments",""+fragmentManager.getFragments());
                             homeScroll.setVerticalScrollbarPosition(300);
                             Log.d("HomeScroll",""+homeScroll);
