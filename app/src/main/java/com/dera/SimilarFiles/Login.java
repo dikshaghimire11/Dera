@@ -130,6 +130,7 @@ public class Login extends AppCompatActivity {
                                     editor.putInt("UserType",usertypeid );
                                     editor.apply();
                                     StaticClasses.loginInfo.loginToken=AccessToken;
+                                    StaticClasses.loginInfo.UserID=userId;
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
                                     passwordET.setText("");
