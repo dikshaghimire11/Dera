@@ -161,6 +161,7 @@ public class UserProfile extends Fragment {
                 editor.apply();
                 Intent intent=new Intent(getContext(), No_Login_UserDashboard.class);
                 startActivity(intent);
+                getActivity().finish();
 
             }
 

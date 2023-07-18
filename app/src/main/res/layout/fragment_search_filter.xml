@@ -5,61 +5,91 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SimilarFiles.Search_filter">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/searchMCV"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
-        android:backgroundTint="@color/textboxcolor"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/filter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/searchIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/searchicon"
-        android:translationZ="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/searchMCV"
-        app:layout_constraintEnd_toEndOf="@+id/searchMCV"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="@+id/searchMCV"
-        app:layout_constraintTop_toTopOf="@+id/searchMCV" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchMCV"
+            android:layout_width="0dp"
+            android:layout_height="41dp"
+            android:backgroundTint="@color/textboxcolor"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/searchET"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:background="@null"
-        android:hint="Search"
-        android:fontFamily="@font/robotofont"
-        android:textColor="@color/textcolor"
-        android:textSize="20sp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/searchMCV"
-        app:layout_constraintEnd_toStartOf="@+id/filter"
-        app:layout_constraintStart_toEndOf="@+id/searchIcon"
-        app:layout_constraintTop_toTopOf="@+id/searchMCV" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/searchicon"
+            android:translationZ="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/searchMCV"
+            app:layout_constraintEnd_toEndOf="@+id/searchMCV"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toStartOf="@+id/searchMCV"
+            app:layout_constraintTop_toTopOf="@+id/searchMCV" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/filter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/searchMCV" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchET"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:background="@null"
+            android:fontFamily="@font/robotofont"
+            android:hint="Search"
+            android:textColor="@color/textcolor"
+            android:textSize="20sp"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/searchMCV"
+            app:layout_constraintEnd_toStartOf="@+id/searchBTN"
+            app:layout_constraintStart_toEndOf="@+id/searchIcon"
+            app:layout_constraintTop_toTopOf="@+id/searchMCV"
 
+
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchBTN"
+            android:layout_width="41dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/searchMCV"
+            app:layout_constraintEnd_toEndOf="@id/searchMCV"
+            app:layout_constraintStart_toEndOf="@id/searchET"
+            app:layout_constraintTop_toTopOf="@id/searchMCV"
+            android:backgroundTint="@color/themecolor"
+
+            >
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            app:layout_constraintStart_toStartOf="@id/searchBTN"
+            app:layout_constraintEnd_toEndOf="@id/searchBTN"
+            app:layout_constraintTop_toTopOf="@id/searchBTN"
+            app:layout_constraintBottom_toBottomOf="@id/searchBTN"
+            android:src="@drawable/searchiconwhite"
+            android:translationZ="10dp"
+            android:outlineSpotShadowColor="@color/white"
+            />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/filter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/searchMCV" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>

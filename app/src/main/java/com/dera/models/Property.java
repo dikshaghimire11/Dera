@@ -13,6 +13,7 @@ public class Property implements Serializable {
     public String photo;
     JSONObject json;
     Iterator<?> keys;
+    public boolean ignoreInFilter=false;
 
     public Property(String category, String location, String price, String number, String photo,JSONObject json,Iterator<?> keys) {
         this.category = category;
@@ -47,4 +48,13 @@ public class Property implements Serializable {
     public JSONObject getJson(){return  json;}
 
     public Iterator<?> getKeys(){return  keys;}
+
+
+
+    public void setIgnoreInFilter(boolean value) {
+        this.ignoreInFilter=value;
+    }
+    public boolean getIsIgnoreInFilter(){
+        return ignoreInFilter;
+    }
 }

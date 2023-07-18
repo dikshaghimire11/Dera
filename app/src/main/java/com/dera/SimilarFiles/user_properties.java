@@ -78,14 +78,171 @@ user_properties thisfragment;
         propertiesList=view.findViewById(R.id.propertieslist);
         Bundle bundle=getArguments();
         String url=bundle.getString("url");
+        String applyFilter=bundle.getString("applyFilter");
+        int minPrice=bundle.getInt("minPrice");
+        int maxPrice=bundle.getInt("maxPrice");
+        ArrayList<String> categoryFilter=bundle.getStringArrayList("categoryFilter");
+        ArrayList<String> subCategoryFilter=bundle.getStringArrayList("subCategoryFilter");
+        ArrayList<String> facilityFilter=bundle.getStringArrayList("facilityFilter");
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArray= new JSONArray(jsonObject.getString("property"));
+                    int k=0;
                     for(int i=0;i<jsonArray.length();i++){
-                        properties.add(makePropertyObject(jsonArray.getJSONObject(i)));
+                        k++;
+                        Property property=makePropertyObject(jsonArray.getJSONObject(i));
+                      if(applyFilter!=null){ if(applyFilter.compareTo("true")==0){
+                          int matchCount=0;
+                          int tempCount=0;
+
+                          if(categoryFilter.size()!=0){
+                              tempCount=matchCount;
+                              for(int j=0;j<categoryFilter.size();j++){
+                                  if(categoryFilter.get(j).equals(property.getCategory())){
+                                      matchCount++;
+
+                                  }
+                              }
+                              if(tempCount==matchCount){
+                                  property.setIgnoreInFilter(true);
+                              }
+                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+
+                          }
+                          if(subCategoryFilter.size()!=0) {
+
+                            if(property.getIsIgnoreInFilter()){
+                            matchCount=0;
+                            }else {
+                                tempCount = matchCount;
+                                for (int j = 0; j < subCategoryFilter.size(); j++) {
+
+                                    if (subCategoryFilter.get(j).equals("B")) {
+                                        if (property.getNumber().equals("1B")) {
+                                            matchCount++;
+                                        }
+                                    } else if (subCategoryFilter.get(j).equals("BK")) {
+
+                                        if (!property.getNumber().isEmpty()) {
+                                            if (property.getNumber().substring(1).equals("BK")) {
+                                                matchCount++;
+                                            }
+                                        }
+
+                                    } else {
+                                        if (!property.getNumber().isEmpty()) {
+                                            if (property.getNumber().equals(subCategoryFilter.get(j))) {
+                                                matchCount++;
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                              if(tempCount==matchCount){
+                                  property.setIgnoreInFilter(true);
+                              }
+                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+                          }
+                          if(facilityFilter.size()!=0) {
+                              tempCount=matchCount;
+                              if (property.getIsIgnoreInFilter()) {
+                                    matchCount=0;
+                              } else {
+                                  tempCount=matchCount;
+                                  JSONObject json = property.getJson();
+
+                                  for (int j = 0; j < facilityFilter.size(); j++) {
+                                      try {
+                                          if (facilityFilter.get(j).equals("attachedBathroom")) {
+                                              if (json.getString("BathroomType").equals("Attached")) {
+                                                  matchCount++;
+                                              }
+                                          }
+                                      } catch (JSONException e) {
+                                          e.printStackTrace();
+                                      }
+                                      try {
+                                          if (facilityFilter.get(j).equals("alwaysWater")) {
+                                              if (json.getString("HouseHoldWater").equals("Plently")) {
+                                                  matchCount++;
+                                              }
+                                          }
+                                      } catch (JSONException e) {
+                                          e.printStackTrace();
+                                      }
+                                      try {
+                                          if (facilityFilter.get(j).equals("carParking")) {
+                                              if (json.getString("CarParking").equals("Yes")) {
+                                                  matchCount++;
+                                              }
+                                          }
+                                      } catch (JSONException e) {
+                                          e.printStackTrace();
+                                      }
+                                      try {
+                                          if (facilityFilter.get(j).equals("bikeParking")) {
+                                              if (json.getString("BikeParking").equals("Yes")) {
+                                                  matchCount++;
+                                              }
+                                          }
+                                      } catch (JSONException e) {
+                                          e.printStackTrace();
+                                      }
+                                  }
+                              }
+                              if(tempCount==matchCount){
+                                  property.setIgnoreInFilter(true);
+                              }
+                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+                          }
+
+                          if(property.getIsIgnoreInFilter()==true){
+                            matchCount=0;
+                          }
+                          else {
+                              tempCount=matchCount;
+                              if (minPrice != 0 && maxPrice != 0) {
+
+                                  Log.d("Price", "MinPrice:" + minPrice + " MaxPrice:" + maxPrice);
+                                  if (Integer.valueOf(property.getPrice()) >= minPrice && Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                      matchCount++;
+
+                                  }
+                              } else if (maxPrice != 0) {
+                                  Log.d("Price", "MaxPrice:" + maxPrice);
+                                  if (Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                      matchCount++;
+
+                                  }
+
+                              } else if (minPrice != 0) {
+                                  Log.d("Price", "MinPrice:" + minPrice);
+                                  if (Integer.valueOf(property.getPrice()) >= minPrice) {
+                                      matchCount++;
+
+                                  }
+                              }
+                          }
+                          if(tempCount==matchCount){
+                              property.setIgnoreInFilter(true);
+                          }
+                          Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+
+                          if(matchCount!=0) properties.add(property);
+
+
+                        }
+
+                      }else {
+                            properties.add(property);
+                        }
+                    }
+                    if(properties.size()==0){
+                        return;
                     }
                     PropertyGridView propertyGridView=new PropertyGridView(getActivity(),properties);
                     propertiesList.setAdapter(propertyGridView);
@@ -155,11 +312,11 @@ user_properties thisfragment;
        if(!data.getString("BedRoom").equals("0")){
            value=value+data.getString("BedRoom")+"B";
        }
-        if(!data.getString("LivingRoom").equals("0")){
-            value=value+data.getString("LivingRoom")+"H";
+        if(!data.getString("LivingRoom").equals("No")){
+            value=value+"H";
         }
-        if(!data.getString("Kitchen").equals("0")){
-            value=value+data.getString("Kitchen")+"K";
+        if(!data.getString("Kitchen").equals("No")){
+            value=value+"K";
         }
 
     }

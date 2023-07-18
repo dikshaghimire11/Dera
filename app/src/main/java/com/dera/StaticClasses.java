@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -55,6 +56,18 @@ public class StaticClasses {
             ViewGroup.LayoutParams params = gridView.getLayoutParams();
             params.height = totalHeight;
             gridView.setLayoutParams(params);
+        }
+    }
+    public static class filterGFXSupport{
+        public static void enableFilterGFX(MaterialCardView mcv,Context context){
+            mcv.setStrokeWidth(4);
+
+
+        }
+        public static void disableFilterGFX(MaterialCardView mcv,Context context){
+            mcv.setStrokeWidth(0);
+
+
         }
     }
 
