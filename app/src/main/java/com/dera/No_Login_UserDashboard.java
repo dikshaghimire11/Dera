@@ -36,7 +36,7 @@ public class No_Login_UserDashboard extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment myFragment = new UserHome();
-        fragmentTransaction.add(R.id.fragmentlayout, myFragment);
+        fragmentTransaction.add(R.id.fragmentlayout, myFragment,"homeFragment");
         fragmentTransaction.commit();
         ImageView profile = findViewById(R.id.profileIV);
         profile.setOnClickListener(new View.OnClickListener() {

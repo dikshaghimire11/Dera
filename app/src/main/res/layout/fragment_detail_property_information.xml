@@ -1,207 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".detailPropertyInformation">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".detailPropertyInformation"
+    android:id="@+id/detailsProperty">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/scrollView">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
-                app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
-                app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/childConstraint"
+                >
+
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    >
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
+                    app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:backgroundTint="@color/themecolor"
-                        app:cardCornerRadius="5dp"
-                        android:id="@+id/backMCV"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        >
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:backgroundTint="@color/themecolor"
+                            app:cardCornerRadius="5dp"
+                            android:id="@+id/backMCV"
+                            >
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_gravity="center"
+
+                                android:src="@drawable/baseline_arrow_back_ios_24"
+                                />
+                        </com.google.android.material.card.MaterialCardView>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/PropertyTypeTV"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotofont"
+                            android:gravity="center_horizontal"
+                            android:text="Property Information:"
+                            android:textColor="@color/themecolor"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/imageMCV"
+                        android:layout_width="300dp"
+                        android:layout_height="195dp"
+                        android:layout_marginTop="20dp"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="2dp"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/propertyIv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/textboxcolor"
+                            android:text="Shutter"
+                            android:textColor="@color/themecolor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/textboxcolor"
+                            android:text=":"
+                            android:textColor="@color/themecolor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:translationZ="10dp"
+                            tools:layout_editor_absoluteZ="140dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:backgroundTint="@color/textboxcolor"
+                            android:text="2"
+                            android:textColor="@color/textcolor"
+                            android:textSize="18sp"
+                            android:translationZ="10dp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
                         >
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/locationIV"
+                            android:layout_marginTop="2dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/locationlogo"
+                            android:translationZ="10dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/locationTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
-                            android:layout_gravity="center"
+                            android:text="Kathmandu"
+                            android:textColor="@color/textcolor"
+                            android:textSize="15sp"
+                            android:translationZ="10dp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                            android:src="@drawable/baseline_arrow_back_ios_24"
-                            />
-                    </com.google.android.material.card.MaterialCardView>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/PropertyTypeTV"
-                        android:layout_width="fill_parent"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotofont"
-                        android:gravity="center_horizontal"
-                        android:text="Property Information:"
-                        android:textColor="@color/themecolor"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
 
+                        android:orientation="horizontal"
+                        >
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rs:"
+                            android:textColor="@color/pricecolor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:translationZ="10dp" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/imageMCV"
-                    android:layout_width="300dp"
-                    android:layout_height="195dp"
-                    android:layout_marginTop="20dp"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="2dp"
-                    app:cardCornerRadius="15dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/propertyIv"
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/priceTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2000"
+                            android:textColor="@color/pricecolor"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:translationZ="10dp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
+                        android:layout_height="wrap_content"
+                        android:text="Other Details:"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@color/themecolor"
                         />
 
+                    <GridView
+                        android:layout_marginTop="5dp"
+                        android:numColumns="2"
+                        android:id="@+id/detailsGridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-                </com.google.android.material.card.MaterialCardView>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/textboxcolor"
-                        android:text="Shutter"
-                        android:textColor="@color/themecolor"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                   />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/textboxcolor"
-                        android:text=":"
-                        android:textColor="@color/themecolor"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:translationZ="10dp"
-                        tools:layout_editor_absoluteZ="140dp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:backgroundTint="@color/textboxcolor"
-                        android:text="2"
-                        android:textColor="@color/textcolor"
-                        android:textSize="18sp"
-                        android:translationZ="10dp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/LeftGuideLine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                   >
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/locationIV"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/locationlogo"
-                        android:translationZ="10dp" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="21dp"
+                    app:layout_constraintWidth_percent="10" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/locationTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:text="Kathmandu"
-                        android:textColor="@color/textcolor"
-                        android:textSize="15sp"
-                        android:translationZ="10dp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/RightGuideLine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="20dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    android:orientation="horizontal"
-                    >
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rs:"
-                        android:textColor="@color/pricecolor"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:translationZ="10dp" />
+        </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/priceTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2000"
-                        android:textColor="@color/pricecolor"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:translationZ="10dp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Other Details:"
-                    android:layout_marginTop="20dp"
-                    android:textColor="@color/themecolor"
-                    />
-
-                <GridView
-                    android:layout_marginTop="5dp"
-                    android:numColumns="2"
-                    android:id="@+id/detailsGridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/LeftGuideLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="21dp"
-                app:layout_constraintWidth_percent="10" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/RightGuideLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="20dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</FrameLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="@id/buttonsLayout"
+        app:layout_constraintStart_toStartOf="@id/buttonsLayout"
+        app:layout_constraintEnd_toEndOf="@id/buttonsLayout"
+        app:layout_constraintBottom_toBottomOf="@id/buttonsLayout"
+        />
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+android:translationZ="10dp"
+        >
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bookingMbtn"
+            android:text="Book Now"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:textSize="15sp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/contactMbtn"
+            android:text="Contact HouseOwner"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

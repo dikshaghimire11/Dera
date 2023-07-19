@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.UserProfile;
 import com.dera.StaticClasses;
+import com.dera.callback.OnRemovedFragments;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -39,15 +41,21 @@ import java.util.Map;
 public class UserDashboard extends AppCompatActivity {
 
     String passwordStatus;
-    int errorCount=0;
-    boolean passwordMatchError=false,repasswordMatch=false,passworderror=false,repassworderror=false;
-
+    int errorCount = 0;
+    boolean passwordMatchError = false, repasswordMatch = false, passworderror = false, repassworderror = false;
+    int UserType;
+    int defaultvalue = 0;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
-        String checkStatusURL = "http://"+IpStatic.IpAddress.ip +":80/api/get_password_status";
+        bundle=new Bundle();
+        Intent intent = getIntent();
+        UserType = intent.getIntExtra("usertypeid", defaultvalue);
+        bundle.putInt("usertypeid",UserType);
+        String checkStatusURL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_password_status";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, checkStatusURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -71,11 +79,11 @@ public class UserDashboard extends AppCompatActivity {
                             submitBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    errorCount=0;
-                                    repasswordMatch=false;
-                                    passworderror=false;
-                                    repassworderror=false;
-                                    passwordMatchError=false;
+                                    errorCount = 0;
+                                    repasswordMatch = false;
+                                    passworderror = false;
+                                    repassworderror = false;
+                                    passwordMatchError = false;
                                     errorTv.setText("");
                                     String password = passwordEt.getText().toString();
                                     String confirmPassword = repasswordEt.getText().toString();
@@ -91,28 +99,28 @@ public class UserDashboard extends AppCompatActivity {
                                         passwordMatchError = true;
                                         errorCount++;
                                     }
-                                    if ((password.compareTo(confirmPassword)!=0)) {
+                                    if ((password.compareTo(confirmPassword) != 0)) {
                                         repasswordMatch = true;
                                         errorCount++;
                                     }
 
 
-                                    Log.d("Error",""+errorCount);
-                                    Log.d("Error","repassworderror" +repassworderror+" passworderror"+passworderror+" passwordMatchError"+passwordMatchError+" repasswordmatchError"+repasswordMatch);
-                                    if(errorCount !=0) {
-                                        if(repassworderror || passworderror ){
+                                    Log.d("Error", "" + errorCount);
+                                    Log.d("Error", "repassworderror" + repassworderror + " passworderror" + passworderror + " passwordMatchError" + passwordMatchError + " repasswordmatchError" + repasswordMatch);
+                                    if (errorCount != 0) {
+                                        if (repassworderror || passworderror) {
                                             errorTv.setText("Enter valid password in both fields!");
                                         }
-                                        Log.d("Password,Repassword: ",""+password+","+confirmPassword);
+                                        Log.d("Password,Repassword: ", "" + password + "," + confirmPassword);
 
-                                        if(!passworderror && !repassworderror && !repasswordMatch){
+                                        if (!passworderror && !repassworderror && !repasswordMatch) {
                                             errorTv.setText("Password should be 8 digits, at least one Upper, Lower and number!");
                                         }
-                                        if(!passworderror && !repassworderror && !passwordMatchError){
+                                        if (!passworderror && !repassworderror && !passwordMatchError) {
                                             errorTv.setText("Password and Re-Password should match!");
                                         }
-                                    } else{
-                                        ProgressDialog progressDialog=new ProgressDialog(UserDashboard.this);
+                                    } else {
+                                        ProgressDialog progressDialog = new ProgressDialog(UserDashboard.this);
                                         progressDialog.setMessage("Please wait.....");
                                         progressDialog.show();
                                         errorTv.setText("");
@@ -121,8 +129,8 @@ public class UserDashboard extends AppCompatActivity {
 // Create a JSONObject with the data to send
                                         JSONObject requestData = new JSONObject();
                                         try {
-                                            requestData.put("password",password);
-                                            requestData.put("id",StaticClasses.loginInfo.UserID);
+                                            requestData.put("password", password);
+                                            requestData.put("id", StaticClasses.loginInfo.UserID);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -137,7 +145,7 @@ public class UserDashboard extends AppCompatActivity {
                                                             if (status.compareTo("200") == 0) {
                                                                 Toast.makeText(UserDashboard.this, "Password Updated Successfully!", Toast.LENGTH_LONG).show();
                                                                 dialog.dismiss();
-                                                            }else if(status.compareTo("500")==0){
+                                                            } else if (status.compareTo("500") == 0) {
                                                                 Toast.makeText(UserDashboard.this, "Something Went Wrong!", Toast.LENGTH_LONG).show();
                                                             }
                                                         } catch (JSONException e) {
@@ -165,9 +173,9 @@ public class UserDashboard extends AppCompatActivity {
 
                                             public Map<String, String> getHeaders() throws AuthFailureError {
 
-                                                Map<String,String> params =new HashMap<String,String>();
-                                                params.put("Accept","application/json");
-                                                params.put("Content-Type","application/json");
+                                                Map<String, String> params = new HashMap<String, String>();
+                                                params.put("Accept", "application/json");
+                                                params.put("Content-Type", "application/json");
                                                 params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
                                                 return params;
                                             }
@@ -224,22 +232,32 @@ public class UserDashboard extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment myFragment = new UserHome();
-        fragmentTransaction.add(R.id.fragmentlayout, myFragment);
+        myFragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.fragmentlayout, myFragment,"homeFragment");
         fragmentTransaction.commit();
-        
+
         ImageView home = findViewById(R.id.homeIV);
         ImageView booking = findViewById(R.id.bookingIV);
-        ImageView  history = findViewById(R.id.historyIV);
-        ImageView  profile = findViewById(R.id.profileIV);
+        ImageView history = findViewById(R.id.historyIV);
+        ImageView profile = findViewById(R.id.profileIV);
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Fragment fragment = new UserHome();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
-                transaction.commit();
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        fragment.setArguments(bundle);
+                        transaction.add(R.id.fragmentlayout, fragment,"homeFragment");
+                        transaction.commit();
+                    }
+                });
+
+
+
+
 
             }
         });
@@ -248,9 +266,14 @@ public class UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new UserBooking();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.replace(R.id.fragmentlayout, fragment,"bookingFragment");
+                        transaction.commit();
+                    }
+                });
+
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -258,9 +281,15 @@ public class UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new UserHistory();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
+
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.commit();
+                    }
+                });
+
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
@@ -268,9 +297,14 @@ public class UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new UserProfile();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
+                ;
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.commit();
+                    }
+                });
             }
         });
     }

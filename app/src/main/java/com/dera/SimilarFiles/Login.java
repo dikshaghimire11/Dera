@@ -135,11 +135,13 @@ public class Login extends AppCompatActivity {
                                     passwordET.setText("");
                                     if(usertypeid==2){
                                         Intent intent=new Intent(Login.this, houseOwnerDashboard.class);
+                                        intent.putExtra("usertypeid",usertypeid);
                                         startActivity(intent);
                                         finish();
                                     }
                                     if(usertypeid==3) {
                                         Intent intent = new Intent(Login.this,UserDashboard.class);
+                                        intent.putExtra("usertypeid",usertypeid);
                                         startActivity(intent);
                                         finish();
                                     }
