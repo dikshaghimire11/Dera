@@ -161,6 +161,10 @@ What type of Property do you
         <item>Yes</item>
         <item>No</item>
     </string-array>
+    <string-array name="YesorNo">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
     <string-array name="HouseholdWater">
         <item>Plently</item>
         <item>Moderate Amount</item>

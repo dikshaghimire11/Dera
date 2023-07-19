@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -86,6 +87,18 @@ public class StaticClasses {
                Log.d("Removed Fragments",""+fragment);
            }
          removeFragment.removedFragments(transaction);
+        }
+    }
+    public static class filterGFXSupport{
+        public static void enableFilterGFX(MaterialCardView mcv,Context context){
+            mcv.setStrokeWidth(4);
+
+
+        }
+        public static void disableFilterGFX(MaterialCardView mcv,Context context){
+            mcv.setStrokeWidth(0);
+
+
         }
     }
 

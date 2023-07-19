@@ -83,18 +83,18 @@ public class AddBasicInfoProperties extends Fragment {
     String addPropertyURL;
     AppCompatTextView bedRoomTextView, kitchenTextView, livingRoomTv,
             bathroomTv, floorTv, carParkingTv, BikeParkingTv,
-            sharingInternetTv, householdWaterTv, drinkingWaterTv, noOfRoomsTv, noOfStoreTv, noOfFlatsTv, noOfBathroomTv;
+            sharingInternetTv, householdWaterTv, drinkingWaterTv, noOfRoomsTv, noOfStoreTv, noOfFlatsTv;
     MaterialCardView bedRoomCardView, kitchenCardView, livingRoomMcv,
             bathroomMcv, floorMcv, carParkingMcv, BikeParkingMcv,
-            sharingInternetMcv, householdWaterMcv, drinkingWaterMcv, noOfRoomsMcv, noOfStoreMcv, noOfFlatsMcv, noOfBathroomMcv;
+            sharingInternetMcv, householdWaterMcv, drinkingWaterMcv, noOfRoomsMcv, noOfStoreMcv, noOfFlatsMcv;
     Spinner bedroomSp, livingroomSp, bathroomSp,
             kitchenSp, floorSp, carparkingSp,
             bikeparkingSp, householdwaterSp, drinkingwaterSp,
-            sharinginternetSp, noofflatsSp, noofbathroomSp, noofstoreSp, noofshutterSp;
+            sharinginternetSp, noofflatsSp, noofstoreSp, noofshutterSp;
 
     String selectbedroom, selectlivingroom, selectbathroom, selectkitchen, selectfloor, selectcarparking,
             selectbikeparking, selecthouseholdwater, selectdrinkingwater, selectsharinginternet, selectonofflat,
-            selectnoofbathroom, selectnoofstoreroom, selectnoofshutter;
+            selectnoofstoreroom, selectnoofshutter;
 
     int provinceId, districtId, wardId, local_level_ID;
     JSONObject propertyJson;
@@ -138,7 +138,6 @@ public class AddBasicInfoProperties extends Fragment {
         householdwaterSp = view.findViewById(R.id.householdWaterSp);
         drinkingwaterSp = view.findViewById(R.id.drinkingWaterSp);
         sharinginternetSp = view.findViewById(R.id.internetSp);
-        noofbathroomSp = view.findViewById(R.id.noOfbathroomSp);
         noofflatsSp = view.findViewById(R.id.noOfFlatSp);
         noofshutterSp = view.findViewById(R.id.noOfroomSp);
         noofstoreSp = view.findViewById(R.id.noOfstoreRoomSp);
@@ -154,7 +153,6 @@ public class AddBasicInfoProperties extends Fragment {
         householdWaterMcv = view.findViewById(R.id.householdWaterMCV);
         drinkingWaterMcv = view.findViewById(R.id.drinkingWaterMCV);
         sharingInternetMcv = view.findViewById(R.id.internetMCV);
-        noOfBathroomMcv = view.findViewById(R.id.noOfbathroomMCV);
         noOfFlatsMcv = view.findViewById(R.id.noOfFlatMCV);
         noOfRoomsMcv = view.findViewById(R.id.noOfroomsMCV);
         noOfStoreMcv = view.findViewById(R.id.noOfstoreRoomMCV);
@@ -169,7 +167,6 @@ public class AddBasicInfoProperties extends Fragment {
         householdWaterTv = view.findViewById(R.id.householdWater);
         drinkingWaterTv = view.findViewById(R.id.drinkingWater);
         sharingInternetTv = view.findViewById(R.id.internet);
-        noOfBathroomTv = view.findViewById(R.id.noOfbathroom);
         noOfFlatsTv = view.findViewById(R.id.noOfFlat);
         noOfRoomsTv = view.findViewById(R.id.noOfroom);
         noOfStoreTv = view.findViewById(R.id.noOfstoreRoom);
@@ -221,9 +218,6 @@ public class AddBasicInfoProperties extends Fragment {
             noOfFlatsTv.setVisibility(View.GONE);
             noOfFlatsMcv.setVisibility(View.GONE);
             noofflatsSp.setVisibility(View.GONE);
-            noOfBathroomMcv.setVisibility(View.GONE);
-            noOfBathroomTv.setVisibility(View.GONE);
-            noofbathroomSp.setVisibility(View.GONE);
             noOfRoomsMcv.setVisibility(View.GONE);
             noOfRoomsTv.setVisibility(View.GONE);
             noofshutterSp.setVisibility(View.GONE);
@@ -373,6 +367,15 @@ public class AddBasicInfoProperties extends Fragment {
             });
         }
         if (category_Id.equals("3")) {
+            bedroomSp.setVisibility(View.GONE);
+            bedRoomTextView.setVisibility(View.GONE);
+            bedRoomCardView.setVisibility(View.GONE);
+            kitchenTextView.setVisibility(View.GONE);
+            kitchenSp.setVisibility(View.GONE);
+            kitchenCardView.setVisibility(View.GONE);
+            livingRoomTv.setVisibility(View.GONE);
+            livingroomSp.setVisibility(View.GONE);
+            livingRoomMcv.setVisibility(View.GONE);
             floorTv.setVisibility(View.GONE);
             floorMcv.setVisibility(View.GONE);
             floorSp.setVisibility(View.GONE);
@@ -388,60 +391,7 @@ public class AddBasicInfoProperties extends Fragment {
             noOfStoreMcv.setVisibility(View.GONE);
             noOfStoreTv.setVisibility(View.GONE);
             noofstoreSp.setVisibility(View.GONE);
-            bedroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectbedroom = parent.getSelectedItem().toString();
-                    Log.d("selectbedroom", "" + selectbedroom);
-                    jsonValue = jsonValue + "\"BedRoom\":\"" + selectbedroom + "\",";
 
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
-            bathroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectbathroom = parent.getSelectedItem().toString();
-                    jsonValue = jsonValue + "\"BathroomType\":\"" + selectbathroom + "\",";
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
-            livingroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectlivingroom = parent.getSelectedItem().toString();
-                    jsonValue = jsonValue + "\"LivingRoom\":\"" + selectlivingroom + "\",";
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
-            floorSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectfloor = parent.getSelectedItem().toString();
-                    jsonValue = jsonValue + "\"Floor\":\"" + selectfloor + "\",";
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
             carparkingSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -468,19 +418,7 @@ public class AddBasicInfoProperties extends Fragment {
 
                 }
             });
-            kitchenSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectkitchen = parent.getSelectedItem().toString();
-                    jsonValue = jsonValue + "\"Kitchen\":\"" + selectkitchen + "\",";
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
             householdwaterSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -522,19 +460,7 @@ public class AddBasicInfoProperties extends Fragment {
 
                 }
             });
-            noofbathroomSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectnoofbathroom = parent.getSelectedItem().toString();
-                    jsonValue = jsonValue + "\"NoOfBathroom\":\"" + selectnoofbathroom + "\",";
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Handle no selection
-
-                }
-            });
         }
         if (category_Id.equals("4")) {
             floorTv.setVisibility(View.GONE);
@@ -549,9 +475,6 @@ public class AddBasicInfoProperties extends Fragment {
             noOfFlatsTv.setVisibility(View.GONE);
             noOfFlatsMcv.setVisibility(View.GONE);
             noofflatsSp.setVisibility(View.GONE);
-            noOfBathroomMcv.setVisibility(View.GONE);
-            noOfBathroomTv.setVisibility(View.GONE);
-            noofbathroomSp.setVisibility(View.GONE);
             bedroomSp.setVisibility(View.GONE);
             bedRoomTextView.setVisibility(View.GONE);
             bedRoomCardView.setVisibility(View.GONE);

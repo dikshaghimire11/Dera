@@ -18,6 +18,7 @@ public class Property implements Serializable {
     public String name;
 
     Iterator<?> keys;
+    public boolean ignoreInFilter=false;
 
     public Property(String category, String location, String price, String number, String photo,JSONObject json,String house_owner_id,String Property_id,String name,String houseOwner_number) {
         this.category = category;
@@ -54,6 +55,16 @@ public class Property implements Serializable {
     }
 
     public JSONObject getJson(){return  json;}
+
+
+
+
+    public void setIgnoreInFilter(boolean value) {
+        this.ignoreInFilter=value;
+    }
+    public boolean getIsIgnoreInFilter(){
+        return ignoreInFilter;
+    }
     public String getProperty_id(){
         return Property_id;
     }

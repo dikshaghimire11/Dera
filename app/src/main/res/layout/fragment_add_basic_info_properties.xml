@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/kitchen" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -208,7 +208,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/livingroom" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -298,7 +298,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/CarParking" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -328,7 +328,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/bikeParking" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -358,7 +358,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/SharingInternet" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -418,7 +418,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/DrinkingWater" />
+                        android:entries="@array/YesorNo" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -451,35 +451,6 @@
                         android:entries="@array/noOfFlats" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/noOfbathroom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/robotofont"
-                    android:gravity="center_horizontal|top"
-                    android:text="Number of Bathrooms:"
-                    android:textColor="@color/themecolor"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/noOfbathroomMCV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/textboxcolor"
-                    app:cardCornerRadius="10dp">
-
-                    <Spinner
-                        android:id="@+id/noOfbathroomSp"
-                        android:layout_width="match_parent"
-                        android:layout_height="41dp"
-                        android:backgroundTint="@color/themecolor"
-                        android:entries="@array/noOfbathroom" />
-                </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/noOfroom"
