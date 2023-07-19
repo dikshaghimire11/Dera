@@ -163,5 +163,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottonV"
         />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ChildFragment"
+        app:layout_constraintTop_toTopOf="@id/bottonV"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

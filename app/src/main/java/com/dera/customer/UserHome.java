@@ -28,11 +28,11 @@ import com.dera.StaticClasses;
 public class UserHome extends Fragment {
     GridView propertiesList;
 
+    int usertypeId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
@@ -47,13 +47,10 @@ public class UserHome extends Fragment {
         Fragment search_filter=new Search_filter();
         searchTransaction.add(R.id.search_filter,search_filter);
         searchTransaction.commit();
-
-
         FragmentTransaction advertisementTransaction = fragmentManager.beginTransaction();
         Fragment advertisement=new user_Advertisement();
         searchTransaction.add(R.id.advertiseMCV,advertisement);
         advertisementTransaction.commit();
-
 
 
         FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();

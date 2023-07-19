@@ -33,11 +33,13 @@ public class SplashActivity extends AppCompatActivity {
                     StaticClasses.loginInfo.UserID=userId;
                     if(usertypeid==2){
                         Intent intent=new Intent(SplashActivity.this, houseOwnerDashboard.class);
+                        intent.putExtra("usertypeid",usertypeid);
                         startActivity(intent);
                         finish();
                     }
                     if(usertypeid==3) {
                         Intent intent = new Intent(SplashActivity.this,UserDashboard.class);
+                        intent.putExtra("usertypeid",usertypeid);
                         startActivity(intent);
                         finish();
                     }

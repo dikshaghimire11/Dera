@@ -28,6 +28,7 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Login;
 import com.dera.StaticClasses;
+import com.dera.callback.OnRemovedFragments;
 import com.dera.customer.UserBooking;
 import com.dera.customer.UserHistory;
 import com.dera.SimilarFiles.UserProfile;
@@ -43,13 +44,19 @@ import java.util.Map;
 public class houseOwnerDashboard extends AppCompatActivity {
     String passwordStatus;
     int errorCount=0;
+    int UserType;
+    int defaultvalue = 0;
+    Bundle bundle;
     boolean passwordMatchError=false,repasswordMatch=false,passworderror=false,repassworderror=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_owner_dashboard);
-
+        Intent intent = getIntent();
+        UserType = intent.getIntExtra("usertypeid", defaultvalue);
+        bundle=new Bundle();
+        bundle.putInt("usertypeid",UserType);
         String checkStatusURL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_password_status";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, checkStatusURL, new Response.Listener<String>() {
             @Override
@@ -230,7 +237,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment myFragment = new houseOwnerHome();
-        fragmentTransaction.add(R.id.fragmentlayout, myFragment);
+        myFragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.fragmentlayout, myFragment,"homeFragment");
 
         fragmentTransaction.commit();
 
@@ -256,24 +264,38 @@ public class houseOwnerDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new houseOwnerHome();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
-                create.setImageResource(R.drawable.create);
-                create.setClickable(true);
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        fragment.setArguments(bundle);
+                        transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
+                        transaction.commit();
+                        create.setImageResource(R.drawable.create);
+                        create.setClickable(true);
+                    }
+                });
+
+
 
             }
         });
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new UserBooking();
+                Fragment fragment = new HouseOwnerBooking();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
-                create.setImageDrawable(null);
-                create.setClickable(false);
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.add(R.id.fragmentlayout, fragment,"bookingFragment");
+                        transaction.commit();
+                        create.setImageDrawable(null);
+                        create.setClickable(false);
+                    }
+                });
+
+
+
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -281,11 +303,17 @@ public class houseOwnerDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new UserHistory();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
-                create.setImageDrawable(null);
-                create.setClickable(false);
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.add(R.id.fragmentlayout, fragment,"historyFragment");
+                        transaction.commit();
+                        create.setImageDrawable(null);
+                        create.setClickable(false);
+                    }
+                });
+
+
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
@@ -293,11 +321,16 @@ public class houseOwnerDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Fragment fragment = new UserProfile();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
-                create.setImageDrawable(null);
-                create.setClickable(false);
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        transaction.replace(R.id.fragmentlayout, fragment,"profileFragment");
+                        transaction.commit();
+                        create.setImageDrawable(null);
+                        create.setClickable(false);
+                    }
+                });
+
             }
         });
 

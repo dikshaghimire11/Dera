@@ -26,6 +26,7 @@ public class houseOwnerHome extends Fragment {
 
     GridView propertiesList;
 
+    int usertypeId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,16 +38,15 @@ public class houseOwnerHome extends Fragment {
         f.add(R.id.advertiseMCV, advertisement);
         f.commit();
 
-
         FragmentManager fragmentManager1 = getFragmentManager();
         FragmentTransaction transaction = fragmentManager1.beginTransaction();
         Fragment property = new user_properties();
-        String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_houseowner_property?ownerId="+StaticClasses.loginInfo.UserID;
-        Log.d("Url",""+url);
-        Bundle bundle=new Bundle();
-        bundle.putString("url",url);
+        String url = "http://" + IpStatic.IpAddress.ip + ":80/api/get_houseowner_property?ownerId=" + StaticClasses.loginInfo.UserID;
+        Log.d("Url", "" + url);
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
         property.setArguments(bundle);
-        transaction.add(R.id.propertiesFragment, property,"propertyFragment");
+        transaction.add(R.id.propertiesFragment, property, "propertyFragment");
 
         transaction.commit();
 
