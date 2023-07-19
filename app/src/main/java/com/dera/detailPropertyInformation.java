@@ -327,6 +327,11 @@ public class detailPropertyInformation extends Fragment {
                                                 Toast.makeText(getContext(),"Booked Sucessful!",Toast.LENGTH_LONG).show();
 
                                             }
+                                            if(status.compareTo("422")==0){
+                                                Toast.makeText(getContext(),"Something Went Wrong!",Toast.LENGTH_LONG).show();
+
+                                            }
+
                                         } catch (JSONException e) {
                                             progressDialog.dismiss();
                                             throw new RuntimeException(e);
