@@ -1,6 +1,9 @@
 package com.dera;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -8,10 +11,19 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.dera.callback.OnRemovedFragments;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class StaticClasses {
+
 
     public static class FormValidation {
         public static boolean cantBeEmpty(String string, MaterialCardView mcv, int stroke, Context context) {
@@ -54,8 +66,27 @@ public class StaticClasses {
             }
 
             ViewGroup.LayoutParams params = gridView.getLayoutParams();
-            params.height = totalHeight;
+            params.height = totalHeight+500;
             gridView.setLayoutParams(params);
+        }
+
+    }
+    public static class GetScreenHeight{
+        public static int getScreenHeight() {
+            return Resources.getSystem().getDisplayMetrics().heightPixels;
+        }
+    }
+    public static class CloseAllFragments {
+        public static  void removeByManager(FragmentManager manager, OnRemovedFragments removeFragment){
+
+            FragmentTransaction transaction=manager.beginTransaction();
+           List<Fragment> fragmentManagers=manager.getFragments();
+           for(Fragment fragment:fragmentManagers){
+
+               transaction.remove(fragment);
+               Log.d("Removed Fragments",""+fragment);
+           }
+         removeFragment.removedFragments(transaction);
         }
     }
     public static class filterGFXSupport{
@@ -70,6 +101,7 @@ public class StaticClasses {
 
         }
     }
+
 
 }
 

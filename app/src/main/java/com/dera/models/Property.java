@@ -11,16 +11,25 @@ public class Property implements Serializable {
     public String price;
     public String number;
     public String photo;
+    public String house_owner_id;
+    public  String Property_id;
+    public String houseOwner_number;
     JSONObject json;
+    public String name;
+
     Iterator<?> keys;
     public boolean ignoreInFilter=false;
 
-    public Property(String category, String location, String price, String number, String photo,JSONObject json,Iterator<?> keys) {
+    public Property(String category, String location, String price, String number, String photo,JSONObject json,String house_owner_id,String Property_id,String name,String houseOwner_number) {
         this.category = category;
         this.location = location;
         this.price = price;
         this.number = number;
         this.photo = photo;
+        this.Property_id=Property_id;
+        this.house_owner_id=house_owner_id;
+        this.houseOwner_number=houseOwner_number;
+        this.name=name;
         this.json=json;
         this.keys=keys;
     }
@@ -47,7 +56,6 @@ public class Property implements Serializable {
 
     public JSONObject getJson(){return  json;}
 
-    public Iterator<?> getKeys(){return  keys;}
 
 
 
@@ -57,4 +65,10 @@ public class Property implements Serializable {
     public boolean getIsIgnoreInFilter(){
         return ignoreInFilter;
     }
+    public String getProperty_id(){
+        return Property_id;
+    }
+    public String getHouse_owner_id(){return house_owner_id;}
+    public  String getName(){return name;}
+    public String getHouseOwner_number(){return  houseOwner_number;}
 }

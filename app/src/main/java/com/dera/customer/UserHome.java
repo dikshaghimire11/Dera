@@ -30,6 +30,7 @@ import com.dera.StaticClasses;
 public class UserHome extends Fragment {
     GridView propertiesList;
 
+    int usertypeId;
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -57,13 +58,10 @@ public class UserHome extends Fragment {
         Fragment search_filter=new Search_filter();
         searchTransaction.add(R.id.search_filter,search_filter);
         searchTransaction.commit();
-
-
         FragmentTransaction advertisementTransaction = fragmentManager.beginTransaction();
         Fragment advertisement=new user_Advertisement();
         searchTransaction.add(R.id.advertiseMCV,advertisement);
         advertisementTransaction.commit();
-
 
 
         FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();

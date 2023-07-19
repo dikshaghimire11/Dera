@@ -16,7 +16,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
             android:layout_width="159dp"
-            android:layout_height="160dp"
+            android:layout_height="170dp"
             android:backgroundTint="@color/textboxcolor"
             app:cardCornerRadius="10dp">
 
@@ -114,10 +114,12 @@
                 android:textColor="@color/pricecolor"
                 android:textSize="12sp"
                 android:textStyle="bold"
+                android:layout_marginTop="10dp"
                 android:translationZ="10dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/priceTV"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2000"
