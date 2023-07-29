@@ -53,6 +53,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StaticClasses.keyboardSupport.disableAutoOpenKeyboard(this);
         setContentView(R.layout.activity_register);
         signUpButton = findViewById(R.id.SignUpBtn);
         emailET = findViewById(R.id.emailET);

@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.android.volley.Request;
@@ -28,6 +30,7 @@ import com.dera.Adapter.PropertyGridView;
 import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.StaticClasses;
+import com.dera.algorithms.FuzzySearch;
 import com.dera.detailPropertyInformation;
 import com.dera.models.Property;
 
@@ -47,6 +50,12 @@ public class user_properties extends Fragment {
     ScrollView homeScroll;
     String fragemntName;
     ArrayList<Property> properties;
+
+    ArrayList<String> searchSuggestionList;
+    ArrayAdapter<String> suggestionAdapter;
+    ListView suggestionsListView;
+    Fragment searchFragment;
+    View searchView;
     private int gridViewScrollPosition = 0;
     user_properties thisfragment;
 
@@ -75,15 +84,27 @@ public class user_properties extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        searchSuggestionList=new ArrayList<>();
+        FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+        try {
+            searchFragment = fragmentManager.findFragmentByTag("searchFragment");
+            searchView = searchFragment.getView();
+        }catch (NullPointerException e){
+            Log.d("Exception","Search Fragment Not Found");
+        }
+
         homeScroll=getActivity().findViewById(R.id.homeScroll);
         properties=new ArrayList<Property>();
+        Log.d("Gipsy","New Array Created");
         propertiesList=view.findViewById(R.id.propertieslist);
         Bundle bundle=getArguments();
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         String url=bundle.getString("url");
         String applyFilter=bundle.getString("applyFilter");
+        String searchData=bundle.getString("searchData");
         int minPrice=bundle.getInt("minPrice");
         int maxPrice=bundle.getInt("maxPrice");
+        String priceSearch=bundle.getString("priceSearch");
         ArrayList<String> categoryFilter=bundle.getStringArrayList("categoryFilter");
         ArrayList<String> facilityFilter=bundle.getStringArrayList("facilityFilter");
         ArrayList<String> subCategoryFilter=bundle.getStringArrayList("subCategoryFilter");
@@ -118,9 +139,9 @@ public class user_properties extends Fragment {
                               if(tempCount==matchCount){
                                   property.setIgnoreInFilter(true);
                               }
-                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
 
                           }
+
                           if(subCategoryFilter.size()!=0) {
 
                             if(property.getIsIgnoreInFilter()){
@@ -154,8 +175,9 @@ public class user_properties extends Fragment {
                               if(tempCount==matchCount){
                                   property.setIgnoreInFilter(true);
                               }
-                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+
                           }
+
                           if(facilityFilter.size()!=0) {
                               tempCount=matchCount;
                               if (property.getIsIgnoreInFilter()) {
@@ -206,48 +228,91 @@ public class user_properties extends Fragment {
                               if(tempCount==matchCount){
                                   property.setIgnoreInFilter(true);
                               }
-                              Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
+
                           }
 
-                          if(property.getIsIgnoreInFilter()==true){
-                            matchCount=0;
-                          }
-                          else {
-                              tempCount=matchCount;
-                              if (minPrice != 0 && maxPrice != 0) {
 
-                                  Log.d("Price", "MinPrice:" + minPrice + " MaxPrice:" + maxPrice);
-                                  if (Integer.valueOf(property.getPrice()) >= minPrice && Integer.valueOf(property.getPrice()) <= maxPrice) {
-                                      matchCount++;
-
+                          if(priceSearch!=null){
+                              if(priceSearch.equals("true")){
+                                  if(property.getIsIgnoreInFilter()==true){
+                                      matchCount=0;
                                   }
-                              } else if (maxPrice != 0) {
-                                  Log.d("Price", "MaxPrice:" + maxPrice);
-                                  if (Integer.valueOf(property.getPrice()) <= maxPrice) {
-                                      matchCount++;
+                                  else {
+                                      tempCount=matchCount;
+                                      if (minPrice != 0 && maxPrice != 0) {
 
-                                  }
+                                          Log.d("Price", "MinPrice:" + minPrice + " MaxPrice:" + maxPrice);
+                                          if (Integer.valueOf(property.getPrice()) >= minPrice && Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                              matchCount++;
 
-                              } else if (minPrice != 0) {
-                                  Log.d("Price", "MinPrice:" + minPrice);
-                                  if (Integer.valueOf(property.getPrice()) >= minPrice) {
-                                      matchCount++;
+                                          }
+                                          if(tempCount==matchCount){
+                                              property.setIgnoreInFilter(true);
+                                          }
+
+                                      } else if (maxPrice != 0) {
+                                          Log.d("Price", "MaxPrice:" + maxPrice);
+                                          if (Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                              matchCount++;
+
+                                          }
+                                          if(tempCount==matchCount){
+                                              property.setIgnoreInFilter(true);
+                                          }
+
+                                      } else if (minPrice != 0) {
+                                          Log.d("Price", "MinPrice:" + minPrice);
+                                          if (Integer.valueOf(property.getPrice()) >= minPrice) {
+                                              matchCount++;
+
+                                          }
+                                          if(tempCount==matchCount){
+                                              property.setIgnoreInFilter(true);
+                                          }
+                                      }
 
                                   }
                               }
                           }
-                          if(tempCount==matchCount){
-                              property.setIgnoreInFilter(true);
-                          }
-                          Log.d(k+" Intersection",""+property.getLocation()+" Ignored: "+property.getIsIgnoreInFilter());
 
-                          if(matchCount!=0) properties.add(property);
+
+
+                          if(searchData!=null) {
+                              if (!searchData.isEmpty()) {
+
+                                  if (property.getIsIgnoreInFilter()) {
+                                      matchCount = 0;
+                                  } else {
+
+                                      tempCount = matchCount;
+                                      if (FuzzySearch.fuzzySearch(searchData.toString(), property.getFullLocation())) {
+
+                                          matchCount++;
+                                      } else {
+                                          property.setIgnoreInFilter(true);
+
+                                      }
+
+
+                                  }
+
+
+                              }
+                          }
+
+
+
+                          if(property.getIsIgnoreInFilter()==false){
+                              properties.add(property);
+
+                          }
 
 
                         }
 
                       }else {
                             properties.add(property);
+
                         }
                     }
                     if(properties.size()==0){
@@ -273,7 +338,6 @@ public class user_properties extends Fragment {
                             try {
                                 fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
                             } catch (NullPointerException e) {
-                                Log.d("Fragment Not Found", "Removal Ignored");
                             }
                             homeScroll.setVerticalScrollbarPosition(300);
                             fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
@@ -307,6 +371,13 @@ public class user_properties extends Fragment {
 
 //        int[] photo={R.drawable.roomicon,R.drawable.flaticon,R.drawable.houseicon,R.drawable.shuttericon,R.drawable.roomicon,R.drawable.shuttericon};
 
+        try {
+            StaticClasses.searchSupport.suggestionAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, searchSuggestionList);
+            suggestionsListView = searchView.findViewById(R.id.suggestionListView);
+            suggestionsListView.setAdapter(StaticClasses.searchSupport.suggestionAdapter);
+        }catch (NullPointerException e){
+            Log.d("Exceptin","Search View is Null");
+        }
     }
 
     public Property makePropertyObject(JSONObject data) throws JSONException {
@@ -316,9 +387,16 @@ public class user_properties extends Fragment {
         String Property_id = data.getString("id");
         String name = data.has("name") ? data.getString("name") : "";
         String houseOwner_number = data.getString("mobile");
+        String fullLocation=data.getString("provinceName")+" "+data.getString("districtName")+" "+data.getString("localLevelName")+" "+data.getString("wardName")+" "+data.getString("tole");
 
 
-        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"), data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number);
+        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number);
+
+        if(searchView!=null) {
+            searchSuggestionList.add(data.getString("tole"));
+            searchSuggestionList.add(data.getString("localLevelName"));
+            searchSuggestionList.add(data.getString("provinceName"));
+        }
         return property;
     }
     public String giveRoomNumber(JSONObject data,String category) throws JSONException {
