@@ -53,7 +53,7 @@
                         android:id="@+id/shortNameTv"
                         android:textColor="@color/themecolor"
                         android:layout_marginVertical="15dp"
-                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginHorizontal="10dp"
                         android:textSize="50sp"/>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -71,7 +71,7 @@
                         android:text=""
                         android:textAllCaps="true"
                         android:textColor="@color/themecolor"
-                        android:textSize="40dp"
+                        android:textSize="45dp"
 
                         android:textStyle="bold" />
 

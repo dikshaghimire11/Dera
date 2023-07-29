@@ -100,6 +100,19 @@
             android:paddingLeft="17dp"
             android:textColor="@color/textcolor"
             android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/showPasswordToggle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/show"
+            android:contentDescription="Show Password"
+            android:padding="12dp"
+            android:translationZ="10dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="8dp"
+            android:onClick="onShowPasswordToggleClicked"
+            android:clickable="true"
+            app:tint="@color/themecolor" />
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatTextView

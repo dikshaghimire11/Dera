@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.ScrollView;
 
 import com.android.volley.Request;
@@ -25,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.Adapter.PropertyGridView;
-import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.StaticClasses;
 import com.dera.detailPropertyInformation;
@@ -36,9 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class user_properties extends Fragment {
 

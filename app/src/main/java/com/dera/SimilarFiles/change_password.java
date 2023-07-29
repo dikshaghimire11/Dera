@@ -1,4 +1,4 @@
-package com.dera;
+package com.dera.SimilarFiles;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -26,8 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.dera.SimilarFiles.UserProfile;
-import com.dera.houseowner.houseOwnerDashboard;
+
+import com.dera.IpStatic;
+import com.dera.R;
+import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -43,8 +45,8 @@ public class change_password extends Fragment {
     MaterialCardView newPasswordMcv,oldPasswordMcv,repasswordMcv;
     TextView errorTv;
     int errorCount=0;
-    boolean isPasswordVisible = false;
     ImageView oldpassword,newpassword,repassword;
+    boolean isPasswordVisible = false;
     boolean passwordMatchError=false,repasswordMatch=false,oldpassworderror=false,repassworderror=false,passworderror=false,oldPasswordMatch=false;
 
     @Override
@@ -114,8 +116,10 @@ public class change_password extends Fragment {
             }
         });
 
+
         submitBtn=view.findViewById(R.id.submitBtn);
         CancleBtn=view.findViewById(R.id.cancleBtn);
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -259,5 +263,21 @@ public class change_password extends Fragment {
             }
         });
         super.onViewCreated(view, savedInstanceState);
+    }
+
+
+    public void onShowPasswordToggleClicked(View v) {
+        ImageView showPasswordToggle =v.findViewById(R.id.showPasswordToggle);
+        EditText passwordET = v.findViewById(R.id.passwordET);
+        if (isPasswordVisible) {
+            passwordET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            showPasswordToggle.setImageResource(R.drawable.show);
+        } else {
+            passwordET.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            showPasswordToggle.setImageResource(R.drawable.eye_password_hide);
+        }
+
+        passwordET.setSelection(passwordET.getText().length());
+        isPasswordVisible = !isPasswordVisible;
     }
 }

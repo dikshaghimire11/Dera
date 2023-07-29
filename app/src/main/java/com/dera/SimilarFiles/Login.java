@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.dera.Forget_Password;
 import com.dera.StaticClasses;
 import com.dera.IpStatic;
 import com.dera.R;
@@ -74,6 +77,7 @@ public class Login extends AppCompatActivity {
         emailMCV=findViewById(R.id.emailMCV);
         passwordMCV=findViewById(R.id.passwordMCV);
         errorTV=findViewById(R.id.errorTV);
+        TextView forgetPassword=findViewById(R.id.forgetpasswordTV);
         int usertype=0;
 
         int usertypeid=intent.getIntExtra("usertype",usertype);
@@ -85,6 +89,15 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, Forget_Password.class);
+                intent.putExtra("usertype",usertypeid);
+                startActivity(intent);
+            }
+        });
+        Log.d("UserType",""+usertypeid);
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +171,7 @@ public class Login extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            progressDialog.dismiss();
                             Toast.makeText(Login.this,error.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }
@@ -183,5 +197,21 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+    boolean isPasswordVisible = false;
+
+    public void onShowPasswordToggleClicked(View v) {
+        ImageView showPasswordToggle = findViewById(R.id.showPasswordToggle);
+        EditText passwordET = findViewById(R.id.passwordET);
+        if (isPasswordVisible) {
+            passwordET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            showPasswordToggle.setImageResource(R.drawable.show);
+        } else {
+            passwordET.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            showPasswordToggle.setImageResource(R.drawable.eye_password_hide);
+        }
+
+        passwordET.setSelection(passwordET.getText().length());
+        isPasswordVisible = !isPasswordVisible;
     }
 }
