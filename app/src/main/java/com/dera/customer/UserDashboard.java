@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,6 +48,7 @@ public class UserDashboard extends AppCompatActivity {
     boolean passwordMatchError = false, repasswordMatch = false, passworderror = false, repassworderror = false;
     int UserType;
     int defaultvalue = 0;
+    public  boolean isPasswordVisible=false;
     Bundle bundle;
 
     @Override
@@ -81,7 +83,41 @@ public class UserDashboard extends AppCompatActivity {
                             MaterialCardView passwordMcv = view.findViewById(R.id.passwordMCV);
                             MaterialCardView repasswordMcv = view.findViewById(R.id.re_passwordMCV);
                             TextView errorTv = view.findViewById(R.id.errorTV);
+                            ImageView password=view.findViewById(R.id.showPasswordToggle);
+                            ImageView rePassword=view.findViewById(R.id.showrePasswordToggle);
                             AlertDialog dialog = builder.create();
+
+                            password.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    if (isPasswordVisible) {
+                                        passwordEt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        password.setImageResource(R.drawable.show);
+                                    } else {
+                                        passwordEt.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                        password.setImageResource(R.drawable.eye_password_hide);
+                                    }
+
+                                    passwordEt.setSelection(passwordEt.getText().length());
+                                    isPasswordVisible = !isPasswordVisible;
+                                }
+                            });
+                            rePassword.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (isPasswordVisible) {
+                                        repasswordEt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        rePassword.setImageResource(R.drawable.show);
+                                    } else {
+                                        repasswordEt.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                        rePassword.setImageResource(R.drawable.eye_password_hide);
+                                    }
+
+                                    repasswordEt.setSelection(repasswordEt.getText().length());
+                                    isPasswordVisible = !isPasswordVisible;
+                                }
+                            });
                             submitBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -131,8 +167,6 @@ public class UserDashboard extends AppCompatActivity {
                                         progressDialog.show();
                                         errorTv.setText("");
                                         String changePasswordUrl = "http://" + IpStatic.IpAddress.ip + ":80/api/update_Password";
-
-// Create a JSONObject with the data to send
                                         JSONObject requestData = new JSONObject();
                                         try {
                                             requestData.put("password", password);

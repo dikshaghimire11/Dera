@@ -27,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.Adapter.PropertyGridView;
-import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.StaticClasses;
 import com.dera.algorithms.FuzzySearch;
@@ -39,9 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class user_properties extends Fragment {
 

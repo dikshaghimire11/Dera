@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".detailPropertyInformation"
-    android:id="@+id/detailsProperty">
+    android:id="@+id/detailsProperty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailPropertyInformation">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/scrollView">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,10 +21,9 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/childConstraint"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -35,30 +33,31 @@
                     app:layout_constraintEnd_toEndOf="@id/RightGuideLine"
                     app:layout_constraintStart_toStartOf="@id/LeftGuideLine"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center_vertical"
                         android:layout_marginTop="10dp"
-                        >
+                        android:gravity="center_vertical">
+
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/backMCV"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center_horizontal"
                             android:backgroundTint="@color/themecolor"
-                            app:cardCornerRadius="5dp"
-                            android:id="@+id/backMCV"
-                            >
+                            app:cardCornerRadius="5dp">
+
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="3dp"
                                 android:layout_gravity="center"
+                                android:layout_marginLeft="3dp"
 
-                                android:src="@drawable/baseline_arrow_back_ios_24"
-                                />
+                                android:src="@drawable/baseline_arrow_back_ios_24" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/PropertyTypeTV"
                             android:layout_width="fill_parent"
@@ -77,16 +76,15 @@
                         android:layout_width="300dp"
                         android:layout_height="195dp"
                         android:layout_marginTop="20dp"
+                        app:cardCornerRadius="15dp"
                         app:strokeColor="@color/black"
-                        app:strokeWidth="2dp"
-                        app:cardCornerRadius="15dp">
+                        app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/propertyIv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            />
+                            android:scaleType="centerCrop" />
 
 
                     </com.google.android.material.card.MaterialCardView>
@@ -106,8 +104,7 @@
                             android:text="Shutter"
                             android:textColor="@color/themecolor"
                             android:textSize="18sp"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -136,13 +133,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        >
+                        android:layout_marginTop="5dp">
+
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/locationIV"
-                            android:layout_marginTop="2dp"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
+                            android:layout_marginTop="2dp"
                             android:src="@drawable/locationlogo"
                             android:translationZ="10dp" />
 
@@ -163,8 +160,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
 
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -184,20 +181,20 @@
                             android:textStyle="bold"
                             android:translationZ="10dp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Other Details:"
                         android:layout_marginTop="20dp"
-                        android:textColor="@color/themecolor"
-                        />
+                        android:text="Other Details:"
+                        android:textColor="@color/themecolor" />
 
                     <GridView
-                        android:layout_marginTop="5dp"
-                        android:numColumns="2"
                         android:id="@+id/detailsGridView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:numColumns="2" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -224,40 +221,57 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-android:backgroundTint="@color/white"
-        app:layout_constraintTop_toTopOf="@id/buttonsLayout"
-        app:layout_constraintStart_toStartOf="@id/buttonsLayout"
-        app:layout_constraintEnd_toEndOf="@id/buttonsLayout"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/buttonsLayout"
-        />
+        app:layout_constraintEnd_toEndOf="@id/buttonsLayout"
+        app:layout_constraintStart_toStartOf="@id/buttonsLayout"
+        app:layout_constraintTop_toTopOf="@id/buttonsLayout" />
+
     <LinearLayout
         android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-android:translationZ="10dp"
-        >
+        android:orientation="horizontal"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/bookingMbtn"
-            android:text="Book Now"
-            android:layout_margin="8dp"
-            android:textAllCaps="false"
-            android:textSize="15sp"/>
-
-        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/contactMbtn"
-            android:text="Contact HouseOwner"
             android:layout_margin="8dp"
+            android:text="Book Now"
             android:textAllCaps="false"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/contactMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Contact HouseOwner"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancleMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ViewBookingMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="View Booking"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

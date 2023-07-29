@@ -1,6 +1,8 @@
 package com.dera.SimilarFiles;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ import java.util.Map;
 
 public class UserProfile extends Fragment {
 
-    TextView nameTv, mobileTv, MyInfoTv, LogoutTv, ChangePasswordTv, EditInfoTv,shortNameTv;
+    TextView nameTv, mobileTv, MyInfoTv, LogoutTv, ChangePasswordTv, EditInfoTv, shortNameTv;
     Bundle addUserInfo;
 
     @Override
@@ -62,8 +64,8 @@ public class UserProfile extends Fragment {
         LogoutTv = view.findViewById(R.id.MylogoutTV);
         EditInfoTv = view.findViewById(R.id.EditInformationTV);
         ChangePasswordTv = view.findViewById(R.id.ChangePasswordTV);
-        shortNameTv=view.findViewById(R.id.shortNameTv);
-        Log.d("UserId",""+StaticClasses.loginInfo.UserID);
+        shortNameTv = view.findViewById(R.id.shortNameTv);
+        Log.d("UserId", "" + StaticClasses.loginInfo.UserID);
         String getUserInfourl = "http://" + IpStatic.IpAddress.ip + ":80/api/GetUserInfo";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getUserInfourl, new Response.Listener<String>() {
@@ -90,7 +92,7 @@ public class UserProfile extends Fragment {
 
                         // Combine the first letters into a single string
                         String combinedLetters = firstLetter + firstLetterAfterSpace;
-                        Log.d("Full Name",""+combinedLetters);
+                        Log.d("Full Name", "" + combinedLetters);
                         nameTv.setText(username);
                         mobileTv.setText(number);
                         addUserInfo.putString("name", username);
@@ -153,15 +155,33 @@ public class UserProfile extends Fragment {
         LogoutTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("AccessToken"); // Remove the "sessionToken" key
-                editor.remove("UserType");
-                editor.remove("UserId");
-                editor.apply();
-                Intent intent=new Intent(getContext(), No_Login_UserDashboard.class);
-                startActivity(intent);
-                getActivity().finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Dera");
+                builder.setMessage("Are you sure you want to logout?");
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("AccessToken"); // Remove the "sessionToken" key
+                        editor.remove("UserType");
+                        editor.remove("UserId");
+                        editor.apply();
+                        Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
 
             }
 
