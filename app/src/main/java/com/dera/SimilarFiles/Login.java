@@ -58,6 +58,7 @@ public class Login extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_login);
+        StaticClasses.keyboardSupport.disableAutoOpenKeyboard(this);
         Intent intent=getIntent();
        String origin=intent.getStringExtra("Origin");
        if(origin != null && origin.equals("Register")){
