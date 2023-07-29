@@ -56,7 +56,7 @@ public class UserHome extends Fragment {
 
         FragmentTransaction searchTransaction = fragmentManager.beginTransaction();
         Fragment search_filter=new Search_filter();
-        searchTransaction.add(R.id.search_filter,search_filter);
+        searchTransaction.add(R.id.search_filter,search_filter,"searchFragment");
         searchTransaction.commit();
         FragmentTransaction advertisementTransaction = fragmentManager.beginTransaction();
         Fragment advertisement=new user_Advertisement();

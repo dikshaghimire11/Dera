@@ -8,6 +8,7 @@ import java.util.Iterator;
 public class Property implements Serializable {
     public String category;
     public String location;
+    public String fullLocation;
     public String price;
     public String number;
     public String photo;
@@ -20,9 +21,10 @@ public class Property implements Serializable {
     Iterator<?> keys;
     public boolean ignoreInFilter=false;
 
-    public Property(String category, String location, String price, String number, String photo,JSONObject json,String house_owner_id,String Property_id,String name,String houseOwner_number) {
+    public Property(String category, String location,String fullLocation, String price, String number, String photo,JSONObject json,String house_owner_id,String Property_id,String name,String houseOwner_number) {
         this.category = category;
         this.location = location;
+        this.fullLocation=fullLocation;
         this.price = price;
         this.number = number;
         this.photo = photo;
@@ -53,6 +55,8 @@ public class Property implements Serializable {
     public String getPhoto() {
         return photo;
     }
+
+    public  String getFullLocation(){return fullLocation;}
 
     public JSONObject getJson(){return  json;}
 

@@ -1,5 +1,10 @@
 package com.dera.SimilarFiles;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -7,13 +12,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dera.IpStatic;
@@ -23,6 +39,8 @@ import com.google.android.material.card.MaterialCardView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
@@ -46,11 +64,22 @@ public class Search_filter extends Fragment {
 
     Boolean minPriceStatus=false;
     Boolean maxPriceStatus=false;
+
+    String querySource="";
     int totalFiltersCount=0;
 
     int minPrice=5000;
     int maxPrice=10000;
     int priceStep=5000;
+    Bundle bundle;
+    EditText searchET;
+    MaterialCardView searchButton;
+    ArrayList<String> categoryFilter;
+    ArrayList<String> subCategoryFilter;
+    ArrayList<String> facilityFilter;
+//    ArrayList<String> searchSuggestionList;
+  //ArrayAdapter<String> suggestionAdapter;
+    ListView suggestionsListView;
 
 
 
@@ -65,16 +94,34 @@ public class Search_filter extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_search_filter, container, false);
+        bundle=new Bundle();
+        FragmentManager fragmentManager=getParentFragmentManager();
+        Fragment homeFragment=fragmentManager.findFragmentByTag("homeFragment");
+        View homeView=homeFragment.getView();
+        ScrollView homeScrollView=homeView.findViewById(R.id.homeScroll);
+
        ImageView filterMCV=view.findViewById(R.id.filter);
-        ArrayList<String> categoryFilter=new ArrayList<>();
-        ArrayList<String> subCategoryFilter=new ArrayList<>();
-        ArrayList<String> facilityFilter=new ArrayList<>();
+       searchET=view.findViewById(R.id.searchET);
+        suggestionsListView=view.findViewById(R.id.suggestionListView);
+        categoryFilter=new ArrayList<>();
+        subCategoryFilter=new ArrayList<>();
+        facilityFilter=new ArrayList<>();
+        searchButton=view.findViewById(R.id.searchBTN);
+
+
+        suggestionsListView.setVisibility(View.GONE);
+        suggestionsListView.setClickable(false);
+
+        TextView cancelSearchTV=view.findViewById(R.id.cancelSearchTV);
+        cancelSearchTV.setClickable(false);
+        cancelSearchTV.setVisibility(View.GONE);
        filterMCV.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
                LayoutInflater inflater=getLayoutInflater();
                View dialogView=inflater.inflate(R.layout.filter_dialog,null,false);
+
                builder.setView(dialogView);
                AlertDialog alertDialog=builder.create();
                alertDialog.show();
@@ -148,7 +195,8 @@ public class Search_filter extends Fragment {
 
 
 
-               Bundle bundle=new Bundle();
+
+
 
                if(roomStatus){
                    StaticClasses.filterGFXSupport.enableFilterGFX(roomCategoryMCV,getContext());
@@ -450,29 +498,7 @@ public class Search_filter extends Fragment {
                    @Override
                    public void onClick(View view) {
 
-                       String url="http://"+ IpStatic.IpAddress.ip+":80/api/get_property";
-                       bundle.putString("url",url);
-                       Log.d("Total Filter Count",""+totalFiltersCount);
-                       if(totalFiltersCount!=0) {
-                           bundle.putString("applyFilter", "true");
-                       }
-                       if(minPriceStatus){
-                           bundle.putInt("minPrice",minPrice);
-                       }
-                       if(maxPriceStatus){
-                           bundle.putInt("maxPrice",maxPrice);
-                       }
-                           bundle.putStringArrayList("categoryFilter",categoryFilter);
-                            bundle.putStringArrayList("subCategoryFilter",subCategoryFilter);
-                            bundle.putStringArrayList("facilityFilter",facilityFilter);
-                           FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-                           FragmentTransaction transaction=fragmentManager.beginTransaction();
-                           Fragment properties=new user_properties();
-                           properties.setArguments(bundle);
-                           transaction.remove(fragmentManager.findFragmentByTag("propertyFragment"));
-                           transaction.add(R.id.propertiesFragment,properties,"propertyFragment");
-                           transaction.commit();
-
+                      sendFilterData();
 
                        alertDialog.cancel();
 
@@ -483,12 +509,175 @@ public class Search_filter extends Fragment {
            }
        });
 
+       searchET.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               if (charSequence.toString().isEmpty()) {
+                   suggestionsListView.setVisibility(View.GONE);
+                   suggestionsListView.setClickable(false);
+                   cancelSearchTV.setVisibility(View.GONE);
+                   cancelSearchTV.setClickable(false);
+               } else {
+                   suggestionsListView.setVisibility(View.VISIBLE);
+                   suggestionsListView.setClickable(true);
+                   cancelSearchTV.setVisibility(View.VISIBLE);
+                   cancelSearchTV.setClickable(true);
+                   Log.d("String Changed", "" + charSequence.toString());
+                   StaticClasses.searchSupport.suggestionAdapter.getFilter().filter(charSequence.toString());
+
+               }
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+
+           }
+       });
+       cancelSearchTV.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               searchET.setText("");
+               suggestionsListView.setVisibility(View.GONE);
+               suggestionsListView.setClickable(false);
+           }
+       });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            homeScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    suggestionsListView.setVisibility(View.GONE);
+                    suggestionsListView.setClickable(false);
+                }
+            });
+        }
+        homeView.findViewById(R.id.homeFrameLayout).setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // Get the touch coordinates
+
+                        suggestionsListView.setVisibility(View.GONE);
+
+                }
+
+                return false;
+            }
+        });
+
+
+        suggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                searchET.setText(adapterView.getAdapter().getItem(i).toString());
+                suggestionsListView.setVisibility(View.GONE);
+                suggestionsListView.setClickable(false);
+                sendSearchData();
+            }
+        });
+searchButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        sendSearchData();
+    }
+});
+
+searchET.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        searchET.requestFocus();
+        StaticClasses.keyboardSupport.showSoftKeyboard(getActivity(),searchET);
+
+    }
+
+    });
+
+
+
+
         return view;
 
 
     }
+    @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        StaticClasses.keyboardSupport.disableAutoOpenKeyboard(getActivity());
+
+    }
+
     public void updatePrice(TextView minPriceTV,TextView maxPriceTV){
         minPriceTV.setText(String.valueOf(minPrice));
         maxPriceTV.setText(String.valueOf(maxPrice));
     }
+    public void sendSearchData(){
+    if(searchET.getText().length()==0){
+        bundle.remove("searchData");
+        if(!querySource.equals("Filter")) {
+            bundle.remove("applyFilter");
+        }
+    }else {
+        bundle.putString("searchData", searchET.getText().toString());
+        bundle.putString("applyFilter","true");
+
+    }
+    if(querySource.equals("Filter")){
+        sendSearchandFilterData();
+    }else {
+        querySource = "Search";
+        sendFilterData();
+    }
+    }
+    public void sendFilterData(){
+
+            String url = "http://" + IpStatic.IpAddress.ip + ":80/api/get_property";
+            bundle.putString("url", url);
+            Log.d("Total Filter Count", "" + totalFiltersCount);
+
+            if (totalFiltersCount != 0) {
+                bundle.putString("applyFilter", "true");
+            }
+            if (minPriceStatus) {
+                bundle.putInt("minPrice", minPrice);
+            }
+            if (maxPriceStatus) {
+                bundle.putInt("maxPrice", maxPrice);
+            }
+            if (minPriceStatus || maxPriceStatus) {
+                bundle.putString("priceSearch", "true");
+            } else {
+                bundle.remove("priceSearch");
+            }
+            bundle.putStringArrayList("categoryFilter", categoryFilter);
+            bundle.putStringArrayList("subCategoryFilter", subCategoryFilter);
+            bundle.putStringArrayList("facilityFilter", facilityFilter);
+
+            if(querySource.equals("Search")){
+                sendSearchandFilterData();
+            }else {
+
+                querySource = "Filter";
+                sendSearchData();
+            }
+
+
+    }
+    public void sendSearchandFilterData(){
+        StaticClasses.keyboardSupport.hideSoftKeyboard(getActivity());
+        querySource="";
+        FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        Fragment properties=new user_properties();
+        properties.setArguments(bundle);
+        transaction.remove(fragmentManager.findFragmentByTag("propertyFragment"));
+        transaction.add(R.id.propertiesFragment,properties,"propertyFragment");
+        transaction.commit();
+    }
+
+
 }

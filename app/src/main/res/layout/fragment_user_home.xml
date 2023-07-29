@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/homeFrameLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".customer.UserHome">
     <ScrollView
@@ -15,10 +16,12 @@
             android:layout_height="match_parent">
 
             <FrameLayout
+
+                android:background="@color/textboxcolor"
+                android:translationZ="100dp"
                 android:id="@+id/search_filter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/advertiseMCV"
                 app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
                 app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
                 app:layout_constraintTop_toTopOf="parent"
@@ -27,12 +30,13 @@
 
             <FrameLayout
                 android:layout_width="0dp"
+                android:paddingTop="50dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/advertiseMCV"
                 app:layout_constraintBottom_toTopOf="@id/categoryFragment"
                 app:layout_constraintEnd_toStartOf="@+id/RightGuideLine"
                 app:layout_constraintStart_toStartOf="@+id/LeftGuideLine"
-                app:layout_constraintTop_toBottomOf="@id/search_filter"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginVertical="10dp"
                 />
 

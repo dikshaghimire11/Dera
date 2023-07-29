@@ -1,11 +1,16 @@
 package com.dera;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -101,6 +106,30 @@ public class StaticClasses {
 
         }
     }
+    public static class searchSupport{
+       public static ArrayAdapter suggestionAdapter;
+    }
+
+    public static class keyboardSupport{
+        public static void hideSoftKeyboard(Activity activity) {
+            View view = activity.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+        public static void showSoftKeyboard(Activity activity,View view) {
+
+
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+
+        }
+        public static void disableAutoOpenKeyboard(Activity activity){
+            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }
+    }
+
 
 
 }
