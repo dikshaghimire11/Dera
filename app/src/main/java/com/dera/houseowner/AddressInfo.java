@@ -67,6 +67,7 @@ public class AddressInfo extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack("addressInformationFragment","chooseCategoryFragment",getActivity().getSupportFragmentManager());
         Spinner provinceSpinner, districtSpinner, localLevelSpinner, wardnoSpinner;
         ArrayList<String> provinceList = new ArrayList<>();
         ArrayList<String> districtList = new ArrayList<>();
@@ -247,7 +248,13 @@ public class AddressInfo extends Fragment {
                     addBasicInfoPropertiesFragment.setArguments(addPropertyDataBundle);
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentlayout, addBasicInfoPropertiesFragment);
+
+                    fragmentTransaction.hide(fragmentManager.findFragmentByTag("addressInformationFragment"));
+                    if(fragmentManager.findFragmentByTag("addBasicInformationFragment")==null) {
+                        fragmentTransaction.add(R.id.fragmentlayout, addBasicInfoPropertiesFragment, "addBasicInformationFragment");
+                    }else{
+                        fragmentTransaction.show(fragmentManager.findFragmentByTag("addBasicInformationFragment"));
+                    }
                     fragmentTransaction.commit();
                 }
             }

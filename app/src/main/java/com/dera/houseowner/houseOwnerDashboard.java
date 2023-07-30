@@ -27,11 +27,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.R;
-import com.dera.SimilarFiles.Login;
 import com.dera.StaticClasses;
 import com.dera.callback.OnRemovedFragments;
-import com.dera.customer.UserBooking;
-import com.dera.customer.UserHistory;
 import com.dera.SimilarFiles.UserProfile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -39,7 +36,9 @@ import com.google.android.material.card.MaterialCardView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class houseOwnerDashboard extends AppCompatActivity {
@@ -289,25 +288,39 @@ public class houseOwnerDashboard extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new chooseCategory();
                 FragmentManager manager = getSupportFragmentManager();
-                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
-                    @Override
-                    public void removedFragments(FragmentTransaction transaction) {
-                        fragment.setArguments(bundle);
-                        transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
-                        transaction.commit();
-                        create.setImageResource(R.drawable.create);
-                        create.setClickable(true);
-                    }
-                });
-                create.setImageDrawable(null);
-                create.setClickable(false);
+
+                FragmentTransaction transaction = manager.beginTransaction();
+                List<Fragment> allFragments=manager.getFragments();
+                for(Fragment tempFragment:allFragments){
+                    transaction.remove(tempFragment);
+                    Log.d("Available Fragment: ","Removed: "+tempFragment);
+
+                }
+                Log.d("AvailableFragments: ",""+manager.getFragments());
+                Fragment homeFragment=new houseOwnerHome();
+              transaction.add(R.id.fragmentlayout, homeFragment,"homeFragment");
+
+
+              transaction.hide(homeFragment);
+
+//                if(manager.findFragmentByTag("chooseCategoryFragment")==null) {
+                    transaction.add(R.id.fragmentlayout, fragment, "chooseCategoryFragment");
+//                }else{
+//                    transaction.show(fragment);
+//                }
+                transaction.commit();
+                //create.setImageDrawable(null);
+                //create.setClickable(false);
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new houseOwnerHome();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -316,8 +329,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
                         fragment.setArguments(bundle);
                         transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
                         transaction.commit();
-                        create.setImageResource(R.drawable.create);
-                        create.setClickable(true);
+                        //create.setImageResource(R.drawable.create);
+                       // create.setClickable(true);
                     }
                 });
 
@@ -328,6 +341,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new HouseOwnerBooking();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -335,8 +350,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
                     public void removedFragments(FragmentTransaction transaction) {
                         transaction.add(R.id.fragmentlayout, fragment,"bookingFragment");
                         transaction.commit();
-                        create.setImageDrawable(null);
-                        create.setClickable(false);
+                       // create.setImageDrawable(null);
+                       // create.setClickable(false);
                     }
                 });
 
@@ -345,8 +360,11 @@ public class houseOwnerDashboard extends AppCompatActivity {
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new HouseOwnerHistory();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -354,8 +372,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
                     public void removedFragments(FragmentTransaction transaction) {
                         transaction.add(R.id.fragmentlayout, fragment,"historyFragment");
                         transaction.commit();
-                        create.setImageDrawable(null);
-                        create.setClickable(false);
+                       // create.setImageDrawable(null);
+                       // create.setClickable(false);
                     }
                 });
 
@@ -365,6 +383,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserProfile();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -372,8 +392,8 @@ public class houseOwnerDashboard extends AppCompatActivity {
                     public void removedFragments(FragmentTransaction transaction) {
                         transaction.replace(R.id.fragmentlayout, fragment,"profileFragment");
                         transaction.commit();
-                        create.setImageDrawable(null);
-                        create.setClickable(false);
+                       // create.setImageDrawable(null);
+                      // create.setClickable(false);
                     }
                 });
 
@@ -381,4 +401,25 @@ public class houseOwnerDashboard extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+                StaticClasses.backStackManager.showExitDialog(this);
+            }
+
+        }else{
+            StaticClasses.backStackManager.showExitDialog(this);
+
+        }
+    }
+
+
+
+
 }

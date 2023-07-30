@@ -66,6 +66,7 @@ public class UserInformation extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack("viewBookingFragment","detailFragment",getActivity().getSupportFragmentManager());
         listView = view.findViewById(R.id.userlist);
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         backMcv=view.findViewById(R.id.backMCV);

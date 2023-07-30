@@ -44,8 +44,28 @@ public class No_Login_UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(No_Login_UserDashboard.this,ChooseUserType.class);
                 startActivity(intent);
-                finish();
             }
         });
+    }
+
+
+
+
+    @Override
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+                StaticClasses.backStackManager.showExitDialog(this);
+            }
+
+        }else{
+            StaticClasses.backStackManager.showExitDialog(this);
+
+        }
     }
 }

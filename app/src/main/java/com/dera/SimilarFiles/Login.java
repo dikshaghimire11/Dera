@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.dera.ChooseUserType;
 import com.dera.Forget_Password;
 import com.dera.StaticClasses;
 import com.dera.IpStatic;
@@ -55,8 +56,6 @@ public class Login extends AppCompatActivity {
 
 
 // Commit the changes
-
-
         setContentView(R.layout.activity_login);
         StaticClasses.keyboardSupport.disableAutoOpenKeyboard(this);
         Intent intent=getIntent();
@@ -152,12 +151,15 @@ public class Login extends AppCompatActivity {
                                         intent.putExtra("usertypeid",usertypeid);
                                         startActivity(intent);
                                         finish();
+
+
                                     }
                                     if(usertypeid==3) {
                                         Intent intent = new Intent(Login.this,UserDashboard.class);
                                         intent.putExtra("usertypeid",usertypeid);
                                         startActivity(intent);
                                         finish();
+
                                     }
                                 }
                                 if(status.compareTo("401")==0){

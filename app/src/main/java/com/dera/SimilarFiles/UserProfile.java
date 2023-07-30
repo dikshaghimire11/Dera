@@ -148,7 +148,12 @@ public class UserProfile extends Fragment {
                 edit_user_info.setArguments(addUserInfo);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentlayout, edit_user_info);
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("profileFragment"));
+                if(fragmentManager.findFragmentByTag("myInformationFragment")==null) {
+                    fragmentTransaction.add(R.id.fragmentlayout, edit_user_info, "myInformationFragment");
+                }else{
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("myInformationFragment"));
+                }
                 fragmentTransaction.commit();
             }
         });
@@ -192,7 +197,12 @@ public class UserProfile extends Fragment {
                 Fragment edit_user_info = new change_password();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentlayout, edit_user_info);
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("profileFragment"));
+                if(fragmentManager.findFragmentByTag("changePasswordFragment")==null) {
+                    fragmentTransaction.add(R.id.fragmentlayout, edit_user_info, "changePasswordFragment");
+                }else{
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("changePasswordFragment"));
+                }
                 fragmentTransaction.commit();
             }
         });
@@ -203,7 +213,12 @@ public class UserProfile extends Fragment {
                 edit_user_info.setArguments(addUserInfo);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentlayout, edit_user_info);
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("profileFragment"));
+                if(fragmentManager.findFragmentByTag("editInformationFragment")==null) {
+                    fragmentTransaction.add(R.id.fragmentlayout, edit_user_info, "editInformationFragment");
+                }else{
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("editInformationFragment"));
+                }
                 fragmentTransaction.commit();
             }
         });

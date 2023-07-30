@@ -1,5 +1,6 @@
 package com.dera;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,6 +19,8 @@ public class ChooseUserType extends AppCompatActivity {
         setContentView(R.layout.activity_choose_user_type);
         ImageView houseOwner=findViewById(R.id.houseownerIV);
         ImageView roomFinder=findViewById(R.id.roomfinderIV);
+
+
         houseOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,7 +28,7 @@ public class ChooseUserType extends AppCompatActivity {
                 Intent intent=new Intent(ChooseUserType.this, Login.class);
                 intent.putExtra("usertype",userType);
                 startActivity(intent);
-                finish();
+
             }
         });
         roomFinder.setOnClickListener(new View.OnClickListener() {
@@ -36,8 +39,10 @@ public class ChooseUserType extends AppCompatActivity {
                 Intent intent=new Intent(ChooseUserType.this, Login.class);
                 intent.putExtra("usertype",userType);
                 startActivity(intent);
-                finish();
             }
         });
     }
+
+
+
 }
