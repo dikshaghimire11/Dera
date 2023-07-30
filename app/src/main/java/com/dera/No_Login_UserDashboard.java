@@ -1,6 +1,5 @@
 package com.dera;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,9 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.dera.callback.OnExitApplication;
 import com.dera.customer.UserHome;
-import com.dera.houseowner.houseOwnerDashboard;
 
 public class No_Login_UserDashboard extends AppCompatActivity {
 
@@ -63,21 +60,11 @@ public class No_Login_UserDashboard extends AppCompatActivity {
 
             }catch (NullPointerException e){
                 Log.d("Fragment Not Found","Back Operation not performed");
-                StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
-                    @Override
-                    public void closeApplication() {
-                        No_Login_UserDashboard.super.onBackPressed();
-                    }
-                },this);
+                StaticClasses.backStackManager.showExitDialog(this);
             }
 
         }else{
-            StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
-                @Override
-                public void closeApplication() {
-                    No_Login_UserDashboard.super.onBackPressed();
-                }
-            },this);
+            StaticClasses.backStackManager.showExitDialog(this);
 
         }
     }

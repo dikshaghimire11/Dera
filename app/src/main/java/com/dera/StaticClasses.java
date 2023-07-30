@@ -1,11 +1,9 @@
 package com.dera;
 
-import static androidx.core.content.ContextCompat.getMainExecutor;
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -24,11 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.dera.callback.OnExitApplication;
 import com.dera.callback.OnRemovedFragments;
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -207,14 +202,16 @@ public class StaticClasses {
 
 
         }
-        public static void showExitDialog(final OnExitApplication onExit, Activity activity){
+        public static void showExitDialog(Activity activity){
             AlertDialog.Builder exitBuilder= new AlertDialog.Builder(activity);
             exitBuilder.setTitle("Exit Application");
             exitBuilder.setMessage("Do you really want to quit?");
             exitBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    onExit.closeApplication();
+                    Intent exitIntent = new Intent(activity, MainActivity.class);
+                    exitIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    activity.startActivity(exitIntent);
                 }
             });
             exitBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {

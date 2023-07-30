@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,9 +30,7 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.UserProfile;
 import com.dera.StaticClasses;
-import com.dera.callback.OnExitApplication;
 import com.dera.callback.OnRemovedFragments;
-import com.dera.houseowner.houseOwnerDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -360,21 +357,11 @@ public class UserDashboard extends AppCompatActivity {
 
             }catch (NullPointerException e){
                 Log.d("Fragment Not Found","Back Operation not performed");
-                StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
-                    @Override
-                    public void closeApplication() {
-                        UserDashboard.super.onBackPressed();
-                    }
-                },this);
+                StaticClasses.backStackManager.showExitDialog(this);
             }
 
         }else{
-            StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
-                @Override
-                public void closeApplication() {
-                    UserDashboard.super.onBackPressed();
-                }
-            },this);
+            StaticClasses.backStackManager.showExitDialog(this);
 
         }
     }
