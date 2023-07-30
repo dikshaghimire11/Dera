@@ -118,10 +118,10 @@ public class detailPropertyInformation extends Fragment {
         linearLayoutButtons = view.findViewById(R.id.buttonsLayout);
         messageTv = view.findViewById(R.id.messageTV);
         ImageView create = getActivity().findViewById(R.id.createIV);
-        if (create != null) {
-            create.setImageDrawable(null);
-            create.setClickable(false);
-        }
+
+        create.setImageResource(R.drawable.create);
+        create.setClickable(true);
+
         deletePropertyBtn.setClickable(false);
         ViewGroup deletebtnParent = (ViewGroup) deletePropertyBtn.getParent();
         deletebtnParent.removeView(deletePropertyBtn);
@@ -169,8 +169,8 @@ public class detailPropertyInformation extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag("detailFragment"));
-
                 fragmentTransaction.show(fragmentManager.findFragmentByTag("propertyFragment"));
+
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("homeFragment"));
                     create.setImageResource(R.drawable.create);
@@ -180,11 +180,16 @@ public class detailPropertyInformation extends Fragment {
                 }
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("historyFragment"));
+                    create.setImageResource(R.drawable.create);
+                    create.setClickable(true);
+
                 } catch (NullPointerException e) {
                     Log.d("Fragment Not Found", "Removal Ignored");
                 }
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("bookingFragment"));
+                    create.setImageResource(R.drawable.create);
+                    create.setClickable(true);
                 } catch (NullPointerException e) {
                     Log.d("Fragment Not Found", "Removal Ignored");
                 }
