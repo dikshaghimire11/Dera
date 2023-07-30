@@ -395,7 +395,12 @@ public class detailPropertyInformation extends Fragment {
                                             viewBooking.setArguments(bundle1);
                                             FragmentManager manager=getActivity().getSupportFragmentManager();
                                             FragmentTransaction transaction=manager.beginTransaction();
-                                            transaction.replace(childFrameLayout.getId(),viewBooking);
+                                            transaction.hide(manager.findFragmentByTag("detailFragment"));
+                                            if(manager.findFragmentByTag("viewBookingFragment")==null) {
+                                                transaction.add(childFrameLayout.getId(), viewBooking,"viewBookingFragment");
+                                            }else{
+                                                transaction.show(manager.findFragmentByTag("viewBookingFragment"));
+                                            }
                                             transaction.commit();
                                         }
                                     });

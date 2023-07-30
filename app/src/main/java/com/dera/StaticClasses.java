@@ -131,7 +131,7 @@ public class StaticClasses {
         }
     }
     public static class backStackManager{
-        static  Stack<String> stack = new Stack<>();
+        public static  Stack<String> stack = new Stack<>();
 
         private static int stackCount=0;
         private static String fromFragmentName;
@@ -144,6 +144,8 @@ public class StaticClasses {
         public static void incStackCount(){
             stackCount++;
         }
+        public static void resetStackCount(){stackCount=0;}
+
         public static void decStackCount(){
             stackCount--;
         }

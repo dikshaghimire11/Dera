@@ -283,6 +283,8 @@ public class UserDashboard extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserHome();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -303,6 +305,8 @@ public class UserDashboard extends AppCompatActivity {
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserBooking();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -318,6 +322,8 @@ public class UserDashboard extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserHistory();
                 FragmentManager manager = getSupportFragmentManager();
 
@@ -334,6 +340,8 @@ public class UserDashboard extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserProfile();
                 FragmentManager manager = getSupportFragmentManager();
                 ;
