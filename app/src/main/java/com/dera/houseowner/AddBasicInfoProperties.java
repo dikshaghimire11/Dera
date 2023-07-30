@@ -114,6 +114,7 @@ public class AddBasicInfoProperties extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack("addBasicInformationFragment","addressInformationFragment",getActivity().getSupportFragmentManager());
         Bundle addPropertyDataBundle=getArguments();
         propertyJson=new JSONObject();
         category_Id=addPropertyDataBundle.getString("PropertyType");
@@ -578,7 +579,6 @@ public class AddBasicInfoProperties extends Fragment {
 
 
                 } else {
-                    progressDialog.dismiss();
                     Toast.makeText(getContext(), "Select image first!", Toast.LENGTH_LONG).show();
                 }
 

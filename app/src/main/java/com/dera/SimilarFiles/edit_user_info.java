@@ -54,6 +54,7 @@ public class edit_user_info extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack("editInformationFragment","profileFragment",getActivity().getSupportFragmentManager());
         nameEt = view.findViewById(R.id.nameET);
         mobileEt = view.findViewById(R.id.MobileET);
         editInfobtn = view.findViewById(R.id.EditInfoBtn);

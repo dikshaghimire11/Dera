@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -284,6 +283,8 @@ public class UserDashboard extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserHome();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -304,6 +305,8 @@ public class UserDashboard extends AppCompatActivity {
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserBooking();
                 FragmentManager manager = getSupportFragmentManager();
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
@@ -319,13 +322,15 @@ public class UserDashboard extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserHistory();
                 FragmentManager manager = getSupportFragmentManager();
 
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                     @Override
                     public void removedFragments(FragmentTransaction transaction) {
-                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.replace(R.id.fragmentlayout, fragment,"historyFragment");
                         transaction.commit();
                     }
                 });
@@ -335,13 +340,15 @@ public class UserDashboard extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StaticClasses.backStackManager.stack.clear();
+                StaticClasses.backStackManager.resetStackCount();
                 Fragment fragment = new UserProfile();
                 FragmentManager manager = getSupportFragmentManager();
                 ;
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                     @Override
                     public void removedFragments(FragmentTransaction transaction) {
-                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.replace(R.id.fragmentlayout, fragment,"profileFragment");
                         transaction.commit();
                     }
                 });
@@ -349,6 +356,22 @@ public class UserDashboard extends AppCompatActivity {
         });
 
         StaticClasses.keyboardSupport.hideSoftKeyboard(this);
+    }
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+                StaticClasses.backStackManager.showExitDialog(this);
+            }
+
+        }else{
+            StaticClasses.backStackManager.showExitDialog(this);
+
+        }
     }
 
 

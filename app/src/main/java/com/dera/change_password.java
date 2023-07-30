@@ -56,6 +56,7 @@ public class change_password extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack("changePasswordFragment","profileFragment",getActivity().getSupportFragmentManager());
         oldPasswordEt=view.findViewById(R.id.CurrentPasswordEt);
         newPasswordEt=view.findViewById(R.id.NewPasswordET);
         confirmPasswordEt=view.findViewById(R.id.ConfirmPasswordET);

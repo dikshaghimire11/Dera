@@ -330,7 +330,6 @@ public class user_properties extends Fragment {
                             detailFragment.setArguments(bundle);
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
                             fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
                             try {
                                 fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));

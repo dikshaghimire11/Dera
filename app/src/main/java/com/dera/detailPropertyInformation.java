@@ -86,6 +86,7 @@ public class detailPropertyInformation extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait.....");
         progressDialog.show();
+        StaticClasses.backStackManager.setBackStack("detailFragment","homeFragment",getActivity().getSupportFragmentManager());
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         Bundle bundle = getArguments();
         name = bundle.getString("name");
@@ -394,7 +395,12 @@ public class detailPropertyInformation extends Fragment {
                                             viewBooking.setArguments(bundle1);
                                             FragmentManager manager=getActivity().getSupportFragmentManager();
                                             FragmentTransaction transaction=manager.beginTransaction();
-                                            transaction.replace(childFrameLayout.getId(),viewBooking);
+                                            transaction.hide(manager.findFragmentByTag("detailFragment"));
+                                            if(manager.findFragmentByTag("viewBookingFragment")==null) {
+                                                transaction.add(childFrameLayout.getId(), viewBooking,"viewBookingFragment");
+                                            }else{
+                                                transaction.show(manager.findFragmentByTag("viewBookingFragment"));
+                                            }
                                             transaction.commit();
                                         }
                                     });
