@@ -43,7 +43,7 @@ public class chooseCategory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack(true,"chooseCategoryFragment","homeFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("chooseCategoryFragment","homeFragment",getActivity().getSupportFragmentManager());
         // Inflate the layout for this fragment
         mainFragmentView= inflater.inflate(R.layout.fragment_choose_category, container, false);
         return mainFragmentView;

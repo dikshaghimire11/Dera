@@ -114,7 +114,7 @@ public class AddBasicInfoProperties extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack(true,"addBasicInformationFragment","addressInformationFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("addBasicInformationFragment","addressInformationFragment",getActivity().getSupportFragmentManager());
         Bundle addPropertyDataBundle=getArguments();
         propertyJson=new JSONObject();
         category_Id=addPropertyDataBundle.getString("PropertyType");

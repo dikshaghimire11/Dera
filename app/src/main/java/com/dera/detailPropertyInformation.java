@@ -86,7 +86,7 @@ public class detailPropertyInformation extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait.....");
         progressDialog.show();
-        StaticClasses.backStackManager.setBackStack(true,"detailFragment","homeFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("detailFragment","homeFragment",getActivity().getSupportFragmentManager());
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         Bundle bundle = getArguments();
         name = bundle.getString("name");

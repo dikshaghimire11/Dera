@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -29,6 +31,7 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Login;
 import com.dera.StaticClasses;
+import com.dera.callback.OnExitApplication;
 import com.dera.callback.OnRemovedFragments;
 import com.dera.customer.UserBooking;
 import com.dera.customer.UserHistory;
@@ -387,11 +390,26 @@ public class houseOwnerDashboard extends AppCompatActivity {
 
             }catch (NullPointerException e){
                 Log.d("Fragment Not Found","Back Operation not performed");
-                super.onBackPressed();
+                StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                    @Override
+                    public void closeApplication() {
+                        houseOwnerDashboard.super.onBackPressed();
+                    }
+                },this);
             }
 
         }else{
-            super.onBackPressed();
+            StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                @Override
+                public void closeApplication() {
+                    houseOwnerDashboard.super.onBackPressed();
+                }
+            },this);
+
         }
     }
+
+
+
+
 }

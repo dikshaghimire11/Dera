@@ -31,7 +31,9 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.UserProfile;
 import com.dera.StaticClasses;
+import com.dera.callback.OnExitApplication;
 import com.dera.callback.OnRemovedFragments;
+import com.dera.houseowner.houseOwnerDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -352,16 +354,28 @@ public class UserDashboard extends AppCompatActivity {
     }
     public void onBackPressed(){
         Log.d("Back","Back is Pressed");
-        if(StaticClasses.backStackManager.getUseBackStack()){
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
             try{
                 StaticClasses.backStackManager.performBackStack();
 
             }catch (NullPointerException e){
                 Log.d("Fragment Not Found","Back Operation not performed");
+                StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                    @Override
+                    public void closeApplication() {
+                        UserDashboard.super.onBackPressed();
+                    }
+                },this);
             }
 
         }else{
-            super.onBackPressed();
+            StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                @Override
+                public void closeApplication() {
+                    UserDashboard.super.onBackPressed();
+                }
+            },this);
+
         }
     }
 

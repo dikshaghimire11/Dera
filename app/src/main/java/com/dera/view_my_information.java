@@ -33,7 +33,7 @@ public class view_my_information extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack(true,"myInformationFragment","profileFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("myInformationFragment","profileFragment",getActivity().getSupportFragmentManager());
         nameEt = view.findViewById(R.id.nameET);
         mobileEt = view.findViewById(R.id.MobileET);
         emailEt=view.findViewById(R.id.emailET);

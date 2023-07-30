@@ -1,5 +1,6 @@
 package com.dera;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.dera.callback.OnExitApplication;
 import com.dera.customer.UserHome;
+import com.dera.houseowner.houseOwnerDashboard;
 
 public class No_Login_UserDashboard extends AppCompatActivity {
 
@@ -44,23 +47,38 @@ public class No_Login_UserDashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(No_Login_UserDashboard.this,ChooseUserType.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
+
+
+
+
     @Override
     public void onBackPressed(){
         Log.d("Back","Back is Pressed");
-        if(StaticClasses.backStackManager.getUseBackStack()){
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
             try{
                 StaticClasses.backStackManager.performBackStack();
 
             }catch (NullPointerException e){
                 Log.d("Fragment Not Found","Back Operation not performed");
+                StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                    @Override
+                    public void closeApplication() {
+                        No_Login_UserDashboard.super.onBackPressed();
+                    }
+                },this);
             }
 
         }else{
-            super.onBackPressed();
+            StaticClasses.backStackManager.showExitDialog(new OnExitApplication() {
+                @Override
+                public void closeApplication() {
+                    No_Login_UserDashboard.super.onBackPressed();
+                }
+            },this);
+
         }
     }
 }

@@ -67,7 +67,7 @@ public class AddressInfo extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack(true,"addressInformationFragment","chooseCategoryFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("addressInformationFragment","chooseCategoryFragment",getActivity().getSupportFragmentManager());
         Spinner provinceSpinner, districtSpinner, localLevelSpinner, wardnoSpinner;
         ArrayList<String> provinceList = new ArrayList<>();
         ArrayList<String> districtList = new ArrayList<>();
