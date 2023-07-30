@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.dera.R;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
+import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -42,6 +43,7 @@ public class chooseCategory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        StaticClasses.backStackManager.setBackStack(true,"chooseCategoryFragment","homeFragment",getActivity().getSupportFragmentManager());
         // Inflate the layout for this fragment
         mainFragmentView= inflater.inflate(R.layout.fragment_choose_category, container, false);
         return mainFragmentView;
@@ -81,7 +83,12 @@ public class chooseCategory extends Fragment {
                 addressInfoFragment.setArguments(addPropertyDataBundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentlayout, addressInfoFragment);
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("chooseCategoryFragment"));
+                if(fragmentManager.findFragmentByTag("addressInformationFragment")==null) {
+                    fragmentTransaction.add(R.id.fragmentlayout, addressInfoFragment, "addressInformationFragment");
+                }else{
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("addressInformationFragment"));
+                }
                 fragmentTransaction.commit();
 
             }

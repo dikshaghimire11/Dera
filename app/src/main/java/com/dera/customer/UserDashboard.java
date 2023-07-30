@@ -325,7 +325,7 @@ public class UserDashboard extends AppCompatActivity {
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                     @Override
                     public void removedFragments(FragmentTransaction transaction) {
-                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.replace(R.id.fragmentlayout, fragment,"historyFragment");
                         transaction.commit();
                     }
                 });
@@ -341,7 +341,7 @@ public class UserDashboard extends AppCompatActivity {
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                     @Override
                     public void removedFragments(FragmentTransaction transaction) {
-                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.replace(R.id.fragmentlayout, fragment,"profileFragment");
                         transaction.commit();
                     }
                 });
@@ -349,6 +349,20 @@ public class UserDashboard extends AppCompatActivity {
         });
 
         StaticClasses.keyboardSupport.hideSoftKeyboard(this);
+    }
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getUseBackStack()){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+            }
+
+        }else{
+            super.onBackPressed();
+        }
     }
 
 

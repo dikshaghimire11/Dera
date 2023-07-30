@@ -291,7 +291,12 @@ public class houseOwnerDashboard extends AppCompatActivity {
                 Fragment fragment = new chooseCategory();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
+                transaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
+                if(fragmentManager.findFragmentByTag("chooseCategoryFragment")==null) {
+                    transaction.add(R.id.fragmentlayout, fragment, "chooseCategoryFragment");
+                }else{
+                    transaction.show(fragmentManager.findFragmentByTag("chooseCategoryFragment"));
+                }
                 transaction.commit();
                 create.setImageDrawable(null);
                 create.setClickable(false);
@@ -372,5 +377,21 @@ public class houseOwnerDashboard extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getIntStackCount()!=0){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+                super.onBackPressed();
+            }
+
+        }else{
+            super.onBackPressed();
+        }
     }
 }

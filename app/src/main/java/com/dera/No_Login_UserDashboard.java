@@ -48,4 +48,19 @@ public class No_Login_UserDashboard extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed(){
+        Log.d("Back","Back is Pressed");
+        if(StaticClasses.backStackManager.getUseBackStack()){
+            try{
+                StaticClasses.backStackManager.performBackStack();
+
+            }catch (NullPointerException e){
+                Log.d("Fragment Not Found","Back Operation not performed");
+            }
+
+        }else{
+            super.onBackPressed();
+        }
+    }
 }

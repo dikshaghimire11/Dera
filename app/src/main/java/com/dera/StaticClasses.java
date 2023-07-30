@@ -1,10 +1,12 @@
 package com.dera;
 
+import static androidx.core.content.ContextCompat.getMainExecutor;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,6 +130,84 @@ public class StaticClasses {
         public static void disableAutoOpenKeyboard(Activity activity){
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
+    }
+    public static class backStackManager{
+
+        private static int stackCount=0;
+        private static boolean useBackStack=false;
+        private static String fromFragmentName;
+        private static String toFragmentName;
+        private static FragmentManager currentFragmentManager;
+
+        public static int getIntStackCount(){
+            return stackCount;
+        }
+        public static void incStackCount(){
+            stackCount++;
+        }
+        public static void decStackCount(){
+            stackCount--;
+        }
+
+
+        public static void setBackStack(boolean value,String from,String to,FragmentManager fragmentManager){
+            useBackStack=value;
+            toFragmentName=to;
+            fromFragmentName=from;
+            currentFragmentManager=fragmentManager;
+            incStackCount();
+            Log.d("Back","Increase: "+getIntStackCount());
+
+            Log.d("Back","Value is Set: "+useBackStack);
+
+        }
+        public static void setUseBackStack(boolean value){
+            useBackStack=value;
+
+        }
+
+        public static boolean getUseBackStack(){
+            return useBackStack;
+        }
+        public static void performBackStack(){
+            decStackCount();
+            Log.d("Back","Decrease: "+getIntStackCount());
+            Log.d("Back","FromName: "+fromFragmentName+" ToName: "+toFragmentName);
+            FragmentTransaction currentTransaction=currentFragmentManager.beginTransaction();
+            Fragment fromFragment=currentFragmentManager.findFragmentByTag(fromFragmentName);
+            Log.d("Back","FromFragment: "+fromFragment);
+            Fragment toFragment=currentFragmentManager.findFragmentByTag(toFragmentName);
+            try {
+                if (toFragmentName.equals("homeFragment")) {
+                    Fragment extraFragment = currentFragmentManager.findFragmentByTag("propertyFragment");
+                    Log.d("Back", "ExtraFragment: " + extraFragment);
+                    currentTransaction.show(extraFragment);
+                }
+            }catch (Exception e){
+                Log.d("Home Fragment Not Found","Home Not Shown");
+            }
+            Log.d("Back","FromFragment: "+toFragment);
+            currentTransaction.hide(fromFragment);
+            try {
+                currentTransaction.show(toFragment);
+            }catch (NullPointerException e){
+                Log.d("To Fragment Not Found","ToFragment Now Shown");
+
+            }
+//            if(toFragment.equals("homeFragment")||toFragment.equals("bookingFragment")||toFragment.equals("profileFragment")||toFragment.equals("historyFragment")){
+//                setUseBackStack(false);
+//            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                currentTransaction.commitNow();
+            }
+
+            Log.d("Back","BackStack Performed");
+
+
+
+        }
+
+
     }
 
 
