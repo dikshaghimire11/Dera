@@ -285,14 +285,22 @@ public class houseOwnerDashboard extends AppCompatActivity {
         ImageView history = findViewById(R.id.historyIV);
         ImageView profile = findViewById(R.id.profileIV);
         ImageView create = findViewById(R.id.createIV);
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Fragment fragment = new chooseCategory();
                 FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentlayout, fragment);
-                transaction.commit();
+                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                    @Override
+                    public void removedFragments(FragmentTransaction transaction) {
+                        fragment.setArguments(bundle);
+                        transaction.replace(R.id.fragmentlayout, fragment,"homeFragment");
+                        transaction.commit();
+                        create.setImageResource(R.drawable.create);
+                        create.setClickable(true);
+                    }
+                });
                 create.setImageDrawable(null);
                 create.setClickable(false);
             }

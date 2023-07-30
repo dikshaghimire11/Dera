@@ -13,27 +13,32 @@ public class Property implements Serializable {
     public String number;
     public String photo;
     public String house_owner_id;
-    public  String Property_id;
+    public String Property_id;
     public String houseOwner_number;
-    JSONObject json;
+
+    private transient JSONObject json;
     public String name;
+    public String Status;
+    public String HistoryDate;
 
     Iterator<?> keys;
-    public boolean ignoreInFilter=false;
+    public boolean ignoreInFilter = false;
 
-    public Property(String category, String location,String fullLocation, String price, String number, String photo,JSONObject json,String house_owner_id,String Property_id,String name,String houseOwner_number) {
+    public Property(String category, String location, String fullLocation, String price, String number, String photo, JSONObject json, String house_owner_id, String Property_id, String name, String houseOwner_number, String Status, String HistoryDate) {
         this.category = category;
         this.location = location;
-        this.fullLocation=fullLocation;
+        this.fullLocation = fullLocation;
         this.price = price;
         this.number = number;
         this.photo = photo;
-        this.Property_id=Property_id;
-        this.house_owner_id=house_owner_id;
-        this.houseOwner_number=houseOwner_number;
-        this.name=name;
-        this.json=json;
-        this.keys=keys;
+        this.Property_id = Property_id;
+        this.house_owner_id = house_owner_id;
+        this.houseOwner_number = houseOwner_number;
+        this.name = name;
+        this.json = json;
+        this.keys = keys;
+        this.Status = Status;
+        this.HistoryDate = HistoryDate;
     }
 
     public String getCategory() {
@@ -56,23 +61,44 @@ public class Property implements Serializable {
         return photo;
     }
 
-    public  String getFullLocation(){return fullLocation;}
+    public String getFullLocation() {
+        return fullLocation;
+    }
 
-    public JSONObject getJson(){return  json;}
+    public JSONObject getJson() {
+        return json;
+    }
 
+    public String getStatus() {
+        return Status;
+    }
 
+    public String getHistoryDate() {
+        return HistoryDate;
+    }
 
 
     public void setIgnoreInFilter(boolean value) {
-        this.ignoreInFilter=value;
+        this.ignoreInFilter = value;
     }
-    public boolean getIsIgnoreInFilter(){
+
+    public boolean getIsIgnoreInFilter() {
         return ignoreInFilter;
     }
-    public String getProperty_id(){
+
+    public String getProperty_id() {
         return Property_id;
     }
-    public String getHouse_owner_id(){return house_owner_id;}
-    public  String getName(){return name;}
-    public String getHouseOwner_number(){return  houseOwner_number;}
+
+    public String getHouse_owner_id() {
+        return house_owner_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHouseOwner_number() {
+        return houseOwner_number;
+    }
 }

@@ -180,14 +180,25 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:translationZ="10dp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
 
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/messageTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:translationZ="10dp" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="Other Details:"
                         android:textColor="@color/themecolor" />
+
 
                     <GridView
                         android:id="@+id/detailsGridView"
@@ -236,7 +247,13 @@
         android:translationZ="10dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/EditInfoMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Property"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bookingMbtn"
             android:layout_width="wrap_content"
@@ -270,6 +287,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="View Booking"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/GoToBookingMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Go To Booking"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteMbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Delete Property"
             android:textAllCaps="false"
             android:textSize="15sp" />
 

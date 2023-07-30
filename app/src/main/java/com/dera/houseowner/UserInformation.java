@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.dera.StaticClasses;
 import com.dera.callback.OnRemovedFragments;
 import com.dera.customer.UserHome;
 import com.dera.detailPropertyInformation;
+import com.dera.models.Property;
 import com.dera.models.UserInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -49,6 +51,10 @@ public class UserInformation extends Fragment {
     ArrayList<UserInfo> userInfo;
     String fullName, number, date;
     String Property_id;
+    int scrollPosition;
+    MaterialCardView backMcv;
+    Property property;
+    String name;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,9 +67,13 @@ public class UserInformation extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         listView = view.findViewById(R.id.userlist);
+        FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
+        backMcv=view.findViewById(R.id.backMCV);
         Bundle bundle = getArguments();
         Property_id = bundle.getString("property_id");
-        Log.d("Property_Id", "" + Property_id);
+         property = (Property) bundle.getSerializable("model");
+         scrollPosition = bundle.getInt("scrollPosition");
+         name = bundle.getString("name");
         userInfo = new ArrayList<UserInfo>();
         String url = "http://" + IpStatic.IpAddress.ip + ":80/api/GetUserListedFromBooking?property_id=" + Property_id;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -114,7 +124,7 @@ public class UserInformation extends Fragment {
                             approvebtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id();
+                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+3;
                                     StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
@@ -147,7 +157,7 @@ public class UserInformation extends Fragment {
                                                                 JSONObject jsonObject2 = new JSONObject(response);
                                                                 String status = jsonObject2.getString("status");
                                                                 if (status.compareTo("200") == 0) {
-                                                                    Fragment fragment = new UserHome();
+                                                                    Fragment fragment = new houseOwnerHome();
                                                                     FragmentManager manager = getActivity().getSupportFragmentManager();
                                                                     StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                                                                         @Override
@@ -177,7 +187,7 @@ public class UserInformation extends Fragment {
                                                         public byte[] getBody() throws AuthFailureError {
                                                             try {
                                                                 JSONObject jsonBody = new JSONObject();
-                                                                jsonBody.put("booking_id", userInfo1.getBooking_id());
+                                                                jsonBody.put("property_id", Property_id);
                                                                 jsonBody.put("status", "approve");
                                                                 return jsonBody.toString().getBytes("utf-8");
                                                             } catch (JSONException |
@@ -217,7 +227,7 @@ public class UserInformation extends Fragment {
                             canclebtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id();
+                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+2;
                                     StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
@@ -236,7 +246,7 @@ public class UserInformation extends Fragment {
                                                                 String status = jsonObject2.getString("status");
                                                                 if (status.compareTo("200") == 0) {
 
-                                                                    Fragment fragment = new UserHome();
+                                                                    Fragment fragment = new houseOwnerHome();;
                                                                     FragmentManager manager = getActivity().getSupportFragmentManager();
                                                                     StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                                                                         @Override
@@ -267,8 +277,8 @@ public class UserInformation extends Fragment {
                                                         public byte[] getBody() throws AuthFailureError {
                                                             try {
                                                                 JSONObject jsonBody = new JSONObject();
-                                                                jsonBody.put("booking_id", userInfo1.getBooking_id());
-                                                                jsonBody.put("status", "cancelbyhouseowner");
+                                                                jsonBody.put("property_id",Property_id);
+                                                                jsonBody.put("status", "canceled by houseowner");
                                                                 return jsonBody.toString().getBytes("utf-8");
                                                             } catch (JSONException |
                                                                      UnsupportedEncodingException e) {
@@ -322,6 +332,22 @@ public class UserInformation extends Fragment {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+        backMcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detailPropertyInformation detailFragment = new detailPropertyInformation();
+                Bundle b=new Bundle();
+                b.putSerializable("model", property);
+                b.putInt("scrollPosition", scrollPosition);
+                b.putString("name", name);
+                detailFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("viewBooking"));
+                fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
+                fragmentTransaction.commit();
+            }
+        });
 
         super.onViewCreated(view, savedInstanceState);
     }

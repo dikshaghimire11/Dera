@@ -325,7 +325,7 @@ public class UserDashboard extends AppCompatActivity {
                 StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
                     @Override
                     public void removedFragments(FragmentTransaction transaction) {
-                        transaction.replace(R.id.fragmentlayout, fragment);
+                        transaction.replace(R.id.fragmentlayout, fragment,"historyFragment");
                         transaction.commit();
                     }
                 });
