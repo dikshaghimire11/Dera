@@ -335,6 +335,14 @@ public class user_properties extends Fragment {
                                 fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
                             } catch (NullPointerException e) {
                             }
+                            try {
+                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("historyFragment"));
+                            } catch (NullPointerException e) {
+                            }
+                            try {
+                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("bookingFragment"));
+                            } catch (NullPointerException e) {
+                            }
                             homeScroll.setVerticalScrollbarPosition(300);
                             fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
 
@@ -384,9 +392,10 @@ public class user_properties extends Fragment {
         String name = data.has("name") ? data.getString("name") : "";
         String houseOwner_number = data.getString("mobile");
         String fullLocation=data.getString("provinceName")+" "+data.getString("districtName")+" "+data.getString("localLevelName")+" "+data.getString("wardName")+" "+data.getString("tole");
+        String Status=data.has("HistoryStatus")?data.getString("HistoryStatus"):"";
+        String HistoryDate=data.has("HistoryDate")? data.getString("HistoryDate"):"";
 
-
-        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number);
+        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate);
 
         if(searchView!=null) {
             searchSuggestionList.add(data.getString("tole"));

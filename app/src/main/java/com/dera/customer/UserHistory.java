@@ -31,7 +31,7 @@ public class UserHistory extends Fragment {
         Log.d("Url",""+url);
         Bundle bundle=new Bundle();
         bundle.putString("url",url);
-        bundle.putString("name","historyFragment");
+        bundle.putString("name","UserhistoryFragment");
         property.setArguments(bundle);
         propertyTransaction.add(R.id.propertiesFragment,property,"propertyFragment");
         propertyTransaction.commit();

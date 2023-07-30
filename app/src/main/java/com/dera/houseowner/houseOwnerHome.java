@@ -45,6 +45,7 @@ public class houseOwnerHome extends Fragment {
         Log.d("Url", "" + url);
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
+        bundle.putString("name","houseOwnerhomeFragment");
         property.setArguments(bundle);
         transaction.add(R.id.propertiesFragment, property, "propertyFragment");
 

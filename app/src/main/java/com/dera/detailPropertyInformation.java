@@ -2,6 +2,7 @@ package com.dera;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,15 +38,19 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dera.Adapter.PropertyDetailsGridView;
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.SimilarFiles.Login;
 import com.dera.SimilarFiles.user_properties;
 import com.dera.StaticClasses;
 import com.dera.callback.OnRemovedFragments;
+import com.dera.customer.UserBooking;
 import com.dera.customer.UserHome;
 import com.dera.houseowner.UserInformation;
+import com.dera.houseowner.houseOwnerHome;
 import com.dera.models.Property;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,10 +63,11 @@ import java.util.Map;
 
 public class detailPropertyInformation extends Fragment {
     ImageView imageView;
-    TextView textView, fullLocation, title, number, priceTV;
+    TextView textView, fullLocation, title, number, priceTV, messageTv;
     GridView gridView;
     MaterialCardView backButton;
-    MaterialButton bookButton, contactbtn, canclebtn, viewBookingbtn;
+    ArrayList<Property> properties;
+    MaterialButton bookButton, contactbtn, canclebtn, viewBookingbtn, gotoBooking, editPropertyBtn, deletePropertyBtn;
     ScrollView homeScroll;
     String house_owner_id, Property_id;
     int usertypeid;
@@ -70,7 +76,7 @@ public class detailPropertyInformation extends Fragment {
     MaterialCardView bottonView;
     ConstraintLayout detailProperty;
     LinearLayout linearLayoutButtons;
-    String userId, houseOwner_number, house_ownername;
+    String userId, houseOwner_number, house_ownername, Status, HistoryDate;
 
 
     @Override
@@ -86,6 +92,7 @@ public class detailPropertyInformation extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait.....");
         progressDialog.show();
+        properties = new ArrayList<Property>();
         StaticClasses.backStackManager.setBackStack("detailFragment","homeFragment",getActivity().getSupportFragmentManager());
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         Bundle bundle = getArguments();
@@ -100,12 +107,26 @@ public class detailPropertyInformation extends Fragment {
         canclebtn = view.findViewById(R.id.cancleMbtn);
         bottonView = getActivity().findViewById(R.id.bottonV);
         title = view.findViewById(R.id.title);
+        gotoBooking = view.findViewById(R.id.GoToBookingMbtn);
+        deletePropertyBtn = view.findViewById(R.id.deleteMbtn);
         priceTV = view.findViewById(R.id.priceTV);
         backButton = view.findViewById(R.id.backMCV);
         bookButton = view.findViewById(R.id.bookingMbtn);
         contactbtn = view.findViewById(R.id.contactMbtn);
+        editPropertyBtn = view.findViewById(R.id.EditInfoMbtn);
         viewBookingbtn = view.findViewById(R.id.ViewBookingMbtn);
         linearLayoutButtons = view.findViewById(R.id.buttonsLayout);
+        messageTv = view.findViewById(R.id.messageTV);
+        ImageView create = getActivity().findViewById(R.id.createIV);
+        if (create != null) {
+            create.setImageDrawable(null);
+            create.setClickable(false);
+        }
+        deletePropertyBtn.setClickable(false);
+        ViewGroup deletebtnParent = (ViewGroup) deletePropertyBtn.getParent();
+        deletebtnParent.removeView(deletePropertyBtn);
+
+
         contactbtn.setClickable(false);
         ViewGroup contactbtnParent = (ViewGroup) contactbtn.getParent();
         contactbtnParent.removeView(contactbtn);
@@ -113,6 +134,12 @@ public class detailPropertyInformation extends Fragment {
         bookButton.setClickable(false);
         ViewGroup bookButtonParent = (ViewGroup) bookButton.getParent();
         bookButtonParent.removeView(bookButton);
+
+
+        gotoBooking.setClickable(false);
+        ViewGroup GotoButtonParent = (ViewGroup) gotoBooking.getParent();
+        GotoButtonParent.removeView(gotoBooking);
+
 
         canclebtn.setClickable(false);
         ViewGroup cancle = (ViewGroup) canclebtn.getParent();
@@ -122,6 +149,10 @@ public class detailPropertyInformation extends Fragment {
         viewBookingbtn.setClickable(false);
         ViewGroup viewBookig = (ViewGroup) viewBookingbtn.getParent();
         viewBookig.removeView(viewBookingbtn);
+
+        editPropertyBtn.setClickable(false);
+        ViewGroup editProperty = (ViewGroup) editPropertyBtn.getParent();
+        editProperty.removeView(editPropertyBtn);
 
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) linearLayoutButtons.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, bottonView.getHeight());
@@ -138,24 +169,37 @@ public class detailPropertyInformation extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag("detailFragment"));
+
                 fragmentTransaction.show(fragmentManager.findFragmentByTag("propertyFragment"));
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("homeFragment"));
+                    create.setImageResource(R.drawable.create);
+                    create.setClickable(true);
                 } catch (NullPointerException e) {
                     Log.d("Fragment Not Found", "Removal Ignored");
                 }
+                try {
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("historyFragment"));
+                } catch (NullPointerException e) {
+                    Log.d("Fragment Not Found", "Removal Ignored");
+                }
+                try {
+                    fragmentTransaction.show(fragmentManager.findFragmentByTag("bookingFragment"));
+                } catch (NullPointerException e) {
+                    Log.d("Fragment Not Found", "Removal Ignored");
+                }
+
                 Log.d("FragmentDetail", "" + fragmentManager.findFragmentByTag("propertyFragment"));
                 homeScroll.setVerticalScrollbarPosition(bundle.getInt("scrollPosition"));
 
                 // fragmentTransaction.replace(R.id.propertiesFragment,user_properties);
                 fragmentTransaction.commit();
+
             }
         });
         if (bundle != null) {
             Property property = (Property) bundle.getSerializable("model");
-            Log.d("Property", "" + bundle.getSerializable("model"));
             textView.setText(property.getCategory());
-
             title.setText(property.getCategory());
             fullLocation.setText(property.getLocation());
             priceTV.setText(property.getPrice());
@@ -164,6 +208,98 @@ public class detailPropertyInformation extends Fragment {
             Property_id = property.getProperty_id();
             house_ownername = property.getName();
             houseOwner_number = property.getHouseOwner_number();
+            Status = property.getStatus();
+            HistoryDate = property.getHistoryDate();
+            if (name.equals("UserhistoryFragment")) {
+                String getStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusfromHistory?property_id="+Property_id+"&customer_id="+StaticClasses.loginInfo.UserID;
+                StringRequest getStatue=new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseObj = new JSONObject(response);
+                            JSONArray propertiesArray = responseObj.getJSONArray("property");
+                            String BookingStatus,PropertyStatus,Historydate;
+                            if (propertiesArray.length() > 0) {
+                                JSONObject propertyObj = propertiesArray.getJSONObject(0); // Assuming you are interested in the first property object
+
+                                 BookingStatus = propertyObj.getString("BookingStatus");
+                                 PropertyStatus = propertyObj.getString("PropertyStatus");
+                                 Historydate = propertyObj.getString("HistoryDate");
+                                 if(BookingStatus.equals("0")){
+                                     if (PropertyStatus.equals("2")) {
+                                         messageTv.setText("Deleted By HouseOwner at " + Historydate);
+                                 }
+                                     if (PropertyStatus.equals("1") && BookingStatus.equals("0")) {
+                                         messageTv.setText("Property Occupied at " + Historydate);
+                                     }
+                                 }else {
+                                     if (BookingStatus.equals("1")) {
+                                         messageTv.setText("Cancelled By YoursSelf at " + Historydate);
+                                     } if (BookingStatus.equals("2")) {
+                                         messageTv.setText("Cancelled By HouseOwner at " + Historydate);
+                                     }  if (BookingStatus.equals("3") && PropertyStatus.equals("1")) {
+                                         messageTv.setText("Approved By HouseOwner at " + Historydate);
+                                     }  if (PropertyStatus.equals("2")) {
+                                         messageTv.setText("Deleted By HouseOwner at " + Historydate);
+                                     }
+                                 }
+                            }
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                RequestQueue requestQueue=Volley.newRequestQueue(getContext());
+                requestQueue.add(getStatue);
+
+            }if(name.equals("HouseOwnerhistoryFragment")){
+                String getStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromHistory?property_id="+Property_id+"&house_owner_id="+StaticClasses.loginInfo.UserID;
+                StringRequest getStatue=new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseObj = new JSONObject(response);
+                            JSONArray propertiesArray = responseObj.getJSONArray("property");
+                            String BookingStatus,PropertyStatus,Historydate;
+                            if (propertiesArray.length() > 0) {
+                                JSONObject propertyObj = propertiesArray.getJSONObject(0); // Assuming you are interested in the first property object
+
+                                BookingStatus = propertyObj.getString("BookingStatus");
+                                PropertyStatus = propertyObj.getString("PropertyStatus");
+                                Historydate = propertyObj.getString("HistoryDate");
+
+                                    if (PropertyStatus.equals("2")) {
+                                        messageTv.setText("Deleted the Property at " + Historydate);
+                                    }
+                                    if(PropertyStatus.equals("1")){
+                                        messageTv.setText("Approved Booking at " + Historydate);
+
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                RequestQueue requestQueue=Volley.newRequestQueue(getContext());
+                requestQueue.add(getStatue);
+            }
 
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.logo_in_bricks_foreground)
@@ -203,7 +339,7 @@ public class detailPropertyInformation extends Fragment {
         }
         if (usertypeid != 0) {
             if (usertypeid == 3) {
-                String getBooking = "http://" +IpStatic.IpAddress.ip + ":80/api/GetBookingInfo?customer_id=" + userId + "&property_id=" + Property_id;
+                String getBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/GetBookingInfo?customer_id=" + userId + "&property_id=" + Property_id;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, getBooking, new Response.Listener<String>() {
                     @Override
@@ -216,7 +352,7 @@ public class detailPropertyInformation extends Fragment {
                             if (status.compareTo("200") == 0) {
                                 JSONObject dataObject = jsonObject.getJSONObject("data");
                                 id = dataObject.getString("id");
-
+                                    Log.d("booking_id",""+id);
                                 if (name.equals("bookingFragment")) {
                                     contactbtn.setClickable(true);
                                     contactbtnParent.addView(contactbtn);
@@ -224,7 +360,28 @@ public class detailPropertyInformation extends Fragment {
                                     cancle.addView(canclebtn);
                                     progressDialog.dismiss();
                                 }
+                                if (name.equals("homeFragment")) {
+                                    gotoBooking.setClickable(true);
+                                    GotoButtonParent.addView(gotoBooking);
+
+                                }
                                 progressDialog.dismiss();
+
+                                gotoBooking.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Fragment bookingFragment = new UserBooking();
+                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                        StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                            @Override
+                                            public void removedFragments(FragmentTransaction transaction) {
+                                                transaction.replace(R.id.fragmentlayout, bookingFragment, "bookingFragment");
+                                                transaction.commit();
+                                            }
+                                        });
+                                    }
+                                });
+
                                 contactbtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -252,7 +409,7 @@ public class detailPropertyInformation extends Fragment {
                                 canclebtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + id;
+                                        String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + id+"&status="+1;
                                         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
@@ -299,8 +456,8 @@ public class detailPropertyInformation extends Fragment {
                                                             public byte[] getBody() throws AuthFailureError {
                                                                 try {
                                                                     JSONObject jsonBody = new JSONObject();
-                                                                    jsonBody.put("booking_id", id);
-                                                                    jsonBody.put("status", "cancel");
+                                                                    jsonBody.put("property_id", Property_id);
+                                                                    jsonBody.put("status", "canceled by roomfinder");
                                                                     return jsonBody.toString().getBytes("utf-8");
                                                                 } catch (JSONException |
                                                                          UnsupportedEncodingException e) {
@@ -369,7 +526,7 @@ public class detailPropertyInformation extends Fragment {
                 requestQueue.add(stringRequest);
 
             } else if (usertypeid == 2) {
-                String getBooking = "http://" +IpStatic.IpAddress.ip + ":80/api/GetHouseOwnerBookingInfo?house_owner_id=" + StaticClasses.loginInfo.UserID + "&property_id=" + Property_id;
+                String getBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/GetHouseOwnerBookingInfo?house_owner_id=" + StaticClasses.loginInfo.UserID + "&property_id=" + Property_id;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, getBooking, new Response.Listener<String>() {
                     @Override
@@ -388,10 +545,17 @@ public class detailPropertyInformation extends Fragment {
                                     viewBookingbtn.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("Click","ViewBooking is click");
-                                            Fragment viewBooking=new UserInformation();
-                                            Bundle bundle1=new Bundle();
+                                            Log.d("Click", "ViewBooking is click");
+                                            Fragment viewBooking = new UserInformation();
+                                            Bundle arguments = getArguments();
+                                            Property property = (Property) arguments.getSerializable("model");
+                                            int scrollPosition = arguments.getInt("scrollPosition");
+                                            String name = arguments.getString("name");
+                                            Bundle bundle1 = new Bundle();
                                             bundle1.putString("property_id", Property_id);
+                                            bundle1.putInt("scrollPosition", scrollPosition);
+                                            bundle1.putSerializable("model", property);
+                                            bundle1.putString("name", name);
                                             viewBooking.setArguments(bundle1);
                                             FragmentManager manager=getActivity().getSupportFragmentManager();
                                             FragmentTransaction transaction=manager.beginTransaction();
@@ -407,6 +571,7 @@ public class detailPropertyInformation extends Fragment {
 
 
                                 }
+
                                 progressDialog.dismiss();
                             }
 
@@ -435,14 +600,116 @@ public class detailPropertyInformation extends Fragment {
                 };
                 RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                 requestQueue.add(stringRequest);
+                if (name.equals("houseOwnerhomeFragment")) {
+                    editPropertyBtn.setClickable(true);
+                    editProperty.addView(editPropertyBtn);
+                    deletePropertyBtn.setClickable(true);
+                    deletebtnParent.addView(deletePropertyBtn);
+
+                    editPropertyBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+                    if (isAdded() && getActivity() != null) {
+                        deletePropertyBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String deletePropertyurl = "http://" + IpStatic.IpAddress.ip + ":80/api/DeleteByHouseOwner?property_id=" + Property_id;
+                                StringRequest deleteProperty = new StringRequest(Request.Method.GET, deletePropertyurl, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            String status = jsonObject.getString("status");
+                                            if (status.compareTo("200") == 0) {
+                                                Toast.makeText(getContext(), "Deleted Sucessful!", Toast.LENGTH_LONG).show();
+                                                String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
+                                                StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        try {
+                                                            JSONObject jsonObject2 = new JSONObject(response);
+                                                            String status = jsonObject2.getString("status");
+                                                            if (status.compareTo("200") == 0) {
+                                                                Fragment fragment = new houseOwnerHome();
+                                                                FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                                                    @Override
+                                                                    public void removedFragments(FragmentTransaction transaction) {
+                                                                        fragment.setArguments(bundle);
+                                                                        transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
+                                                                        transaction.commit();
+                                                                    }
+                                                                });
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }) {
+                                                    public String getBodyContentType() {
+                                                        return "application/json; charset=utf-8";
+                                                    }
+
+                                                    @Nullable
+                                                    @Override
+                                                    public byte[] getBody() throws AuthFailureError {
+                                                        try {
+                                                            JSONObject jsonBody = new JSONObject();
+                                                            jsonBody.put("property_id", Property_id);
+                                                            jsonBody.put("status", "Deleted by HouseOwner");
+                                                            return jsonBody.toString().getBytes("utf-8");
+                                                        } catch (JSONException |
+                                                                 UnsupportedEncodingException e) {
+                                                            throw new AuthFailureError(e.getMessage());
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                        Map<String, String> params = new HashMap<String, String>();
+                                                        params.put("Accept", "application/json");
+                                                        params.put("Content-Type", "application/json");
+                                                        return params;
+                                                    }
+                                                };
+
+                                                RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
+                                                historyrequestQueue.add(history);
+
+
+                                            }
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getContext(), "Something went wrong!" + error.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                RequestQueue deleteQueue = Volley.newRequestQueue(getContext());
+                                deleteQueue.add(deleteProperty);
+                            }
+                        });
+                    }
+
+                }
             }
         }
         progressDialog.show();
         if (usertypeid != 0) {
             if (usertypeid == 3) {
-
-
-                String getBookingInfo = "http://" +IpStatic.IpAddress.ip + ":80/api/GetBookingInfo?customer_id=" + userId + "&property_id=" + Property_id;
+                String getBookingInfo = "http://" + IpStatic.IpAddress.ip + ":80/api/GetBookingInfo?customer_id=" + userId + "&property_id=" + Property_id;
                 StringRequest stringRequest2 = new StringRequest(Request.Method.GET, getBookingInfo, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -451,7 +718,7 @@ public class detailPropertyInformation extends Fragment {
                             jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("status");
                             if (status.compareTo("404") == 0) {
-                                if (name.equals("historyFragment")) {
+                                if (name.equals("UserhistoryFragment")) {
                                     bookButton.setClickable(false);
                                     bookButtonParent.removeView(bookButton);
                                 } else {
@@ -472,8 +739,31 @@ public class detailPropertyInformation extends Fragment {
                                                     JSONObject jsonObject = new JSONObject(response);
                                                     String status = jsonObject.getString("status");
                                                     if (status.compareTo("200") == 0) {
+                                                        progressDialog.show();
                                                         Toast.makeText(getContext(), "Booked Sucessful!", Toast.LENGTH_LONG).show();
+                                                        Bundle arguments = getArguments();
+                                                        Property property = (Property) arguments.getSerializable("model");
+                                                        int scrollPosition = arguments.getInt("scrollPosition");
+                                                        String name = arguments.getString("name");
+                                                        detailPropertyInformation detailFragment = new detailPropertyInformation();
+                                                        Bundle b = new Bundle();
+                                                        b.putSerializable("model", property);
+                                                        b.putInt("scrollPosition", scrollPosition);
+                                                        b.putString("name", name);
+                                                        detailFragment.setArguments(bundle);
+                                                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                                        fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
+                                                        fragmentTransaction.hide(fragmentManager.findFragmentByTag("detailFragment"));
+                                                        try {
+                                                            fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
+                                                        } catch (NullPointerException e) {
+                                                        }
+                                                        homeScroll.setVerticalScrollbarPosition(300);
+                                                        fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
 
+                                                        fragmentTransaction.commit();
+                                                        progressDialog.dismiss();
                                                     }
                                                     if (status.compareTo("422") == 0) {
                                                         Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_LONG).show();
@@ -559,8 +849,20 @@ public class detailPropertyInformation extends Fragment {
 
             }
             progressDialog.dismiss();
+        } else {
+            bookButton.setClickable(true);
+            bookButtonParent.addView(bookButton);
+            bookButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), Login.class);
+                    intent.putExtra("usertype", 3);
+                    startActivity(intent);
+                }
+            });
         }
         progressDialog.dismiss();
+
 
     }
 }
