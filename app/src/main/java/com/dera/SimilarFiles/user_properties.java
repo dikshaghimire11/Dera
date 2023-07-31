@@ -16,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.android.volley.Request;
@@ -53,6 +55,9 @@ public class user_properties extends Fragment {
     ListView suggestionsListView;
     Fragment searchFragment;
     View searchView;
+    ProgressBar progressBar;
+    ImageView noRecordsIV;
+    ImageView checkConnectionIV;
     private int gridViewScrollPosition = 0;
     user_properties thisfragment;
 
@@ -94,6 +99,11 @@ public class user_properties extends Fragment {
         properties=new ArrayList<Property>();
         Log.d("Gipsy","New Array Created");
         propertiesList=view.findViewById(R.id.propertieslist);
+        progressBar=view.findViewById(R.id.progressBar);
+        noRecordsIV=view.findViewById(R.id.noRecordsFoundIV);
+        noRecordsIV.setVisibility(View.GONE);
+        checkConnectionIV=view.findViewById(R.id.checkConnectionIV);
+        checkConnectionIV.setVisibility(View.GONE);
         Bundle bundle=getArguments();
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         String url=bundle.getString("url");
@@ -115,252 +125,255 @@ public class user_properties extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONArray jsonArray= new JSONArray(jsonObject.getString("property"));
-                    int k=0;
-                    for(int i=0;i<jsonArray.length();i++){
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = new JSONArray(jsonObject.getString("property"));
+                    int k = 0;
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         k++;
-                        Property property=makePropertyObject(jsonArray.getJSONObject(i));
-                      if(applyFilter!=null){ if(applyFilter.compareTo("true")==0){
-                          int matchCount=0;
-                          int tempCount=0;
+                        Property property = makePropertyObject(jsonArray.getJSONObject(i));
+                        if (applyFilter != null) {
+                            if (applyFilter.compareTo("true") == 0) {
+                                int matchCount = 0;
+                                int tempCount = 0;
 
-                          if(categoryFilter.size()!=0){
-                              tempCount=matchCount;
-                              for(int j=0;j<categoryFilter.size();j++){
-                                  if(categoryFilter.get(j).equals(property.getCategory())){
-                                      matchCount++;
-
-                                  }
-                              }
-                              if(tempCount==matchCount){
-                                  property.setIgnoreInFilter(true);
-                              }
-
-                          }
-
-                          if(subCategoryFilter.size()!=0) {
-
-                            if(property.getIsIgnoreInFilter()){
-                            matchCount=0;
-                            }else {
-                                tempCount = matchCount;
-                                for (int j = 0; j < subCategoryFilter.size(); j++) {
-
-                                    if (subCategoryFilter.get(j).equals("B")) {
-                                        if (property.getNumber().equals("1B")) {
+                                if (categoryFilter.size() != 0) {
+                                    tempCount = matchCount;
+                                    for (int j = 0; j < categoryFilter.size(); j++) {
+                                        if (categoryFilter.get(j).equals(property.getCategory())) {
                                             matchCount++;
-                                        }
-                                    } else if (subCategoryFilter.get(j).equals("BK")) {
 
-                                        if (!property.getNumber().isEmpty()) {
-                                            if (property.getNumber().substring(1).equals("BK")) {
-                                                matchCount++;
-                                            }
                                         }
-
-                                    } else {
-                                        if (!property.getNumber().isEmpty()) {
-                                            if (property.getNumber().equals(subCategoryFilter.get(j))) {
-                                                matchCount++;
-                                            }
-                                        }
+                                    }
+                                    if (tempCount == matchCount) {
+                                        property.setIgnoreInFilter(true);
                                     }
 
                                 }
+
+                                if (subCategoryFilter.size() != 0) {
+
+                                    if (property.getIsIgnoreInFilter()) {
+                                        matchCount = 0;
+                                    } else {
+                                        tempCount = matchCount;
+                                        for (int j = 0; j < subCategoryFilter.size(); j++) {
+
+                                            if (subCategoryFilter.get(j).equals("B")) {
+                                                if (property.getNumber().equals("1B")) {
+                                                    matchCount++;
+                                                }
+                                            } else if (subCategoryFilter.get(j).equals("BK")) {
+
+                                                if (!property.getNumber().isEmpty()) {
+                                                    if (property.getNumber().substring(1).equals("BK")) {
+                                                        matchCount++;
+                                                    }
+                                                }
+
+                                            } else {
+                                                if (!property.getNumber().isEmpty()) {
+                                                    if (property.getNumber().equals(subCategoryFilter.get(j))) {
+                                                        matchCount++;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    if (tempCount == matchCount) {
+                                        property.setIgnoreInFilter(true);
+                                    }
+
+                                }
+
+                                if (facilityFilter.size() != 0) {
+                                    tempCount = matchCount;
+                                    if (property.getIsIgnoreInFilter()) {
+                                        matchCount = 0;
+                                    } else {
+                                        tempCount = matchCount;
+                                        JSONObject json = property.getJson();
+
+                                        for (int j = 0; j < facilityFilter.size(); j++) {
+                                            try {
+                                                if (facilityFilter.get(j).equals("attachedBathroom")) {
+                                                    if (json.getString("BathroomType").equals("Attached")) {
+                                                        matchCount++;
+                                                    }
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            try {
+                                                if (facilityFilter.get(j).equals("alwaysWater")) {
+                                                    if (json.getString("HouseHoldWater").equals("Plently")) {
+                                                        matchCount++;
+                                                    }
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            try {
+                                                if (facilityFilter.get(j).equals("carParking")) {
+                                                    if (json.getString("CarParking").equals("Yes")) {
+                                                        matchCount++;
+                                                    }
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            try {
+                                                if (facilityFilter.get(j).equals("bikeParking")) {
+                                                    if (json.getString("BikeParking").equals("Yes")) {
+                                                        matchCount++;
+                                                    }
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                    if (tempCount == matchCount) {
+                                        property.setIgnoreInFilter(true);
+                                    }
+
+                                }
+
+
+                                if (priceSearch != null) {
+                                    if (priceSearch.equals("true")) {
+                                        if (property.getIsIgnoreInFilter() == true) {
+                                            matchCount = 0;
+                                        } else {
+                                            tempCount = matchCount;
+                                            if (minPrice != 0 && maxPrice != 0) {
+
+                                                Log.d("Price", "MinPrice:" + minPrice + " MaxPrice:" + maxPrice);
+                                                if (Integer.valueOf(property.getPrice()) >= minPrice && Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                                    matchCount++;
+
+                                                }
+                                                if (tempCount == matchCount) {
+                                                    property.setIgnoreInFilter(true);
+                                                }
+
+                                            } else if (maxPrice != 0) {
+                                                Log.d("Price", "MaxPrice:" + maxPrice);
+                                                if (Integer.valueOf(property.getPrice()) <= maxPrice) {
+                                                    matchCount++;
+
+                                                }
+                                                if (tempCount == matchCount) {
+                                                    property.setIgnoreInFilter(true);
+                                                }
+
+                                            } else if (minPrice != 0) {
+                                                Log.d("Price", "MinPrice:" + minPrice);
+                                                if (Integer.valueOf(property.getPrice()) >= minPrice) {
+                                                    matchCount++;
+
+                                                }
+                                                if (tempCount == matchCount) {
+                                                    property.setIgnoreInFilter(true);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+
+
+                                if (searchData != null) {
+                                    if (!searchData.isEmpty()) {
+
+                                        if (property.getIsIgnoreInFilter()) {
+                                            matchCount = 0;
+                                        } else {
+
+                                            tempCount = matchCount;
+                                            if (FuzzySearch.fuzzySearch(searchData.toString(), property.getFullLocation())) {
+
+                                                matchCount++;
+                                            } else {
+                                                property.setIgnoreInFilter(true);
+
+                                            }
+
+
+                                        }
+
+
+                                    }
+                                }
+
+
+                                if (property.getIsIgnoreInFilter() == false) {
+                                    properties.add(property);
+
+                                }
+
+
                             }
-                              if(tempCount==matchCount){
-                                  property.setIgnoreInFilter(true);
-                              }
 
-                          }
-
-                          if(facilityFilter.size()!=0) {
-                              tempCount=matchCount;
-                              if (property.getIsIgnoreInFilter()) {
-                                    matchCount=0;
-                              } else {
-                                  tempCount=matchCount;
-                                  JSONObject json = property.getJson();
-
-                                  for (int j = 0; j < facilityFilter.size(); j++) {
-                                      try {
-                                          if (facilityFilter.get(j).equals("attachedBathroom")) {
-                                              if (json.getString("BathroomType").equals("Attached")) {
-                                                  matchCount++;
-                                              }
-                                          }
-                                      } catch (JSONException e) {
-                                          e.printStackTrace();
-                                      }
-                                      try {
-                                          if (facilityFilter.get(j).equals("alwaysWater")) {
-                                              if (json.getString("HouseHoldWater").equals("Plently")) {
-                                                  matchCount++;
-                                              }
-                                          }
-                                      } catch (JSONException e) {
-                                          e.printStackTrace();
-                                      }
-                                      try {
-                                          if (facilityFilter.get(j).equals("carParking")) {
-                                              if (json.getString("CarParking").equals("Yes")) {
-                                                  matchCount++;
-                                              }
-                                          }
-                                      } catch (JSONException e) {
-                                          e.printStackTrace();
-                                      }
-                                      try {
-                                          if (facilityFilter.get(j).equals("bikeParking")) {
-                                              if (json.getString("BikeParking").equals("Yes")) {
-                                                  matchCount++;
-                                              }
-                                          }
-                                      } catch (JSONException e) {
-                                          e.printStackTrace();
-                                      }
-                                  }
-                              }
-                              if(tempCount==matchCount){
-                                  property.setIgnoreInFilter(true);
-                              }
-
-                          }
-
-
-                          if(priceSearch!=null){
-                              if(priceSearch.equals("true")){
-                                  if(property.getIsIgnoreInFilter()==true){
-                                      matchCount=0;
-                                  }
-                                  else {
-                                      tempCount=matchCount;
-                                      if (minPrice != 0 && maxPrice != 0) {
-
-                                          Log.d("Price", "MinPrice:" + minPrice + " MaxPrice:" + maxPrice);
-                                          if (Integer.valueOf(property.getPrice()) >= minPrice && Integer.valueOf(property.getPrice()) <= maxPrice) {
-                                              matchCount++;
-
-                                          }
-                                          if(tempCount==matchCount){
-                                              property.setIgnoreInFilter(true);
-                                          }
-
-                                      } else if (maxPrice != 0) {
-                                          Log.d("Price", "MaxPrice:" + maxPrice);
-                                          if (Integer.valueOf(property.getPrice()) <= maxPrice) {
-                                              matchCount++;
-
-                                          }
-                                          if(tempCount==matchCount){
-                                              property.setIgnoreInFilter(true);
-                                          }
-
-                                      } else if (minPrice != 0) {
-                                          Log.d("Price", "MinPrice:" + minPrice);
-                                          if (Integer.valueOf(property.getPrice()) >= minPrice) {
-                                              matchCount++;
-
-                                          }
-                                          if(tempCount==matchCount){
-                                              property.setIgnoreInFilter(true);
-                                          }
-                                      }
-
-                                  }
-                              }
-                          }
-
-
-
-                          if(searchData!=null) {
-                              if (!searchData.isEmpty()) {
-
-                                  if (property.getIsIgnoreInFilter()) {
-                                      matchCount = 0;
-                                  } else {
-
-                                      tempCount = matchCount;
-                                      if (FuzzySearch.fuzzySearch(searchData.toString(), property.getFullLocation())) {
-
-                                          matchCount++;
-                                      } else {
-                                          property.setIgnoreInFilter(true);
-
-                                      }
-
-
-                                  }
-
-
-                              }
-                          }
-
-
-
-                          if(property.getIsIgnoreInFilter()==false){
-                              properties.add(property);
-
-                          }
-
-
-                        }
-
-                      }else {
+                        } else {
                             properties.add(property);
 
                         }
                     }
-                    if(properties.size()==0){
-                        return;
+                    if (properties.size() != 0) {
+
+                        PropertyGridView propertyGridView = new PropertyGridView(getActivity(), properties);
+                        propertiesList.setAdapter(propertyGridView);
+                        propertiesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                                detailPropertyInformation detailFragment = new detailPropertyInformation();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("model", properties.get(i));
+                                bundle.putInt("scrollPosition", homeScroll.getVerticalScrollbarPosition());
+                                bundle.putString("name", fragemntName);
+                                detailFragment.setArguments(bundle);
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
+                                try {
+                                    fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
+                                } catch (NullPointerException e) {
+                                }
+                                try {
+                                    fragmentTransaction.hide(fragmentManager.findFragmentByTag("historyFragment"));
+                                } catch (NullPointerException e) {
+                                }
+                                try {
+                                    fragmentTransaction.hide(fragmentManager.findFragmentByTag("bookingFragment"));
+                                } catch (NullPointerException e) {
+                                }
+                                homeScroll.setVerticalScrollbarPosition(300);
+                                fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
+
+                                fragmentTransaction.commit();
+                            }
+                        });
+                    }else{
+                        noRecordsIV.setVisibility(View.VISIBLE);
                     }
-                    PropertyGridView propertyGridView=new PropertyGridView(getActivity(),properties);
-                    propertiesList.setAdapter(propertyGridView);
-                    propertiesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-                            detailPropertyInformation detailFragment = new detailPropertyInformation();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("model", properties.get(i));
-                            bundle.putInt("scrollPosition", homeScroll.getVerticalScrollbarPosition());
-                            bundle.putString("name", fragemntName);
-                            detailFragment.setArguments(bundle);
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.hide(fragmentManager.findFragmentByTag("propertyFragment"));
-                            try {
-                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("homeFragment"));
-                            } catch (NullPointerException e) {
-                            }
-                            try {
-                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("historyFragment"));
-                            } catch (NullPointerException e) {
-                            }
-                            try {
-                                fragmentTransaction.hide(fragmentManager.findFragmentByTag("bookingFragment"));
-                            } catch (NullPointerException e) {
-                            }
-                            homeScroll.setVerticalScrollbarPosition(300);
-                            fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
-
-                            fragmentTransaction.commit();
-                        }
-                    });
                     if (jsonArray.length() != 0) {
-                        StaticClasses.gridViewHeight.setDynamicHeight(propertiesList);
-                    }
+                            StaticClasses.gridViewHeight.setDynamicHeight(propertiesList);
+                        }
 
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+                    } catch(JSONException e){
+                        throw new RuntimeException(e);
+                    }
+                progressBar.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                progressBar.setVisibility(View.GONE);
+                checkConnectionIV.setVisibility(View.VISIBLE);
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
