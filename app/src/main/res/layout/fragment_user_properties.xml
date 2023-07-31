@@ -35,5 +35,25 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/porpertiesTV"
       />
+  <ProgressBar
+      android:id="@+id/progressBar"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+   app:layout_constraintTop_toTopOf="@id/propertieslist"
+   app:layout_constraintBottom_toBottomOf="@id/propertieslist"/>
+  <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/noRecordsFoundIV"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="@id/propertieslist"
+      app:layout_constraintBottom_toBottomOf="@id/propertieslist"
+   android:src="@drawable/norecordsfound"/>
+  <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/checkConnectionIV"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="@id/propertieslist"
+      app:layout_constraintBottom_toBottomOf="@id/propertieslist"
+      android:src="@drawable/checkyourconnection"/>
  </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
