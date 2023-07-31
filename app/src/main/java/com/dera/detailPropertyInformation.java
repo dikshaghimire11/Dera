@@ -118,10 +118,11 @@ public class detailPropertyInformation extends Fragment {
         linearLayoutButtons = view.findViewById(R.id.buttonsLayout);
         messageTv = view.findViewById(R.id.messageTV);
         ImageView create = getActivity().findViewById(R.id.createIV);
-        if (create != null) {
-            create.setImageDrawable(null);
-            create.setClickable(false);
-        }
+if(create!=null) {
+    create.setImageResource(R.drawable.create);
+    create.setClickable(true);
+}
+
         deletePropertyBtn.setClickable(false);
         ViewGroup deletebtnParent = (ViewGroup) deletePropertyBtn.getParent();
         deletebtnParent.removeView(deletePropertyBtn);
@@ -169,8 +170,8 @@ public class detailPropertyInformation extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag("detailFragment"));
-
                 fragmentTransaction.show(fragmentManager.findFragmentByTag("propertyFragment"));
+
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("homeFragment"));
                     create.setImageResource(R.drawable.create);
@@ -180,11 +181,16 @@ public class detailPropertyInformation extends Fragment {
                 }
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("historyFragment"));
+                    create.setImageResource(R.drawable.create);
+                    create.setClickable(true);
+
                 } catch (NullPointerException e) {
                     Log.d("Fragment Not Found", "Removal Ignored");
                 }
                 try {
                     fragmentTransaction.show(fragmentManager.findFragmentByTag("bookingFragment"));
+                    create.setImageResource(R.drawable.create);
+                    create.setClickable(true);
                 } catch (NullPointerException e) {
                     Log.d("Fragment Not Found", "Removal Ignored");
                 }
@@ -270,9 +276,7 @@ public class detailPropertyInformation extends Fragment {
                             JSONArray propertiesArray = responseObj.getJSONArray("property");
                             String BookingStatus,PropertyStatus,Historydate;
                             if (propertiesArray.length() > 0) {
-                                JSONObject propertyObj = propertiesArray.getJSONObject(0); // Assuming you are interested in the first property object
-
-                                BookingStatus = propertyObj.getString("BookingStatus");
+                                JSONObject propertyObj = propertiesArray.getJSONObject(0);
                                 PropertyStatus = propertyObj.getString("PropertyStatus");
                                 Historydate = propertyObj.getString("HistoryDate");
 
@@ -281,7 +285,6 @@ public class detailPropertyInformation extends Fragment {
                                     }
                                     if(PropertyStatus.equals("1")){
                                         messageTv.setText("Approved Booking at " + Historydate);
-
                                 }
                             }
 
@@ -299,6 +302,41 @@ public class detailPropertyInformation extends Fragment {
                 });
                 RequestQueue requestQueue=Volley.newRequestQueue(getContext());
                 requestQueue.add(getStatue);
+
+
+                String getDeleteStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromDeleted?property_id="+Property_id;
+                StringRequest getDeleteStatue=new StringRequest(Request.Method.GET, getDeleteStatusUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseObj = new JSONObject(response);
+                            JSONArray propertiesArray = responseObj.getJSONArray("property");
+                            String PropertyStatus,Historydate;
+                            if (propertiesArray.length() > 0) {
+                                JSONObject propertyObj = propertiesArray.getJSONObject(0);
+                                PropertyStatus = propertyObj.getString("PropertyStatus");
+                                Historydate = propertyObj.getString("HistoryDate");
+
+                                if (PropertyStatus.equals("2")) {
+                                    messageTv.setText("Deleted the Property at " + Historydate);
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                RequestQueue requestQueue1=Volley.newRequestQueue(getContext());
+                requestQueue1.add(getDeleteStatue);
+
             }
 
             RequestOptions requestOptions = new RequestOptions()

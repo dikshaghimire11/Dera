@@ -344,7 +344,7 @@ public class UserInformation extends Fragment {
                 detailFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.hide(fragmentManager.findFragmentByTag("viewBooking"));
+                fragmentTransaction.hide(fragmentManager.findFragmentByTag("viewBookingFragment"));
                 fragmentTransaction.add(childFrameLayout.getId(), detailFragment, "detailFragment");
                 fragmentTransaction.commit();
             }
