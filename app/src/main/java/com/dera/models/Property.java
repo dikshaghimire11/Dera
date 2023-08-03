@@ -23,8 +23,10 @@ public class Property implements Serializable {
 
     Iterator<?> keys;
     public boolean ignoreInFilter = false;
-
-    public Property(String category, String location, String fullLocation, String price, String number, String photo, JSONObject json, String house_owner_id, String Property_id, String name, String houseOwner_number, String Status, String HistoryDate) {
+public  String propertyStatus;
+public String PropertyFinalizedDate;
+public String bookingStatus;
+    public Property(String category, String location, String fullLocation, String price, String number, String photo, JSONObject json, String house_owner_id, String Property_id, String name, String houseOwner_number, String Status, String HistoryDate,String bookingStatus,String propertyStatus,String PropertyFinalizedDate) {
         this.category = category;
         this.location = location;
         this.fullLocation = fullLocation;
@@ -39,6 +41,9 @@ public class Property implements Serializable {
         this.keys = keys;
         this.Status = Status;
         this.HistoryDate = HistoryDate;
+        this.propertyStatus=propertyStatus;
+        this.bookingStatus=bookingStatus;
+        this.PropertyFinalizedDate=PropertyFinalizedDate;
     }
 
     public String getCategory() {
@@ -101,4 +106,7 @@ public class Property implements Serializable {
     public String getHouseOwner_number() {
         return houseOwner_number;
     }
+    public String getPropertyStatus(){return  propertyStatus;}
+    public  String getBookingStatus(){return bookingStatus;}
+    public String getPropertyFinalizedDate(){return  PropertyFinalizedDate;}
 }
