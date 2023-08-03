@@ -16,7 +16,6 @@ public class FuzzySearch {
                 }
             }
         }
-
         // Calculate a score based on the number of matching tokens
         double similarityThreshold = 0.7; // Adjust this threshold as needed
         double score = (double) numMatchingTokens / userTokens.length;

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.dera.R;
 import com.dera.SimilarFiles.Register;
 import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,12 +46,15 @@ public class AddressInfo extends Fragment {
     public interface SelectIdCallback {
         void onIdSelected(int currentID);
     }
+
     ArrayAdapter<String> provinceAdapter, districtAdapter, locallevelAdapter, wardnoAdapter;
     Bundle addPropertyDataBundle;
     MaterialButton continueButton;
     EditText toleNameEt;
-    int container,provinceId,districtId,local_levelId,ward_noId;
+    int container, provinceId, districtId, local_levelId, ward_noId;
     String tole;
+    MaterialCardView progressBarMCV;
+    ProgressBar progressBar;
 
 
     public static int addressid;
@@ -67,7 +72,10 @@ public class AddressInfo extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack("addressInformationFragment","chooseCategoryFragment",getActivity().getSupportFragmentManager());
+
+        StaticClasses.backStackManager.setBackStack("addressInformationFragment", "chooseCategoryFragment", getActivity().getSupportFragmentManager());
+        progressBarMCV = view.findViewById(R.id.progressBarMCV);
+        progressBar = view.findViewById(R.id.progressBar);
         Spinner provinceSpinner, districtSpinner, localLevelSpinner, wardnoSpinner;
         ArrayList<String> provinceList = new ArrayList<>();
         ArrayList<String> districtList = new ArrayList<>();
@@ -77,8 +85,8 @@ public class AddressInfo extends Fragment {
         districtSpinner = view.findViewById(R.id.districtSp);
         localLevelSpinner = view.findViewById(R.id.locallevelSp);
         wardnoSpinner = view.findViewById(R.id.wardSp);
-        continueButton=view.findViewById(R.id.continuebtn);
-        toleNameEt=view.findViewById(R.id.toleET);
+        continueButton = view.findViewById(R.id.continuebtn);
+        toleNameEt = view.findViewById(R.id.toleET);
 
 
         String provinceurl = "http://" + IpStatic.IpAddress.ip + ":80/api/ProvinceInfo";
@@ -90,11 +98,11 @@ public class AddressInfo extends Fragment {
 
                 districtList.clear();
                 String selectProvince = parent.getSelectedItem().toString();
-                String provinceID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=province&name="+selectProvince;
-               selectId(provinceID_URL, new SelectIdCallback() {
+                String provinceID_URL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_address_id?db=province&name=" + selectProvince;
+                selectId(provinceID_URL, new SelectIdCallback() {
                     @Override
                     public void onIdSelected(int currentID) {
-                        addPropertyDataBundle.putInt("provinceId",currentID);
+                        addPropertyDataBundle.putInt("provinceId", currentID);
 
 
                     }
@@ -117,12 +125,12 @@ public class AddressInfo extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 locallevelList.clear();
 
-               String selectDistrict = parent.getSelectedItem().toString();
-                String districtID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=district&name="+selectDistrict;
+                String selectDistrict = parent.getSelectedItem().toString();
+                String districtID_URL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_address_id?db=district&name=" + selectDistrict;
                 selectId(districtID_URL, new SelectIdCallback() {
                     @Override
                     public void onIdSelected(int currentID) {
-                        addPropertyDataBundle.putInt("districtId",currentID);
+                        addPropertyDataBundle.putInt("districtId", currentID);
                     }
                 });
 
@@ -146,19 +154,18 @@ public class AddressInfo extends Fragment {
 
                 wardnoList.clear();
                 String selectLocalLevel = parent.getSelectedItem().toString();
-                String local_level_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=local_level&name="+selectLocalLevel;
+                String local_level_ID_URL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_address_id?db=local_level&name=" + selectLocalLevel;
                 selectId(local_level_ID_URL, new SelectIdCallback() {
                     @Override
                     public void onIdSelected(int currentID) {
-                        addPropertyDataBundle.putInt("local_levelId",currentID);
+                        addPropertyDataBundle.putInt("local_levelId", currentID);
 
                     }
                 });
-                Log.d("Id",Integer.toString(local_levelId));
+                Log.d("Id", Integer.toString(local_levelId));
 
-                String wardurl = "http://" + IpStatic.IpAddress.ip + ":80/api/WardNoInfo?locallevel="+selectLocalLevel;
+                String wardurl = "http://" + IpStatic.IpAddress.ip + ":80/api/WardNoInfo?locallevel=" + selectLocalLevel;
                 SelectAddress(wardurl, wardnoSpinner, wardnoList);
-
 
 
             }
@@ -171,17 +178,18 @@ public class AddressInfo extends Fragment {
         wardnoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
-                String selectWard= parent.getSelectedItem().toString();
-                String ward_ID_URL="http://"+IpStatic.IpAddress.ip+":80/api/get_address_id?db=ward_no&name="+selectWard;
-               selectId(ward_ID_URL, new SelectIdCallback() {
+                String selectWard = parent.getSelectedItem().toString();
+                String ward_ID_URL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_address_id?db=ward_no&name=" + selectWard;
+                selectId(ward_ID_URL, new SelectIdCallback() {
                     @Override
                     public void onIdSelected(int currentID) {
-                        addPropertyDataBundle.putInt("ward_noId",currentID);
+                        addPropertyDataBundle.putInt("ward_noId", currentID);
                     }
                 });
-                Log.d("Id",Integer.toString(ward_noId));
+                Log.d("Id", Integer.toString(ward_noId));
 
-
+                progressBarMCV.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -192,7 +200,9 @@ public class AddressInfo extends Fragment {
 
 
         super.onViewCreated(view, savedInstanceState);
-  }
+
+
+}
 
     public void SelectAddress(String url, Spinner spinner, ArrayList<String> List) {
 
@@ -212,6 +222,8 @@ public class AddressInfo extends Fragment {
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
+                }catch (NullPointerException e){
+                    Log.d("Null Pointer Exception","Could be because the page not fully loaded");
                 }
             }
         }, new Response.ErrorListener() {

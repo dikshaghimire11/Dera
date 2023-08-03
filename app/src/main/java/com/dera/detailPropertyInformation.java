@@ -509,6 +509,7 @@ if(create!=null) {
                                                                 Map<String, String> params = new HashMap<String, String>();
                                                                 params.put("Accept", "application/json");
                                                                 params.put("Content-Type", "application/json");
+                                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                                 return params;
                                                             }
                                                         };
@@ -526,7 +527,17 @@ if(create!=null) {
                                             public void onErrorResponse(VolleyError error) {
                                                 Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
                                             }
-                                        });
+                                        }){
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                Map<String, String> params = new HashMap<String, String>();
+                                                params.put("Accept", "application/json");
+                                                params.put("Content-Type", "application/json");
+                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                                return params;
+                                            }
+                                        };
                                         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
                                         requestQueue1.add(stringRequest1);
                                     }
@@ -734,7 +745,18 @@ if(create!=null) {
                                     public void onErrorResponse(VolleyError error) {
                                         Toast.makeText(getContext(), "Something went wrong!" + error.getMessage(), Toast.LENGTH_LONG).show();
                                     }
-                                });
+                                }){
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                        Map<String, String> params = new HashMap<String, String>();
+                                        params.put("Accept", "application/json");
+                                        params.put("Content-Type", "application/json");
+                                        params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                        return params;
+                                    }
+
+                                };
                                 RequestQueue deleteQueue = Volley.newRequestQueue(getContext());
                                 deleteQueue.add(deleteProperty);
                             }
@@ -831,6 +853,7 @@ if(create!=null) {
                                                 Map<String, String> params = new HashMap<String, String>();
                                                 params.put("Accept", "application/json");
                                                 params.put("Content-Type", "application/json");
+                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                 return params;
                                             }
 
