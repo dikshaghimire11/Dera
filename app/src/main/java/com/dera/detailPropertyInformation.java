@@ -558,6 +558,7 @@ public class detailPropertyInformation extends Fragment {
                                                                 Map<String, String> params = new HashMap<String, String>();
                                                                 params.put("Accept", "application/json");
                                                                 params.put("Content-Type", "application/json");
+                                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                                 return params;
                                                             }
                                                         };
@@ -575,7 +576,17 @@ public class detailPropertyInformation extends Fragment {
                                             public void onErrorResponse(VolleyError error) {
                                                 Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
                                             }
-                                        });
+                                        }){
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                Map<String, String> params = new HashMap<String, String>();
+                                                params.put("Accept", "application/json");
+                                                params.put("Content-Type", "application/json");
+                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                                return params;
+                                            }
+                                        };
                                         RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
                                         requestQueue1.add(stringRequest1);
                                     }
@@ -786,19 +797,30 @@ public class detailPropertyInformation extends Fragment {
                                                         historyrequestQueue.add(history);
 
 
-                                                    }
-                                                } catch (JSONException e) {
-                                                    throw new RuntimeException(e);
-                                                }
                                             }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Toast.makeText(getContext(), "Something went wrong!" + error.getMessage(), Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-                                        RequestQueue deleteQueue = Volley.newRequestQueue(getContext());
-                                        deleteQueue.add(deleteProperty);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getContext(), "Something went wrong!" + error.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }){
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                        Map<String, String> params = new HashMap<String, String>();
+                                        params.put("Accept", "application/json");
+                                        params.put("Content-Type", "application/json");
+                                        params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                        return params;
+                                    }
+
+                                };
+                                RequestQueue deleteQueue = Volley.newRequestQueue(getContext());
+                                deleteQueue.add(deleteProperty);
                                     }
                                 });
                                 android.app.AlertDialog alertDialog = builder.create();
@@ -899,6 +921,7 @@ public class detailPropertyInformation extends Fragment {
                                                 Map<String, String> params = new HashMap<String, String>();
                                                 params.put("Accept", "application/json");
                                                 params.put("Content-Type", "application/json");
+                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                 return params;
                                             }
 

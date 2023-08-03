@@ -171,7 +171,17 @@ public class UserInformation extends Fragment {
                                                             public void onErrorResponse(VolleyError error) {
 
                                                             }
-                                                        });
+                                                        }){
+                                                            @Override
+                                                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                                Map<String, String> params = new HashMap<String, String>();
+                                                                params.put("Accept", "application/json");
+                                                                params.put("Content-Type", "application/json");
+                                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                                                return params;
+                                                            }
+                                                        };
                                                     RequestQueue changeStatus = Volley.newRequestQueue(getContext());
                                                     changeStatus.add(propertyChangeStatus);
 
@@ -230,6 +240,7 @@ public class UserInformation extends Fragment {
                                                             Map<String, String> params = new HashMap<String, String>();
                                                             params.put("Accept", "application/json");
                                                             params.put("Content-Type", "application/json");
+                                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                             return params;
                                                         }
                                                     };
@@ -247,7 +258,15 @@ public class UserInformation extends Fragment {
                                         public void onErrorResponse(VolleyError error) {
                                             Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
                                         }
-                                    });
+                                    }){
+
+                                        @Override
+                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                            Map<String ,String> headers=new HashMap<>();
+                                            headers.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                            return headers;
+                                        }
+                                    };
                                     RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
                                     requestQueue1.add(stringRequest1);
                                 }
@@ -260,6 +279,7 @@ public class UserInformation extends Fragment {
                                         @Override
                                         public void onResponse(String response) {
                                             try {
+                                                Log.d("Tension: ",""+response);
                                                 JSONObject jsonObject1 = new JSONObject(response);
                                                 String status = jsonObject1.getString("status");
                                                 if (status.compareTo("200") == 0) {
@@ -321,6 +341,7 @@ public class UserInformation extends Fragment {
                                                             Map<String, String> params = new HashMap<String, String>();
                                                             params.put("Accept", "application/json");
                                                             params.put("Content-Type", "application/json");
+                                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
                                                             return params;
                                                         }
                                                     };
@@ -338,7 +359,17 @@ public class UserInformation extends Fragment {
                                         public void onErrorResponse(VolleyError error) {
                                             Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
                                         }
-                                    });
+                                    }){
+                                        @Override
+                                        public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                            Map<String, String> params = new HashMap<String, String>();
+                                            params.put("Accept", "application/json");
+                                            params.put("Content-Type", "application/json");
+                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                            return params;
+                                        }
+                                    };
                                     RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
                                     requestQueue1.add(stringRequest1);
                                 }
