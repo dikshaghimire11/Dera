@@ -1,5 +1,9 @@
 package com.dera.houseowner;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -55,6 +61,8 @@ public class UserInformation extends Fragment {
     MaterialCardView backMcv;
     Property property;
     String name;
+    TextView numberTv;
+    ImageView callIv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,14 +115,16 @@ public class UserInformation extends Fragment {
                             View view1 = inflater.inflate(R.layout.contact_room_finder, null);
                             builder.setView(view1);
 
-                            TextView numberTv = view1.findViewById(R.id.numberTv);
+                             numberTv = view1.findViewById(R.id.numberTv);
                             TextView name = view1.findViewById(R.id.nameTv);
+                            callIv=view1.findViewById(R.id.callme);
                             MaterialButton approvebtn = view1.findViewById(R.id.approvebtn);
                             MaterialButton canclebtn = view1.findViewById(R.id.canclebtn);
                             MaterialCardView backMCV = view1.findViewById(R.id.backMCV);
                             AlertDialog dialog = builder.create();
                             name.setText(userInfo1.getFullname());
                             numberTv.setText(userInfo1.getUsernumber());
+
                             Log.d("Booking",""+userInfo1.getBooking_id());
                             backMCV.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -122,11 +132,27 @@ public class UserInformation extends Fragment {
                                     dialog.cancel();
                                 }
                             });
+                            callIv.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String mobilenumber= numberTv.getText().toString();
+                                    if(!mobilenumber.isEmpty()){
+                                        mobilenumber=mobilenumber.replaceAll("[^0-9]","");
+                                        Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mobilenumber));
+                                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                            startActivity(intent);
+                                        } else {
+                                            // Request the CALL_PHONE permission if it's not granted
+                                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                                        }
+                                    }
+                                }
+                            });
                             approvebtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+3;
-                                    StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
+                                    String approvedBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+3;
+                                    StringRequest stringRequest1 = new StringRequest(Request.Method.GET, approvedBooking, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
                                             try {
@@ -134,7 +160,6 @@ public class UserInformation extends Fragment {
                                                 String status = jsonObject1.getString("status");
                                                 if (status.compareTo("200") == 0) {
                                                     dialog.cancel();
-                                                    Toast.makeText(getContext(), "Booking Approved!", Toast.LENGTH_LONG).show();
                                                     String propertyChangeStatusUrl="http://" + IpStatic.IpAddress.ip + ":80/api/PropertyChangeStatus? property_id="+Property_id;
                                                         StringRequest propertyChangeStatus=new StringRequest(Request.Method.GET, propertyChangeStatusUrl, new Response.Listener<String>() {
                                                             @Override
@@ -168,16 +193,17 @@ public class UserInformation extends Fragment {
                                                                 JSONObject jsonObject2 = new JSONObject(response);
                                                                 String status = jsonObject2.getString("status");
                                                                 if (status.compareTo("200") == 0) {
-                                                                    Fragment fragment = new houseOwnerHome();
-                                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
-                                                                    StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
-                                                                        @Override
-                                                                        public void removedFragments(FragmentTransaction transaction) {
-                                                                            fragment.setArguments(bundle);
-                                                                            transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
-                                                                            transaction.commit();
-                                                                        }
-                                                                    });
+                                                                                    Toast.makeText(getContext(), "Booking Approved!", Toast.LENGTH_LONG).show();
+                                                                                    Fragment fragment = new houseOwnerHome();
+                                                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                                                    StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                                                                        @Override
+                                                                                        public void removedFragments(FragmentTransaction transaction) {
+                                                                                            fragment.setArguments(bundle);
+                                                                                            transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
+                                                                                            transaction.commit();
+                                                                                        }
+                                                                                    });
                                                                 }
                                                             } catch (JSONException e) {
                                                                 throw new RuntimeException(e);
@@ -199,7 +225,8 @@ public class UserInformation extends Fragment {
                                                             try {
                                                                 JSONObject jsonBody = new JSONObject();
                                                                 jsonBody.put("property_id", Property_id);
-                                                                jsonBody.put("status", "approve");
+                                                                jsonBody.put("status", "approved");
+                                                                jsonBody.put("booking_id",userInfo1.getBooking_id());
                                                                 return jsonBody.toString().getBytes("utf-8");
                                                             } catch (JSONException |
                                                                      UnsupportedEncodingException e) {
@@ -257,7 +284,7 @@ public class UserInformation extends Fragment {
                                                 String status = jsonObject1.getString("status");
                                                 if (status.compareTo("200") == 0) {
 
-                                                    Toast.makeText(getContext(), "Booking Cancel!", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getContext(), "Booking Cancelled!", Toast.LENGTH_LONG).show();
                                                     String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
                                                     StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
                                                         @Override
@@ -300,6 +327,7 @@ public class UserInformation extends Fragment {
                                                                 JSONObject jsonBody = new JSONObject();
                                                                 jsonBody.put("property_id",Property_id);
                                                                 jsonBody.put("status", "canceled by houseowner");
+                                                                jsonBody.put("booking_id",userInfo1.getBooking_id());
                                                                 return jsonBody.toString().getBytes("utf-8");
                                                             } catch (JSONException |
                                                                      UnsupportedEncodingException e) {
@@ -329,7 +357,7 @@ public class UserInformation extends Fragment {
                                     }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
                                         }
                                     }){
                                         @Override
@@ -390,5 +418,23 @@ public class UserInformation extends Fragment {
         date = data.getString("created_at");
         String bookingId = data.getString("booking_id");
         return new UserInfo(fullName, number, date,bookingId);
+    }
+    private static final int REQUEST_PHONE_CALL = 1;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PHONE_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, initiate the phone call again
+                String mobileNumber = numberTv.getText().toString().replaceAll("[^0-9]", "");
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNumber));
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    startActivity(intent);
+                }
+            } else {
+                Toast.makeText(getContext(), "Phone call permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -763,8 +763,8 @@ public class AddBasicInfoProperties extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> propertyMap = new HashMap<>();
                 propertyMap.put("price", priceEt.getText().toString());
-                propertyMap.put("status", "1");
-                propertyMap.put("total_bookings", "1");
+                propertyMap.put("status", "0");
+                propertyMap.put("total_bookings", "0");
                 propertyMap.put("tole", tole);
                 propertyMap.put("category_id", category_Id);
                 propertyMap.put("houseowner_id", StaticClasses.loginInfo.UserID);

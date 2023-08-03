@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.Adapter.PropertyGridView;
+import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.StaticClasses;
 import com.dera.algorithms.FuzzySearch;
@@ -322,18 +323,19 @@ public class user_properties extends Fragment {
                     }
                     if (properties.size() != 0) {
 
+
                         PropertyGridView propertyGridView = new PropertyGridView(getActivity(), properties);
                         propertiesList.setAdapter(propertyGridView);
                         propertiesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
                                 detailPropertyInformation detailFragment = new detailPropertyInformation();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("model", properties.get(i));
                                 bundle.putInt("scrollPosition", homeScroll.getVerticalScrollbarPosition());
                                 bundle.putString("name", fragemntName);
+
                                 detailFragment.setArguments(bundle);
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -407,8 +409,11 @@ public class user_properties extends Fragment {
         String fullLocation=data.getString("provinceName")+" "+data.getString("districtName")+" "+data.getString("localLevelName")+" "+data.getString("wardName")+" "+data.getString("tole");
         String Status=data.has("HistoryStatus")?data.getString("HistoryStatus"):"";
         String HistoryDate=data.has("HistoryDate")? data.getString("HistoryDate"):"";
+        String bookingStatus=data.has("bookingStatus")?data.getString("bookingStatus"):"";
+        String propertyStatus=data.has("propertyStatus")?data.getString("propertyStatus"):"";
+        String PropertyFinalizedDate=data.has("PropertyFinalizedDate")?data.getString("PropertyFinalizedDate"):"";
 
-        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate);
+        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate,bookingStatus,propertyStatus,PropertyFinalizedDate);
 
         if(searchView!=null) {
             searchSuggestionList.add(data.getString("tole"));

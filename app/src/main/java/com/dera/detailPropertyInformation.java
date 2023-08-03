@@ -1,9 +1,13 @@
 package com.dera;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -93,7 +98,7 @@ public class detailPropertyInformation extends Fragment {
         progressDialog.setMessage("Please wait.....");
         progressDialog.show();
         properties = new ArrayList<Property>();
-        StaticClasses.backStackManager.setBackStack("detailFragment","homeFragment",getActivity().getSupportFragmentManager());
+        StaticClasses.backStackManager.setBackStack("detailFragment", "homeFragment", getActivity().getSupportFragmentManager());
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
         Bundle bundle = getArguments();
         name = bundle.getString("name");
@@ -118,10 +123,10 @@ public class detailPropertyInformation extends Fragment {
         linearLayoutButtons = view.findViewById(R.id.buttonsLayout);
         messageTv = view.findViewById(R.id.messageTV);
         ImageView create = getActivity().findViewById(R.id.createIV);
-if(create!=null) {
-    create.setImageResource(R.drawable.create);
-    create.setClickable(true);
-}
+        if (create != null) {
+            create.setImageResource(R.drawable.create);
+            create.setClickable(true);
+        }
 
         deletePropertyBtn.setClickable(false);
         ViewGroup deletebtnParent = (ViewGroup) deletePropertyBtn.getParent();
@@ -216,75 +221,25 @@ if(create!=null) {
             houseOwner_number = property.getHouseOwner_number();
             Status = property.getStatus();
             HistoryDate = property.getHistoryDate();
-            if (name.equals("UserhistoryFragment")) {
-                String getStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusfromHistory?property_id="+Property_id+"&customer_id="+StaticClasses.loginInfo.UserID;
-                StringRequest getStatue=new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
+            if (name.equals("HouseOwnerhistoryFragment")) {
+                String getStatusUrl = "http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromHistory?property_id=" + Property_id + "&house_owner_id=" + StaticClasses.loginInfo.UserID;
+                StringRequest getStatue = new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject responseObj = new JSONObject(response);
                             JSONArray propertiesArray = responseObj.getJSONArray("property");
-                            String BookingStatus,PropertyStatus,Historydate;
-                            if (propertiesArray.length() > 0) {
-                                JSONObject propertyObj = propertiesArray.getJSONObject(0); // Assuming you are interested in the first property object
-
-                                 BookingStatus = propertyObj.getString("BookingStatus");
-                                 PropertyStatus = propertyObj.getString("PropertyStatus");
-                                 Historydate = propertyObj.getString("HistoryDate");
-                                 if(BookingStatus.equals("0")){
-                                     if (PropertyStatus.equals("2")) {
-                                         messageTv.setText("Deleted By HouseOwner at " + Historydate);
-                                 }
-                                     if (PropertyStatus.equals("1") && BookingStatus.equals("0")) {
-                                         messageTv.setText("Property Occupied at " + Historydate);
-                                     }
-                                 }else {
-                                     if (BookingStatus.equals("1")) {
-                                         messageTv.setText("Cancelled By YoursSelf at " + Historydate);
-                                     } if (BookingStatus.equals("2")) {
-                                         messageTv.setText("Cancelled By HouseOwner at " + Historydate);
-                                     }  if (BookingStatus.equals("3") && PropertyStatus.equals("1")) {
-                                         messageTv.setText("Approved By HouseOwner at " + Historydate);
-                                     }  if (PropertyStatus.equals("2")) {
-                                         messageTv.setText("Deleted By HouseOwner at " + Historydate);
-                                     }
-                                 }
-                            }
-
-
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-                RequestQueue requestQueue=Volley.newRequestQueue(getContext());
-                requestQueue.add(getStatue);
-
-            }if(name.equals("HouseOwnerhistoryFragment")){
-                String getStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromHistory?property_id="+Property_id+"&house_owner_id="+StaticClasses.loginInfo.UserID;
-                StringRequest getStatue=new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject responseObj = new JSONObject(response);
-                            JSONArray propertiesArray = responseObj.getJSONArray("property");
-                            String BookingStatus,PropertyStatus,Historydate;
+                            String BookingStatus, PropertyStatus, Historydate;
                             if (propertiesArray.length() > 0) {
                                 JSONObject propertyObj = propertiesArray.getJSONObject(0);
                                 PropertyStatus = propertyObj.getString("PropertyStatus");
                                 Historydate = propertyObj.getString("HistoryDate");
 
-                                    if (PropertyStatus.equals("2")) {
-                                        messageTv.setText("Deleted the Property at " + Historydate);
-                                    }
-                                    if(PropertyStatus.equals("1")){
-                                        messageTv.setText("Approved Booking at " + Historydate);
+                                if (PropertyStatus.equals("2")) {
+                                    messageTv.setText("Deleted the Property at " + Historydate);
+                                }
+                                if (PropertyStatus.equals("1")) {
+                                    messageTv.setText("Approved Booking at " + Historydate);
                                 }
                             }
 
@@ -300,18 +255,18 @@ if(create!=null) {
 
                     }
                 });
-                RequestQueue requestQueue=Volley.newRequestQueue(getContext());
+                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                 requestQueue.add(getStatue);
 
 
-                String getDeleteStatusUrl="http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromDeleted?property_id="+Property_id;
-                StringRequest getDeleteStatue=new StringRequest(Request.Method.GET, getDeleteStatusUrl, new Response.Listener<String>() {
+                String getDeleteStatusUrl = "http://" + IpStatic.IpAddress.ip + "/api/GetStatusOfHouseOwnerfromDeleted?property_id=" + Property_id;
+                StringRequest getDeleteStatue = new StringRequest(Request.Method.GET, getDeleteStatusUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject responseObj = new JSONObject(response);
                             JSONArray propertiesArray = responseObj.getJSONArray("property");
-                            String PropertyStatus,Historydate;
+                            String PropertyStatus, Historydate;
                             if (propertiesArray.length() > 0) {
                                 JSONObject propertyObj = propertiesArray.getJSONObject(0);
                                 PropertyStatus = propertyObj.getString("PropertyStatus");
@@ -334,10 +289,84 @@ if(create!=null) {
 
                     }
                 });
-                RequestQueue requestQueue1=Volley.newRequestQueue(getContext());
+                RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
                 requestQueue1.add(getDeleteStatue);
 
             }
+            if(name.equals("UserhistoryFragment")){
+                String bookingStatus=property.getBookingStatus();
+                String propertyStatus=property.getPropertyStatus();
+                String historydate=property.getHistoryDate();
+                String PropertyFinalizedDate=property.getPropertyFinalizedDate();
+                if(bookingStatus.equals("0")){
+                    if(propertyStatus.equals("1")){
+                        messageTv.setText("Property Occupied at " + PropertyFinalizedDate);
+                    } else if (propertyStatus.equals("2")) {
+                        messageTv.setText("Deleted By HouseOwner at " + PropertyFinalizedDate);
+                    }
+                }else{
+                    if(bookingStatus.equals("1")){
+                        messageTv.setText("Cancelled By Yourselves at " + historydate);
+                    } else if (bookingStatus.equals("2")) {
+                        messageTv.setText("Cancelled By Houseowner at " + historydate);
+                    } else if (bookingStatus.equals("3")) {
+                        messageTv.setText("Approved By Houseowner at " + historydate);
+                    }
+                }
+
+            }
+
+//            if (name.equals("UserhistoryFragment")) {
+//
+//                String getStatusUrl = "http://" + IpStatic.IpAddress.ip + "/api/GetStatusfromHistory?property_id=" + Property_id + "&customer_id=" + StaticClasses.loginInfo.UserID;
+//                StringRequest getStatue = new StringRequest(Request.Method.GET, getStatusUrl, new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONObject responseObj = new JSONObject(response);
+//                            JSONArray propertiesArray = responseObj.getJSONArray("property");
+//                            if (propertiesArray.length() > 0) {
+//                               for(int i =0;i<propertiesArray.length();i++){
+//                                   JSONObject propertyObj=propertiesArray.getJSONObject(i);
+//                                   int BookingStatus = propertyObj.getInt("BookingStatus");
+//                                   int PropertyStatus = propertyObj.getInt("PropertyStatus");
+//                                   String historyDate = propertyObj.getString("HistoryDate");
+//                                   String bookingFinalizeDate=propertyObj.getString("BookingFinalizeDate");
+//                                   Log.d("Property_id",""+BookingStatus);
+//                                   if (BookingStatus == 0) {
+//                                       if (PropertyStatus == 2) {
+//                                           messageTv.setText("Deleted By HouseOwner at " + bookingFinalizeDate);
+//                                       } else if (PropertyStatus == 1) {
+//                                           messageTv.setText("Property Occupied at " + bookingFinalizeDate);
+//                                       }
+//
+//                                   } else if (BookingStatus == 1) {
+//                                       messageTv.setText("Cancelled By Yourselves at " + historyDate);
+//                                   } else if (BookingStatus == 2) {
+//                                       messageTv.setText("Cancelled By Houseowner at " + historyDate);
+//                                   } else if (BookingStatus == 3 && PropertyStatus == 1) {
+//                                       messageTv.setText("Approved By Houseowner at " + historyDate);
+//                                   }
+//                               }
+//
+//                            }
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                });
+//                RequestQueue response = Volley.newRequestQueue(getContext());
+//                response.add(getStatue);
+//
+//            }
+
 
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.logo_in_bricks_foreground)
@@ -390,7 +419,7 @@ if(create!=null) {
                             if (status.compareTo("200") == 0) {
                                 JSONObject dataObject = jsonObject.getJSONObject("data");
                                 id = dataObject.getString("id");
-                                    Log.d("booking_id",""+id);
+                                Log.d("booking_id", "" + id);
                                 if (name.equals("bookingFragment")) {
                                     contactbtn.setClickable(true);
                                     contactbtnParent.addView(contactbtn);
@@ -430,10 +459,29 @@ if(create!=null) {
 
                                         TextView number = view1.findViewById(R.id.numberTv);
                                         TextView name = view1.findViewById(R.id.nameTv);
+                                        ImageView callIv=view1.findViewById(R.id.callme);
                                         MaterialButton okbtn = view1.findViewById(R.id.okbtn);
                                         AlertDialog dialog = builder.create();
                                         number.setText(houseOwner_number);
+
                                         name.setText(house_ownername);
+
+                                        callIv.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                String mobilenumber= number.getText().toString();
+                                                if(!mobilenumber.isEmpty()){
+                                                    mobilenumber=mobilenumber.replaceAll("[^0-9]","");
+                                                    Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mobilenumber));
+                                                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                                        startActivity(intent);
+                                                    } else {
+                                                        // Request the CALL_PHONE permission if it's not granted
+                                                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                                                    }
+                                                }
+                                            }
+                                        });
                                         okbtn.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -447,15 +495,15 @@ if(create!=null) {
                                 canclebtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + id+"&status="+1;
-                                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
+                                        String cancelBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + id + "&status=" + 1;
+                                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, cancelBooking, new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
                                                 try {
                                                     JSONObject jsonObject1 = new JSONObject(response);
                                                     String status = jsonObject1.getString("status");
                                                     if (status.compareTo("200") == 0) {
-                                                        Toast.makeText(getContext(), "Booking Cancel!", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getContext(), "Booking Cancelled!", Toast.LENGTH_LONG).show();
                                                         String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
                                                         StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
                                                             @Override
@@ -496,6 +544,7 @@ if(create!=null) {
                                                                     JSONObject jsonBody = new JSONObject();
                                                                     jsonBody.put("property_id", Property_id);
                                                                     jsonBody.put("status", "canceled by roomfinder");
+                                                                    jsonBody.put("booking_id", id);
                                                                     return jsonBody.toString().getBytes("utf-8");
                                                                 } catch (JSONException |
                                                                          UnsupportedEncodingException e) {
@@ -525,7 +574,7 @@ if(create!=null) {
                                         }, new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError error) {
-                                                Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
                                             }
                                         }){
                                             @Override
@@ -556,7 +605,7 @@ if(create!=null) {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
                     }
                 }) {
                     public String getBodyContentType() {
@@ -606,12 +655,12 @@ if(create!=null) {
                                             bundle1.putSerializable("model", property);
                                             bundle1.putString("name", name);
                                             viewBooking.setArguments(bundle1);
-                                            FragmentManager manager=getActivity().getSupportFragmentManager();
-                                            FragmentTransaction transaction=manager.beginTransaction();
+                                            FragmentManager manager = getActivity().getSupportFragmentManager();
+                                            FragmentTransaction transaction = manager.beginTransaction();
                                             transaction.hide(manager.findFragmentByTag("detailFragment"));
-                                            if(manager.findFragmentByTag("viewBookingFragment")==null) {
-                                                transaction.add(childFrameLayout.getId(), viewBooking,"viewBookingFragment");
-                                            }else{
+                                            if (manager.findFragmentByTag("viewBookingFragment") == null) {
+                                                transaction.add(childFrameLayout.getId(), viewBooking, "viewBookingFragment");
+                                            } else {
                                                 transaction.show(manager.findFragmentByTag("viewBookingFragment"));
                                             }
                                             transaction.commit();
@@ -665,74 +714,87 @@ if(create!=null) {
                         deletePropertyBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String deletePropertyurl = "http://" + IpStatic.IpAddress.ip + ":80/api/DeleteByHouseOwner?property_id=" + Property_id;
-                                StringRequest deleteProperty = new StringRequest(Request.Method.GET, deletePropertyurl, new Response.Listener<String>() {
+                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                                builder.setTitle("Delete Property?");
+                                builder.setMessage("Do you want to delete this Property?");
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(response);
-                                            String status = jsonObject.getString("status");
-                                            if (status.compareTo("200") == 0) {
-                                                Toast.makeText(getContext(), "Deleted Sucessful!", Toast.LENGTH_LONG).show();
-                                                String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
-                                                StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        try {
-                                                            JSONObject jsonObject2 = new JSONObject(response);
-                                                            String status = jsonObject2.getString("status");
-                                                            if (status.compareTo("200") == 0) {
-                                                                Fragment fragment = new houseOwnerHome();
-                                                                FragmentManager manager = getActivity().getSupportFragmentManager();
-                                                                StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
-                                                                    @Override
-                                                                    public void removedFragments(FragmentTransaction transaction) {
-                                                                        fragment.setArguments(bundle);
-                                                                        transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
-                                                                        transaction.commit();
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+                                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        String deletePropertyurl = "http://" + IpStatic.IpAddress.ip + ":80/api/DeleteByHouseOwner?property_id=" + Property_id;
+                                        StringRequest deleteProperty = new StringRequest(Request.Method.GET, deletePropertyurl, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response);
+                                                    String status = jsonObject.getString("status");
+                                                    if (status.compareTo("200") == 0) {
+
+                                                        String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
+                                                        StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                try {
+                                                                    JSONObject jsonObject2 = new JSONObject(response);
+                                                                    String status = jsonObject2.getString("status");
+                                                                    if (status.compareTo("200") == 0) {
+                                                                        Toast.makeText(getContext(), "Property Deleted Successfully!", Toast.LENGTH_LONG).show();
+                                                                        Fragment fragment = new houseOwnerHome();
+                                                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                                        StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                                                            @Override
+                                                                            public void removedFragments(FragmentTransaction transaction) {
+                                                                                fragment.setArguments(bundle);
+                                                                                transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
+                                                                                transaction.commit();
+                                                                            }
+                                                                        });
                                                                     }
-                                                                });
+                                                                } catch (JSONException e) {
+                                                                    throw new RuntimeException(e);
+                                                                }
                                                             }
-                                                        } catch (JSONException e) {
-                                                            throw new RuntimeException(e);
-                                                        }
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
+                                                        }, new Response.ErrorListener() {
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
 
-                                                    }
-                                                }) {
-                                                    public String getBodyContentType() {
-                                                        return "application/json; charset=utf-8";
-                                                    }
+                                                            }
+                                                        }) {
+                                                            public String getBodyContentType() {
+                                                                return "application/json; charset=utf-8";
+                                                            }
 
-                                                    @Nullable
-                                                    @Override
-                                                    public byte[] getBody() throws AuthFailureError {
-                                                        try {
-                                                            JSONObject jsonBody = new JSONObject();
-                                                            jsonBody.put("property_id", Property_id);
-                                                            jsonBody.put("status", "Deleted by HouseOwner");
-                                                            return jsonBody.toString().getBytes("utf-8");
-                                                        } catch (JSONException |
-                                                                 UnsupportedEncodingException e) {
-                                                            throw new AuthFailureError(e.getMessage());
-                                                        }
-                                                    }
+                                                            @Nullable
+                                                            @Override
+                                                            public byte[] getBody() throws AuthFailureError {
+                                                                try {
+                                                                    JSONObject jsonBody = new JSONObject();
+                                                                    jsonBody.put("property_id", Property_id);
+                                                                    jsonBody.put("status", "deleted by houseowner");
+                                                                    return jsonBody.toString().getBytes("utf-8");
+                                                                } catch (JSONException |
+                                                                         UnsupportedEncodingException e) {
+                                                                    throw new AuthFailureError(e.getMessage());
+                                                                }
+                                                            }
 
-                                                    @Override
-                                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                                            @Override
+                                                            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                                                        Map<String, String> params = new HashMap<String, String>();
-                                                        params.put("Accept", "application/json");
-                                                        params.put("Content-Type", "application/json");
-                                                        return params;
-                                                    }
-                                                };
+                                                                Map<String, String> params = new HashMap<String, String>();
+                                                                params.put("Accept", "application/json");
+                                                                params.put("Content-Type", "application/json");
+                                                                return params;
+                                                            }
+                                                        };
 
-                                                RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
-                                                historyrequestQueue.add(history);
+                                                        RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
+                                                        historyrequestQueue.add(history);
 
 
                                             }
@@ -759,6 +821,12 @@ if(create!=null) {
                                 };
                                 RequestQueue deleteQueue = Volley.newRequestQueue(getContext());
                                 deleteQueue.add(deleteProperty);
+                                    }
+                                });
+                                android.app.AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+
+
                             }
                         });
                     }
@@ -800,7 +868,7 @@ if(create!=null) {
                                                     String status = jsonObject.getString("status");
                                                     if (status.compareTo("200") == 0) {
                                                         progressDialog.show();
-                                                        Toast.makeText(getContext(), "Booked Sucessful!", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getContext(), "Booked Sucessfully!", Toast.LENGTH_LONG).show();
                                                         Bundle arguments = getArguments();
                                                         Property property = (Property) arguments.getSerializable("model");
                                                         int scrollPosition = arguments.getInt("scrollPosition");
@@ -923,7 +991,24 @@ if(create!=null) {
             });
         }
         progressDialog.dismiss();
+    }
+    private static final int REQUEST_PHONE_CALL = 1;
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PHONE_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, initiate the phone call again
+                String mobileNumber = number.getText().toString().replaceAll("[^0-9]", "");
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNumber));
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    startActivity(intent);
+                }
+            } else {
+                // Permission denied. You can show a toast or display a message to the user.
+                Toast.makeText(getContext(), "Phone call permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
