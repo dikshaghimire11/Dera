@@ -4,7 +4,7 @@ public class IpStatic {
 
     public static class IpAddress{
 
-        public static String ip="192.168.1.4";
+        public static String ip="192.168.7.23";
 
     }
 }
