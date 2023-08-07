@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SimilarFiles.WelcomeUser">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/welcomeMCV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/textboxcolor"
+        app:cardCornerRadius="10dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/helloTV"
+        app:layout_constraintStart_toStartOf="@id/welcomeMCV"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:translationZ="10dp"
+        android:textColor="@color/themecolor"
+        android:layout_height="match_parent"
+        android:text="Hello, " />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/nameTV"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toEndOf="@id/helloTV"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/themecolor"
+        android:layout_height="match_parent"
+        android:text="Hello, " />
+    <TextView
+        android:id="@+id/TimeTV"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:translationZ="10dp"
+        app:layout_constraintStart_toStartOf="@id/welcomeMCV"
+        app:layout_constraintTop_toBottomOf="@id/helloTV"
+        android:layout_width="wrap_content"
+        android:textSize="40sp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:text=" " />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:translationZ="10dp"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="@id/welcomeMCV"
+      app:layout_constraintBottom_toBottomOf="@id/welcomeMCV"
+      app:layout_constraintEnd_toEndOf="@id/welcomeMCV"
+        android:layout_marginRight="10dp"
+      android:src="@drawable/logo"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/LeftGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="390dp"
+        app:layout_constraintWidth_percent="10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/RightGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

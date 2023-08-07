@@ -217,6 +217,9 @@ public class UserProfile extends Fragment {
                         editor.remove("AccessToken"); // Remove the "sessionToken" key
                         editor.remove("UserType");
                         editor.remove("UserId");
+                        StaticClasses.loginInfo.loginToken="";
+                        StaticClasses.loginInfo.UserID="";
+                        StaticClasses.loginInfo.userName="";
                         editor.apply();
                         Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
                         startActivity(intent);
