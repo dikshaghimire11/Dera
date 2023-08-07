@@ -26,7 +26,8 @@ public class Property implements Serializable {
 public  String propertyStatus;
 public String PropertyFinalizedDate;
 public String bookingStatus;
-    public Property(String category, String location, String fullLocation, String price, String number, String photo, JSONObject json, String house_owner_id, String Property_id, String name, String houseOwner_number, String Status, String HistoryDate,String bookingStatus,String propertyStatus,String PropertyFinalizedDate) {
+public  String UserStatus;
+    public Property(String category, String location, String fullLocation, String price, String number, String photo, JSONObject json, String house_owner_id, String Property_id, String name, String houseOwner_number, String Status, String HistoryDate, String bookingStatus, String propertyStatus, String PropertyFinalizedDate, String UserStatus) {
         this.category = category;
         this.location = location;
         this.fullLocation = fullLocation;
@@ -44,6 +45,7 @@ public String bookingStatus;
         this.propertyStatus=propertyStatus;
         this.bookingStatus=bookingStatus;
         this.PropertyFinalizedDate=PropertyFinalizedDate;
+        this.UserStatus=UserStatus;
     }
 
     public String getCategory() {
@@ -109,4 +111,5 @@ public String bookingStatus;
     public String getPropertyStatus(){return  propertyStatus;}
     public  String getBookingStatus(){return bookingStatus;}
     public String getPropertyFinalizedDate(){return  PropertyFinalizedDate;}
+    public String getUserStatus(){return  UserStatus;}
 }

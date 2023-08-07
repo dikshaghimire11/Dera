@@ -1,6 +1,8 @@
 package com.dera.customer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dera.ChooseUserType;
 import com.dera.IpStatic;
+import com.dera.No_Login_UserDashboard;
 import com.dera.R;
 import com.dera.SimilarFiles.Search_filter;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
@@ -27,6 +37,9 @@ import com.dera.SimilarFiles.WelcomeUser;
 import com.dera.SimilarFiles.user_Advertisement;
 import com.dera.SimilarFiles.user_properties;
 import com.dera.StaticClasses;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserHome extends Fragment {
     GridView propertiesList;
@@ -38,6 +51,7 @@ public class UserHome extends Fragment {
         inflater.inflate(R.menu.menu,menu);
 
 
+
     }
 
     @Override
@@ -45,7 +59,6 @@ public class UserHome extends Fragment {
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
-
         FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
 //

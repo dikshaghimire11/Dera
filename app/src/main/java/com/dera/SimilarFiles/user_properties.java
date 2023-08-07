@@ -405,6 +405,7 @@ public class user_properties extends Fragment {
         String House_Owner_id = data.getString("houseowner_id");
         String Property_id = data.getString("id");
         String name = data.has("name") ? data.getString("name") : "";
+        String UserStatus=data.has("UserStatus")? data.getString("UserStatus") :"";
         String houseOwner_number = data.getString("mobile");
         String fullLocation=data.getString("provinceName")+" "+data.getString("districtName")+" "+data.getString("localLevelName")+" "+data.getString("wardName")+" "+data.getString("tole");
         String Status=data.has("HistoryStatus")?data.getString("HistoryStatus"):"";
@@ -413,7 +414,7 @@ public class user_properties extends Fragment {
         String propertyStatus=data.has("propertyStatus")?data.getString("propertyStatus"):"";
         String PropertyFinalizedDate=data.has("PropertyFinalizedDate")?data.getString("PropertyFinalizedDate"):"";
 
-        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate,bookingStatus,propertyStatus,PropertyFinalizedDate);
+        Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate,bookingStatus,propertyStatus,PropertyFinalizedDate,UserStatus);
 
         if(searchView!=null) {
             searchSuggestionList.add(data.getString("tole"));

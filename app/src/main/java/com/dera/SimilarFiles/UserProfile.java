@@ -30,11 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
 import com.dera.No_Login_UserDashboard;
 import com.dera.R;
-import com.dera.SimilarFiles.edit_user_info;
 import com.dera.StaticClasses;
-import com.dera.change_password;
-import com.dera.houseowner.AddBasicInfoProperties;
-import com.dera.view_my_information;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +49,50 @@ public class UserProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         addUserInfo = new Bundle();
+
+        String checkUserStatusURL="http://" + IpStatic.IpAddress.ip + ":80/api/CheckUserStatus?id="+StaticClasses.loginInfo.UserID;
+        StringRequest request=new StringRequest(Request.Method.GET, checkUserStatusURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status=jsonObject.getString("status");
+                    String UserStatus=jsonObject.getString("Userstatus");
+                    Log.d("UserStatus",""+UserStatus);
+                    if(status.compareTo("200")==0){
+                        if(UserStatus.equals("0")){
+                            Toast.makeText(getContext(), "Your account has been suspended by Administrator!", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("AccessToken"); // Remove the "sessionToken" key
+                            editor.remove("UserType");
+                            editor.remove("UserId");
+                            editor.apply();
+                            Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
+                            startActivity(intent);
+
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.add(request);
         return inflater.inflate(R.layout.fragment_user_profile, container, false);
     }
 

@@ -1,7 +1,10 @@
 package com.dera.houseowner;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.Adapter.UserInfoAdapter;
 import com.dera.IpStatic;
+import com.dera.No_Login_UserDashboard;
 import com.dera.R;
 import com.dera.StaticClasses;
 import com.dera.callback.OnRemovedFragments;
@@ -63,6 +67,7 @@ public class UserInformation extends Fragment {
     String name;
     TextView numberTv;
     ImageView callIv;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,15 +79,58 @@ public class UserInformation extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StaticClasses.backStackManager.setBackStack("viewBookingFragment","detailFragment",getActivity().getSupportFragmentManager());
+        String checkUserStatusURL="http://" + IpStatic.IpAddress.ip + ":80/api/CheckUserStatus?id="+StaticClasses.loginInfo.UserID;
+        StringRequest request=new StringRequest(Request.Method.GET, checkUserStatusURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status=jsonObject.getString("status");
+                    String UserStatus=jsonObject.getString("Userstatus");
+                    Log.d("UserStatus",""+UserStatus);
+                    if(status.compareTo("200")==0){
+                        if(UserStatus.equals("0")){
+                            Toast.makeText(getContext(), "Your account has been suspended by Administrator!", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("AccessToken"); // Remove the "sessionToken" key
+                            editor.remove("UserType");
+                            editor.remove("UserId");
+                            editor.apply();
+                            Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
+                            startActivity(intent);
+
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.add(request);
+        StaticClasses.backStackManager.setBackStack("viewBookingFragment", "detailFragment", getActivity().getSupportFragmentManager());
         listView = view.findViewById(R.id.userlist);
         FrameLayout childFrameLayout = getActivity().findViewById(R.id.ChildFragment);
-        backMcv=view.findViewById(R.id.backMCV);
+        backMcv = view.findViewById(R.id.backMCV);
         Bundle bundle = getArguments();
         Property_id = bundle.getString("property_id");
-         property = (Property) bundle.getSerializable("model");
-         scrollPosition = bundle.getInt("scrollPosition");
-         name = bundle.getString("name");
+        property = (Property) bundle.getSerializable("model");
+        scrollPosition = bundle.getInt("scrollPosition");
+        name = bundle.getString("name");
         userInfo = new ArrayList<UserInfo>();
         String url = "http://" + IpStatic.IpAddress.ip + ":80/api/GetUserListedFromBooking?property_id=" + Property_id;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -109,59 +157,61 @@ public class UserInformation extends Fragment {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                           UserInfo userInfo1 = userInfo.get(i);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            LayoutInflater inflater = getLayoutInflater();
-                            View view1 = inflater.inflate(R.layout.contact_room_finder, null);
-                            builder.setView(view1);
+                            UserInfo userInfo1 = userInfo.get(i);
+                            String userStatus = userInfo1.getUserStatus();
+                            if (userStatus.equals("1")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                LayoutInflater inflater = getLayoutInflater();
+                                View view1 = inflater.inflate(R.layout.contact_room_finder, null);
+                                builder.setView(view1);
 
-                             numberTv = view1.findViewById(R.id.numberTv);
-                            TextView name = view1.findViewById(R.id.nameTv);
-                            callIv=view1.findViewById(R.id.callme);
-                            MaterialButton approvebtn = view1.findViewById(R.id.approvebtn);
-                            MaterialButton canclebtn = view1.findViewById(R.id.canclebtn);
-                            MaterialCardView backMCV = view1.findViewById(R.id.backMCV);
-                            AlertDialog dialog = builder.create();
-                            name.setText(userInfo1.getFullname());
-                            numberTv.setText(userInfo1.getUsernumber());
+                                numberTv = view1.findViewById(R.id.numberTv);
+                                TextView name = view1.findViewById(R.id.nameTv);
+                                callIv = view1.findViewById(R.id.callme);
+                                MaterialButton approvebtn = view1.findViewById(R.id.approvebtn);
+                                MaterialButton canclebtn = view1.findViewById(R.id.canclebtn);
+                                MaterialCardView backMCV = view1.findViewById(R.id.backMCV);
+                                AlertDialog dialog = builder.create();
+                                name.setText(userInfo1.getFullname());
+                                numberTv.setText(userInfo1.getUsernumber());
 
-                            Log.d("Booking",""+userInfo1.getBooking_id());
-                            backMCV.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dialog.cancel();
-                                }
-                            });
-                            callIv.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    String mobilenumber= numberTv.getText().toString();
-                                    if(!mobilenumber.isEmpty()){
-                                        mobilenumber=mobilenumber.replaceAll("[^0-9]","");
-                                        Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mobilenumber));
-                                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                                            startActivity(intent);
-                                        } else {
-                                            // Request the CALL_PHONE permission if it's not granted
-                                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                                Log.d("Booking", "" + userInfo1.getBooking_id());
+                                backMCV.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.cancel();
+                                    }
+                                });
+                                callIv.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String mobilenumber = numberTv.getText().toString();
+                                        if (!mobilenumber.isEmpty()) {
+                                            mobilenumber = mobilenumber.replaceAll("[^0-9]", "");
+                                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobilenumber));
+                                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                                startActivity(intent);
+                                            } else {
+                                                // Request the CALL_PHONE permission if it's not granted
+                                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                                            }
                                         }
                                     }
-                                }
-                            });
-                            approvebtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    String approvedBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+3;
-                                    StringRequest stringRequest1 = new StringRequest(Request.Method.GET, approvedBooking, new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject jsonObject1 = new JSONObject(response);
-                                                String status = jsonObject1.getString("status");
-                                                if (status.compareTo("200") == 0) {
-                                                    dialog.cancel();
-                                                    String propertyChangeStatusUrl="http://" + IpStatic.IpAddress.ip + ":80/api/PropertyChangeStatus? property_id="+Property_id;
-                                                        StringRequest propertyChangeStatus=new StringRequest(Request.Method.GET, propertyChangeStatusUrl, new Response.Listener<String>() {
+                                });
+                                approvebtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String approvedBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + userInfo1.getBooking_id() + "&status=" + 3;
+                                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, approvedBooking, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject jsonObject1 = new JSONObject(response);
+                                                    String status = jsonObject1.getString("status");
+                                                    if (status.compareTo("200") == 0) {
+                                                        dialog.cancel();
+                                                        String propertyChangeStatusUrl = "http://" + IpStatic.IpAddress.ip + ":80/api/PropertyChangeStatus? property_id=" + Property_id;
+                                                        StringRequest propertyChangeStatus = new StringRequest(Request.Method.GET, propertyChangeStatusUrl, new Response.Listener<String>() {
                                                             @Override
                                                             public void onResponse(String response) {
 
@@ -171,212 +221,227 @@ public class UserInformation extends Fragment {
                                                             public void onErrorResponse(VolleyError error) {
 
                                                             }
-                                                        }){
+                                                        }) {
                                                             @Override
                                                             public Map<String, String> getHeaders() throws AuthFailureError {
 
                                                                 Map<String, String> params = new HashMap<String, String>();
                                                                 params.put("Accept", "application/json");
                                                                 params.put("Content-Type", "application/json");
-                                                                params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
+                                                                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
                                                                 return params;
                                                             }
                                                         };
-                                                    RequestQueue changeStatus = Volley.newRequestQueue(getContext());
-                                                    changeStatus.add(propertyChangeStatus);
+                                                        RequestQueue changeStatus = Volley.newRequestQueue(getContext());
+                                                        changeStatus.add(propertyChangeStatus);
 
-                                                    String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
-                                                    StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
-                                                        @Override
-                                                        public void onResponse(String response) {
-                                                            try {
-                                                                JSONObject jsonObject2 = new JSONObject(response);
-                                                                String status = jsonObject2.getString("status");
-                                                                if (status.compareTo("200") == 0) {
-                                                                                    Toast.makeText(getContext(), "Booking Approved!", Toast.LENGTH_LONG).show();
-                                                                                    Fragment fragment = new houseOwnerHome();
-                                                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
-                                                                                    StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
-                                                                                        @Override
-                                                                                        public void removedFragments(FragmentTransaction transaction) {
-                                                                                            fragment.setArguments(bundle);
-                                                                                            transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
-                                                                                            transaction.commit();
-                                                                                        }
-                                                                                    });
+                                                        String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
+                                                        StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                try {
+                                                                    JSONObject jsonObject2 = new JSONObject(response);
+                                                                    String status = jsonObject2.getString("status");
+                                                                    if (status.compareTo("200") == 0) {
+                                                                        Toast.makeText(getContext(), "Booking Approved!", Toast.LENGTH_LONG).show();
+                                                                        Fragment fragment = new houseOwnerHome();
+                                                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                                        StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                                                            @Override
+                                                                            public void removedFragments(FragmentTransaction transaction) {
+                                                                                fragment.setArguments(bundle);
+                                                                                transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
+                                                                                transaction.commit();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    throw new RuntimeException(e);
                                                                 }
-                                                            } catch (JSONException e) {
-                                                                throw new RuntimeException(e);
                                                             }
-                                                        }
-                                                    }, new Response.ErrorListener() {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
+                                                        }, new Response.ErrorListener() {
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
 
-                                                        }
-                                                    }) {
-                                                        public String getBodyContentType() {
-                                                            return "application/json; charset=utf-8";
-                                                        }
-
-                                                        @Nullable
-                                                        @Override
-                                                        public byte[] getBody() throws AuthFailureError {
-                                                            try {
-                                                                JSONObject jsonBody = new JSONObject();
-                                                                jsonBody.put("property_id", Property_id);
-                                                                jsonBody.put("status", "approved");
-                                                                jsonBody.put("booking_id",userInfo1.getBooking_id());
-                                                                return jsonBody.toString().getBytes("utf-8");
-                                                            } catch (JSONException |
-                                                                     UnsupportedEncodingException e) {
-                                                                throw new AuthFailureError(e.getMessage());
                                                             }
-                                                        }
+                                                        }) {
+                                                            public String getBodyContentType() {
+                                                                return "application/json; charset=utf-8";
+                                                            }
 
-                                                        @Override
-                                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                                            @Nullable
+                                                            @Override
+                                                            public byte[] getBody() throws AuthFailureError {
+                                                                try {
+                                                                    JSONObject jsonBody = new JSONObject();
+                                                                    jsonBody.put("property_id", Property_id);
+                                                                    jsonBody.put("status", "approved");
+                                                                    jsonBody.put("booking_id", userInfo1.getBooking_id());
+                                                                    return jsonBody.toString().getBytes("utf-8");
+                                                                } catch (JSONException |
+                                                                         UnsupportedEncodingException e) {
+                                                                    throw new AuthFailureError(e.getMessage());
+                                                                }
+                                                            }
 
-                                                            Map<String, String> params = new HashMap<String, String>();
-                                                            params.put("Accept", "application/json");
-                                                            params.put("Content-Type", "application/json");
-                                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
-                                                            return params;
-                                                        }
-                                                    };
+                                                            @Override
+                                                            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                                                    RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
-                                                    historyrequestQueue.add(history);
+                                                                Map<String, String> params = new HashMap<String, String>();
+                                                                params.put("Accept", "application/json");
+                                                                params.put("Content-Type", "application/json");
+                                                                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                                                                return params;
+                                                            }
+                                                        };
+
+                                                        RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
+                                                        historyrequestQueue.add(history);
+                                                    }
+                                                } catch (JSONException e) {
+                                                    throw new RuntimeException(e);
                                                 }
-                                            } catch (JSONException e) {
-                                                throw new RuntimeException(e);
+
                                             }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
+                                            }
+                                        }) {
 
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getContext(), "Something went worng1!", Toast.LENGTH_LONG).show();
-                                        }
-                                    }){
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                                Map<String, String> headers = new HashMap<>();
+                                                headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                                                return headers;
+                                            }
+                                        };
+                                        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+                                        requestQueue1.add(stringRequest1);
+                                    }
+                                });
+                                canclebtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" + userInfo1.getBooking_id() + "&status=" + 2;
+                                        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    Log.d("Tension: ", "" + response);
+                                                    JSONObject jsonObject1 = new JSONObject(response);
+                                                    String status = jsonObject1.getString("status");
+                                                    if (status.compareTo("200") == 0) {
 
-                                        @Override
-                                        public Map<String, String> getHeaders() throws AuthFailureError {
-                                            Map<String ,String> headers=new HashMap<>();
-                                            headers.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
-                                            return headers;
-                                        }
-                                    };
-                                    RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-                                    requestQueue1.add(stringRequest1);
-                                }
-                            });
-                            canclebtn.setOnClickListener(new View.OnClickListener() {
+                                                        Toast.makeText(getContext(), "Booking Cancelled!", Toast.LENGTH_LONG).show();
+                                                        String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
+                                                        StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                try {
+                                                                    JSONObject jsonObject2 = new JSONObject(response);
+                                                                    String status = jsonObject2.getString("status");
+                                                                    if (status.compareTo("200") == 0) {
+
+                                                                        Fragment fragment = new houseOwnerHome();
+                                                                        ;
+                                                                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                                                                        StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
+                                                                            @Override
+                                                                            public void removedFragments(FragmentTransaction transaction) {
+                                                                                fragment.setArguments(bundle);
+                                                                                transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
+                                                                                transaction.commit();
+                                                                            }
+                                                                        });
+                                                                        dialog.cancel();
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    throw new RuntimeException(e);
+                                                                }
+                                                            }
+                                                        }, new Response.ErrorListener() {
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
+
+                                                            }
+                                                        }) {
+                                                            public String getBodyContentType() {
+                                                                return "application/json; charset=utf-8";
+                                                            }
+
+                                                            @Nullable
+                                                            @Override
+                                                            public byte[] getBody() throws AuthFailureError {
+                                                                try {
+                                                                    JSONObject jsonBody = new JSONObject();
+                                                                    jsonBody.put("property_id", Property_id);
+                                                                    jsonBody.put("status", "canceled by houseowner");
+                                                                    jsonBody.put("booking_id", userInfo1.getBooking_id());
+                                                                    return jsonBody.toString().getBytes("utf-8");
+                                                                } catch (JSONException |
+                                                                         UnsupportedEncodingException e) {
+                                                                    throw new AuthFailureError(e.getMessage());
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                                Map<String, String> params = new HashMap<String, String>();
+                                                                params.put("Accept", "application/json");
+                                                                params.put("Content-Type", "application/json");
+                                                                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                                                                return params;
+                                                            }
+                                                        };
+
+                                                        RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
+                                                        historyrequestQueue.add(history);
+                                                    }
+                                                } catch (JSONException e) {
+                                                    throw new RuntimeException(e);
+                                                }
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
+                                            }
+                                        }) {
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                                                Map<String, String> params = new HashMap<String, String>();
+                                                params.put("Accept", "application/json");
+                                                params.put("Content-Type", "application/json");
+                                                params.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                                                return params;
+                                            }
+                                        };
+                                        RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
+                                        requestQueue1.add(stringRequest1);
+                                    }
+                                });
+
+                                dialog.show();
+                            }
+                            if (userStatus.equals("0")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Dera");
+                                builder.setMessage("This account has been suspended by Administrator!");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(View view) {
-                                    String canceBooking = "http://" + IpStatic.IpAddress.ip + ":80/api/ChangeStatus? booking_id=" +userInfo1.getBooking_id()+"&status="+2;
-                                    StringRequest stringRequest1 = new StringRequest(Request.Method.GET, canceBooking, new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                Log.d("Tension: ",""+response);
-                                                JSONObject jsonObject1 = new JSONObject(response);
-                                                String status = jsonObject1.getString("status");
-                                                if (status.compareTo("200") == 0) {
-
-                                                    Toast.makeText(getContext(), "Booking Cancelled!", Toast.LENGTH_LONG).show();
-                                                    String insertInto = "http://" + IpStatic.IpAddress.ip + ":80/api/StoreHistory";
-                                                    StringRequest history = new StringRequest(Request.Method.POST, insertInto, new Response.Listener<String>() {
-                                                        @Override
-                                                        public void onResponse(String response) {
-                                                            try {
-                                                                JSONObject jsonObject2 = new JSONObject(response);
-                                                                String status = jsonObject2.getString("status");
-                                                                if (status.compareTo("200") == 0) {
-
-                                                                    Fragment fragment = new houseOwnerHome();;
-                                                                    FragmentManager manager = getActivity().getSupportFragmentManager();
-                                                                    StaticClasses.CloseAllFragments.removeByManager(manager, new OnRemovedFragments() {
-                                                                        @Override
-                                                                        public void removedFragments(FragmentTransaction transaction) {
-                                                                            fragment.setArguments(bundle);
-                                                                            transaction.add(R.id.fragmentlayout, fragment, "homeFragment");
-                                                                            transaction.commit();
-                                                                        }
-                                                                    });
-                                                                    dialog.cancel();
-                                                                }
-                                                            } catch (JSONException e) {
-                                                                throw new RuntimeException(e);
-                                                            }
-                                                        }
-                                                    }, new Response.ErrorListener() {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
-
-                                                        }
-                                                    }) {
-                                                        public String getBodyContentType() {
-                                                            return "application/json; charset=utf-8";
-                                                        }
-
-                                                        @Nullable
-                                                        @Override
-                                                        public byte[] getBody() throws AuthFailureError {
-                                                            try {
-                                                                JSONObject jsonBody = new JSONObject();
-                                                                jsonBody.put("property_id",Property_id);
-                                                                jsonBody.put("status", "canceled by houseowner");
-                                                                jsonBody.put("booking_id",userInfo1.getBooking_id());
-                                                                return jsonBody.toString().getBytes("utf-8");
-                                                            } catch (JSONException |
-                                                                     UnsupportedEncodingException e) {
-                                                                throw new AuthFailureError(e.getMessage());
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public Map<String, String> getHeaders() throws AuthFailureError {
-
-                                                            Map<String, String> params = new HashMap<String, String>();
-                                                            params.put("Accept", "application/json");
-                                                            params.put("Content-Type", "application/json");
-                                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
-                                                            return params;
-                                                        }
-                                                    };
-
-                                                    RequestQueue historyrequestQueue = Volley.newRequestQueue(getContext());
-                                                    historyrequestQueue.add(history);
-                                                }
-                                            } catch (JSONException e) {
-                                                throw new RuntimeException(e);
-                                            }
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getContext(), "Something went worng!", Toast.LENGTH_LONG).show();
-                                        }
-                                    }){
-                                        @Override
-                                        public Map<String, String> getHeaders() throws AuthFailureError {
-
-                                            Map<String, String> params = new HashMap<String, String>();
-                                            params.put("Accept", "application/json");
-                                            params.put("Content-Type", "application/json");
-                                            params.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
-                                            return params;
-                                        }
-                                    };
-                                    RequestQueue requestQueue1 = Volley.newRequestQueue(getContext());
-                                    requestQueue1.add(stringRequest1);
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
                                 }
                             });
+                            AlertDialog alertDialog=builder.create();
+                            alertDialog.show();
 
-                            dialog.show();
-
+                            }
                         }
                     });
                 } catch (JSONException e) {
@@ -390,13 +455,13 @@ public class UserInformation extends Fragment {
 
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
+        RequestQueue requestQueueCheck = Volley.newRequestQueue(getContext());
+        requestQueueCheck.add(stringRequest);
         backMcv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 detailPropertyInformation detailFragment = new detailPropertyInformation();
-                Bundle b=new Bundle();
+                Bundle b = new Bundle();
                 b.putSerializable("model", property);
                 b.putInt("scrollPosition", scrollPosition);
                 b.putString("name", name);
@@ -417,8 +482,10 @@ public class UserInformation extends Fragment {
         number = data.getString("mobile");
         date = data.getString("created_at");
         String bookingId = data.getString("booking_id");
-        return new UserInfo(fullName, number, date,bookingId);
+        String userStatus = data.getString("UserStatus");
+        return new UserInfo(fullName, number, date, bookingId, userStatus);
     }
+
     private static final int REQUEST_PHONE_CALL = 1;
 
     @Override

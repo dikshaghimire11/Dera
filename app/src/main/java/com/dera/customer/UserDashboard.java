@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -27,10 +29,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dera.IpStatic;
+import com.dera.No_Login_UserDashboard;
 import com.dera.R;
 import com.dera.SimilarFiles.UserProfile;
 import com.dera.StaticClasses;
 import com.dera.callback.OnRemovedFragments;
+import com.dera.houseowner.houseOwnerDashboard;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -62,6 +66,49 @@ public class UserDashboard extends AppCompatActivity {
         Intent intent = getIntent();
         UserType = intent.getIntExtra("usertypeid", defaultvalue);
         bundle.putInt("usertypeid",UserType);
+        String checkUserStatusURL="http://" + IpStatic.IpAddress.ip + ":80/api/CheckUserStatus?id="+StaticClasses.loginInfo.UserID;
+        StringRequest request=new StringRequest(Request.Method.GET, checkUserStatusURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status=jsonObject.getString("status");
+                    String UserStatus=jsonObject.getString("Userstatus");
+                    Log.d("UserStatus",""+UserStatus);
+                    if(status.compareTo("200")==0){
+                        if(UserStatus.equals("0")){
+                            Toast.makeText(UserDashboard.this, "Your account has been suspended by Administrator!", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences =getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("AccessToken"); // Remove the "sessionToken" key
+                            editor.remove("UserType");
+                            editor.remove("UserId");
+                            editor.apply();
+                            Intent intent = new Intent(UserDashboard.this, No_Login_UserDashboard.class);
+                            startActivity(intent);
+
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(UserDashboard.this, "Something Went Wrong!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        requestQueue.add(request);
         String checkStatusURL = "http://" + IpStatic.IpAddress.ip + ":80/api/get_password_status";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, checkStatusURL, new Response.Listener<String>() {
             @Override
