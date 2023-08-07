@@ -23,6 +23,7 @@ import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Search_filter;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
+import com.dera.SimilarFiles.WelcomeUser;
 import com.dera.SimilarFiles.user_Advertisement;
 import com.dera.SimilarFiles.user_properties;
 import com.dera.StaticClasses;
@@ -46,22 +47,32 @@ public class UserHome extends Fragment {
         setHasOptionsMenu(true);
 
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
-
-        Fragment userHomeFragment = new UserHome_Category_Fragment();
-        homeTransaction.add(R.id.categoryFragment, userHomeFragment);
-
-        homeTransaction.commit();
+//        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
+//
+//        Fragment userHomeFragment = new UserHome_Category_Fragment();
+//        homeTransaction.add(R.id.categoryFragment, userHomeFragment);
+//
+//        homeTransaction.commit();
 
 
         FragmentTransaction searchTransaction = fragmentManager.beginTransaction();
         Fragment search_filter=new Search_filter();
         searchTransaction.add(R.id.search_filter,search_filter,"searchFragment");
         searchTransaction.commit();
+
+        FragmentTransaction welcomeTransaction = fragmentManager.beginTransaction();
+        Fragment welcomeUser=new WelcomeUser();
+        welcomeTransaction.add(R.id.welcomeFragment,welcomeUser,"welcomeFragment");
+        welcomeTransaction.commit();
+
+
         FragmentTransaction advertisementTransaction = fragmentManager.beginTransaction();
         Fragment advertisement=new user_Advertisement();
         searchTransaction.add(R.id.advertiseMCV,advertisement);
         advertisementTransaction.commit();
+
+
+
 
 
         FragmentTransaction propertyTransaction = fragmentManager.beginTransaction();

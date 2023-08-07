@@ -36,4 +36,7 @@ public class CategoryListView extends ArrayAdapter<String> {
 
         return  rowView;
     }
+    public String getTextAt(int index){
+        return  title[index];
+    }
 }

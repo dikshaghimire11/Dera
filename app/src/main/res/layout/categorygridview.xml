@@ -12,8 +12,10 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/categoryMCV"
         android:layout_width="59dp"
         android:layout_height="59dp"
+        app:strokeColor="@color/black"
         app:cardCornerRadius="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView

@@ -190,14 +190,6 @@ public class Search_filter extends Fragment {
                });
 
 
-
-
-
-
-
-
-
-
                if(roomStatus){
                    StaticClasses.filterGFXSupport.enableFilterGFX(roomCategoryMCV,getContext());
                }

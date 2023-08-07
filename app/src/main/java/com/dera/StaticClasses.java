@@ -46,6 +46,7 @@ public class StaticClasses {
     public static class loginInfo{
         public static String loginToken;
         public static String UserID;
+        public static String userName;
     }
 
     public static  class gridViewHeight{
@@ -98,6 +99,11 @@ public class StaticClasses {
     public static class filterGFXSupport{
         public static void enableFilterGFX(MaterialCardView mcv,Context context){
             mcv.setStrokeWidth(4);
+
+
+        }
+        public static void enableFilterGFX(MaterialCardView mcv,Context context,int size){
+            mcv.setStrokeWidth(size);
 
 
         }
