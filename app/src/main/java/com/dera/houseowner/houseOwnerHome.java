@@ -16,6 +16,7 @@ import android.widget.GridView;
 
 import com.dera.IpStatic;
 import com.dera.R;
+import com.dera.SimilarFiles.WelcomeUser;
 import com.dera.SimilarFiles.user_Advertisement;
 import com.dera.SimilarFiles.user_properties;
 import com.dera.StaticClasses;
@@ -30,9 +31,14 @@ public class houseOwnerHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         FragmentManager fragmentmanag = getFragmentManager();
+
+        FragmentTransaction welcomeTransaction = fragmentmanag.beginTransaction();
+        Fragment welcomeUser=new WelcomeUser();
+        welcomeTransaction.add(R.id.welcomeFragment,welcomeUser,"welcomeFragment");
+        welcomeTransaction.commit();
+
+
         FragmentTransaction f = fragmentmanag.beginTransaction();
         Fragment advertisement = new user_Advertisement();
         f.add(R.id.advertiseMCV, advertisement);

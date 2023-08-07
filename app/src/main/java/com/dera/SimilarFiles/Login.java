@@ -137,12 +137,15 @@ public class Login extends AppCompatActivity {
                                     SharedPreferences sharedPreferences = getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     String AccessToken = object.getString("access_token");
+                                    String userName = object.getString("userName");
                                     editor.putString("AccessToken", AccessToken);
                                     editor.putString("UserId", userId);
                                     editor.putInt("UserType",usertypeid );
+                                    editor.putString("userName",userName );
                                     editor.apply();
                                     StaticClasses.loginInfo.loginToken=AccessToken;
                                     StaticClasses.loginInfo.UserID=userId;
+                                    StaticClasses.loginInfo.userName=userName;
                                     Toast.makeText(Login.this,"Login Sucessful!",Toast.LENGTH_LONG).show();
                                     emailET.setText("");
                                     passwordET.setText("");

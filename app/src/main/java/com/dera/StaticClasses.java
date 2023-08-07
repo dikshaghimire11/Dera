@@ -46,6 +46,7 @@ public class StaticClasses {
     public static class loginInfo{
         public static String loginToken;
         public static String UserID;
+        public static String userName;
     }
 
     public static  class gridViewHeight{
