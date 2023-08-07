@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -44,11 +46,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.dera.IpStatic;
 import com.dera.R;
 import com.dera.SimilarFiles.Register;
 import com.dera.StaticClasses;
 import com.dera.VolleyMultipartRequest;
+import com.dera.models.Property;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -58,7 +65,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -69,18 +79,26 @@ public class AddBasicInfoProperties extends Fragment {
     public interface IGetImageName {
         public String getName();
     }
+    public interface ImageLoadCallback {
+        void onImageLoaded(byte[] imageBytes);
+        void onImageLoadFailed();
+    }
     ProgressDialog progressDialog;
 
     ImageView Photo, uploadBtn;
+    Bundle addPropertyDataBundle;
     TextView UploadPhoto;
     EditText priceEt;
     Bitmap bitmap;
+    String Editprice;
+    String imageUrl;
     Bundle bundle;
+    TextView AddProperty;
     String category_Id, tole,extension;
 
-    byte[] imagebytes,jsonbytes;
+    byte[] imagebytes,photo;
     String imageName;
-    String addPropertyURL;
+    String addPropertyURL,editPropertyURL, Property_id;
     AppCompatTextView bedRoomTextView, kitchenTextView, livingRoomTv,
             bathroomTv, floorTv, carParkingTv, BikeParkingTv,
             sharingInternetTv, householdWaterTv, drinkingWaterTv, noOfRoomsTv, noOfStoreTv, noOfFlatsTv;
@@ -102,9 +120,13 @@ public class AddBasicInfoProperties extends Fragment {
       String jsonValue="{";
       String updatedJson;
     MaterialButton addpropertyBtn;
+    private void setImageLoadCallback(ImageLoadCallback callback) {
+        this.imageLoadCallback = callback;
+    }
+    String fragmentName;
     private final int Storage_code = 4655;
     public Uri uri;
-
+    private ImageLoadCallback imageLoadCallback;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -115,18 +137,13 @@ public class AddBasicInfoProperties extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         StaticClasses.backStackManager.setBackStack("addBasicInformationFragment","addressInformationFragment",getActivity().getSupportFragmentManager());
-        Bundle addPropertyDataBundle=getArguments();
+        addPropertyDataBundle=getArguments();
         propertyJson=new JSONObject();
+        fragmentName=addPropertyDataBundle.getString("fragmentName");
         category_Id=addPropertyDataBundle.getString("PropertyType");
-        tole=addPropertyDataBundle.getString("tole");
-        provinceId=addPropertyDataBundle.getInt("provinceId");
-        districtId=addPropertyDataBundle.getInt("districtId");
-        wardId=addPropertyDataBundle.getInt("ward_noId");
-        local_level_ID=addPropertyDataBundle.getInt("local_levelId");
-
-
         uploadBtn = view.findViewById(R.id.UploadImageIv);
         Photo = view.findViewById(R.id.propertyIv);
+        AddProperty=view.findViewById(R.id.AddProperty);
         UploadPhoto = view.findViewById(R.id.UploadImageTV);
 //        spinner
         bedroomSp = view.findViewById(R.id.bedRoomSp);
@@ -174,6 +191,297 @@ public class AddBasicInfoProperties extends Fragment {
 
 
         addpropertyBtn = view.findViewById(R.id.AddPropertybtn);
+        if(fragmentName.equals("EditFragment")){
+            Property property = (Property) addPropertyDataBundle.getSerializable("model");
+            addpropertyBtn.setText("Edit Property");
+            AddProperty.setText("Edit Property Information");
+            Editprice =addPropertyDataBundle.getString("Price");
+            Property_id=addPropertyDataBundle.getString("Property_id");
+            priceEt.setText(Editprice);
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.logo_in_bricks_foreground)
+                    .error(R.mipmap.logo_in_bricks_foreground)
+            .override(600,400);
+
+             imageUrl = "http://" + IpStatic.IpAddress.ip + "/" + property.getPhoto();
+            if (imageUrl != null) {
+
+                Glide.with(this.getContext())
+                        .asBitmap()
+                        .load(imageUrl)
+                        .apply(requestOptions)
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                // Image loaded successfully, resource is the Bitmap
+                                if (resource != null) {
+                                    Photo.setImageBitmap(resource);
+                                    // Convert the Bitmap to bytes
+                                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                    imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+                                    extension = imageName.substring(imageName.lastIndexOf(".") + 1);
+                                    Log.d("Extensions", "" + extension);
+                                    if (extension != null && (extension.equals("png") || extension.equals("jpg"))) {
+                                        if (extension.equals("png")) {
+                                            resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                        } else {
+                                            resource.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                        }
+                                        imagebytes = byteArrayOutputStream.toByteArray();
+                                        Log.d("imageBytes", "" + imagebytes);
+                                        if (imageLoadCallback != null) {
+                                            imageLoadCallback.onImageLoaded(imagebytes);
+                                        }
+                                        UploadPhoto.setText("Edit Photo");
+                                    } else {
+                                        // Handle the case when extension is null or unsupported
+                                        Log.e("Glide", "Unsupported image format or extension is null");
+                                    }
+                                } else {
+                                    Log.e("Glide", "Failed to load image: resource is null");
+                                }
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                // Called when the resource is cleared (e.g., when the ImageView is detached from the view hierarchy)
+                            }
+
+                            @Override
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                // Called when the image loading fails
+                                Log.e("Glide", "Failed to load image");
+                                if (imageLoadCallback != null) {
+                                    imageLoadCallback.onImageLoadFailed();
+                                }
+                            }
+                        });
+            } else {
+                // Handle the case when imageUrl is null
+                Log.e("Glide", "imageUrl is null");
+                // Or show a Toast with an error message
+                Toast.makeText(getContext(), "Failed to load image: imageUrl is null", Toast.LENGTH_LONG).show();
+                if (imageLoadCallback != null) {
+                    imageLoadCallback.onImageLoaded(null);
+                }
+            }
+
+
+            JSONObject json = property.getJson();
+            Iterator<?> keys = json.keys();
+
+            if (keys.hasNext()) {
+                Log.d("NUll", "" + keys.toString());
+            }
+            ArrayList<String> keyList = new ArrayList<>();
+            ArrayList<String> valueList = new ArrayList<>();
+
+            while (keys.hasNext()) {
+                String temp = (String) keys.next();
+                keyList.add(temp);
+                try {
+                    String value = json.getString(temp);
+                    valueList.add(value);
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+                addpropertyBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updatedJson = jsonValue.substring(0, jsonValue.length() - 1);
+                        updatedJson = updatedJson + "}";
+                        ByteArrayOutputStream byteArrayOutputStream;
+                        byteArrayOutputStream = new ByteArrayOutputStream();
+                        if (bitmap != null) {
+                            String imagePath = getRealPathFromURI(uri);
+                            extension = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+                            if (extension.equals("jpeg") || extension.equals("jpg")) {
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                Log.d("Extension", "" + extension);
+
+                            } else if (extension.equals("png")) {
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                Log.d("Extension", "" + extension);
+                            }
+                            imagebytes = byteArrayOutputStream.toByteArray();
+                            progressDialog = new ProgressDialog(getContext());
+                            progressDialog.setMessage("Please wait.....");
+                            progressDialog.show();
+                            editPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/edit_property";
+                            SendData(new IGetImageName() {
+                                @Override
+                                public String getName() {
+
+                                    return UUID.randomUUID().toString();
+                                }
+                            });
+                        } else {
+
+                            progressDialog = new ProgressDialog(getContext());
+                            progressDialog.setMessage("Please wait.....");
+                            progressDialog.show();
+                            photo=imagebytes;
+                            Log.d("image",""+photo);
+                            editPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/edit_property";
+                            sendImageFromDatabase(imageName);
+                            Log.d("imageName",""+imageName);
+
+                        }
+
+                    }
+                });
+
+            if (category_Id.equals("1") || category_Id.equals("2")) {
+                Spinner[] spinners = new Spinner[13];
+                spinners[0] = bedroomSp;
+                spinners[1] = kitchenSp;
+                spinners[2] = livingroomSp;
+                spinners[3] = bathroomSp;
+                spinners[4] = floorSp;
+                spinners[5] = carparkingSp;
+                spinners[6] = bikeparkingSp;
+                spinners[7] = sharinginternetSp;
+                spinners[8] = householdwaterSp;
+                spinners[9] = drinkingwaterSp;
+                for (int i = 0; i < Math.min(keyList.size(), spinners.length); i++) {
+                    Spinner spinner = spinners[i];
+                    String defaultValue = valueList.get(i);
+
+                    // Find the resource ID of the string-array for the current Spinner
+                    String key = keyList.get(i);
+                    int optionsResId = getResources().getIdentifier(key + "_options", "array", requireContext().getPackageName());
+
+                    // Load the options array from the strings.xml
+                    String[] optionsFromResource = getResources().getStringArray(optionsResId);
+
+                    // Create a new ArrayList to hold the combined options
+                    ArrayList<String> combinedOptions = new ArrayList<>();
+
+                    // Add the defaultValue to the combinedOptions list
+                    combinedOptions.add(defaultValue);
+
+                    // Add the rest of the options from the string-array
+                    for (String option : optionsFromResource) {
+                        // Skip adding the defaultValue again, as it's already added at the beginning
+                        if (!option.equals(defaultValue)) {
+                            combinedOptions.add(option);
+                        }
+                    }
+
+                    // Set the combinedOptions as the data source for the ArrayAdapter
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, combinedOptions);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(spinnerAdapter);
+
+                    // Find the index of the default value in the options array
+                    int defaultValueIndex = combinedOptions.indexOf(defaultValue);
+                    if (defaultValueIndex != -1) {
+                        spinner.setSelection(defaultValueIndex);
+                    } else {
+                        // If the default value is not found in the list, set the first item as a fallback:
+                        spinner.setSelection(0);
+                    }
+                }
+
+            }
+            if(category_Id.equals("3")){
+                Spinner[] spinners = new Spinner[13];
+                spinners[0] = carparkingSp;
+                spinners[1] = bikeparkingSp;
+                spinners[2] = householdwaterSp;
+                spinners[3] = drinkingwaterSp;
+                spinners[4]=noofflatsSp;
+                for (int i = 0; i < Math.min(keyList.size(), spinners.length); i++) {
+                    Spinner spinner = spinners[i];
+                    String defaultValue = valueList.get(i);
+
+                    // Find the resource ID of the string-array for the current Spinner
+                    String key = keyList.get(i);
+                    int optionsResId = getResources().getIdentifier(key + "_options", "array", requireContext().getPackageName());
+
+                    // Load the options array from the strings.xml
+                    String[] optionsFromResource = getResources().getStringArray(optionsResId);
+
+                    ArrayList<String> combinedOptions = new ArrayList<>();
+
+                    // Add the defaultValue to the combinedOptions list
+                    combinedOptions.add(defaultValue);
+
+                    // Add the rest of the options from the string-array
+                    for (String option : optionsFromResource) {
+                        // Skip adding the defaultValue again, as it's already added at the beginning
+                        if (!option.equals(defaultValue)) {
+                            combinedOptions.add(option);
+                        }
+                    }
+
+                    // Set the combinedOptions as the data source for the ArrayAdapter
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, combinedOptions);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(spinnerAdapter);
+
+                    // Find the index of the default value in the options array
+                    int defaultValueIndex = combinedOptions.indexOf(defaultValue);
+                    if (defaultValueIndex != -1) {
+                        spinner.setSelection(defaultValueIndex);
+                    } else {
+                        // If the default value is not found in the list, set the first item as a fallback:
+                        spinner.setSelection(0);
+                    }
+                }
+            }
+            if(category_Id.equals("4")){
+                Spinner[] spinners = new Spinner[2];
+                spinners[0] = noofshutterSp;
+                spinners[1] = noofstoreSp;
+                for (int i = 0; i < Math.min(keyList.size(), spinners.length); i++) {
+                    Spinner spinner = spinners[i];
+                    String defaultValue = valueList.get(i);
+
+                    // Find the resource ID of the string-array for the current Spinner
+                    String key = keyList.get(i);
+                    int optionsResId = getResources().getIdentifier(key + "_options", "array", requireContext().getPackageName());
+
+                    // Load the options array from the strings.xml
+                    String[] optionsFromResource = getResources().getStringArray(optionsResId);
+
+                    // Create a new ArrayList to hold the combined options
+                    ArrayList<String> combinedOptions = new ArrayList<>();
+
+                    // Add the defaultValue to the combinedOptions list
+                    combinedOptions.add(defaultValue);
+
+                    // Add the rest of the options from the string-array
+                    for (String option : optionsFromResource) {
+                        // Skip adding the defaultValue again, as it's already added at the beginning
+                        if (!option.equals(defaultValue)) {
+                            combinedOptions.add(option);
+                        }
+                    }
+
+                    // Set the combinedOptions as the data source for the ArrayAdapter
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, combinedOptions);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(spinnerAdapter);
+
+                    // Find the index of the default value in the options array
+                    int defaultValueIndex = combinedOptions.indexOf(defaultValue);
+                    if (defaultValueIndex != -1) {
+                        spinner.setSelection(defaultValueIndex);
+                    } else {
+                        // If the default value is not found in the list, set the first item as a fallback:
+                        spinner.setSelection(0);
+                    }
+                }
+            }
+
+
+        }
+
+
+
 //insert Image from Gallery
         ActivityResultLauncher<Intent> activityResultLauncher
                 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -528,13 +836,15 @@ public class AddBasicInfoProperties extends Fragment {
             });
 
         }
-        addpropertyBtn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                updatedJson = jsonValue.substring(0, jsonValue.length() - 1);
-                updatedJson = updatedJson + "}";
-                Log.d("UpdatedJson",""+updatedJson);
+        if(fragmentName.equals("AddressFragment")) {
+            addpropertyBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    updatedJson = jsonValue.substring(0, jsonValue.length() - 1);
+                    updatedJson = updatedJson + "}";
+                    Log.d("UpdatedJson", "" + updatedJson);
 //                String path=getPath(filepath);
 //               Log.d("ImageName","hello"+path.toString());
 
@@ -542,47 +852,48 @@ public class AddBasicInfoProperties extends Fragment {
 //                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,imagebyteArrayOutputStream);
 //                        imagebytes =imagebyteArrayOutputStream.toByteArray();
 //                        //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
-                ByteArrayOutputStream byteArrayOutputStream;
-                byteArrayOutputStream = new ByteArrayOutputStream();
+                    ByteArrayOutputStream byteArrayOutputStream;
+                    byteArrayOutputStream = new ByteArrayOutputStream();
 
-                Log.d("Extension", "" + extension);
-                if (bitmap != null) {
-                    String imagePath = getRealPathFromURI(uri);
-                    extension = imagePath.substring(imagePath.lastIndexOf(".") + 1);
-                    if (extension.equals("jpeg") || extension.equals("jpg")) {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                        Log.d("Extension", ""+extension);
+                    Log.d("Extension", "" + extension);
+                    if (bitmap != null) {
+                        String imagePath = getRealPathFromURI(uri);
+                        extension = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+                        if (extension.equals("jpeg") || extension.equals("jpg")) {
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                            Log.d("Extension", "" + extension);
 
-                    } else if (extension.equals("png")) {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                        Log.d("Extension", ""+extension);
-                    }
-                    imagebytes = byteArrayOutputStream.toByteArray();
-                    if (priceEt.getText().toString().length() == 0) {
-                        Toast.makeText(getContext(), "Enter price!", Toast.LENGTH_LONG).show();
+                        } else if (extension.equals("png")) {
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                            Log.d("Extension", "" + extension);
+                        }
+                        imagebytes = byteArrayOutputStream.toByteArray();
+                        if (priceEt.getText().toString().length() == 0) {
+                            Toast.makeText(getContext(), "Enter price!", Toast.LENGTH_LONG).show();
+                        } else {
+                            progressDialog = new ProgressDialog(getContext());
+                            progressDialog.setMessage("Please wait.....");
+                            progressDialog.show();
+                            addPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/add_property";
+                            SendData(new IGetImageName() {
+                                @Override
+                                public String getName() {
+
+                                    return UUID.randomUUID().toString();
+                                }
+                            });
+
+                        }
+
+                        //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
+
+
                     } else {
-                        progressDialog=new ProgressDialog(getContext());
-                        progressDialog.setMessage("Please wait.....");
-                        progressDialog.show();
-                        addPropertyURL = "http://" + IpStatic.IpAddress.ip + ":80/api/add_property";
-                        SendData(new IGetImageName() {
-                            @Override
-                            public String getName() {
-
-                                return UUID.randomUUID().toString();
-                            }
-                        });
-
+                        Toast.makeText(getContext(), "Select image first!", Toast.LENGTH_LONG).show();
                     }
 
-                    //imageName =Base64.encodeToString(bytes,Base64.DEFAULT);
 
-
-                } else {
-                    Toast.makeText(getContext(), "Select image first!", Toast.LENGTH_LONG).show();
-                }
-
-                Log.d("EncodedImage", "" + imageName);
+                    Log.d("EncodedImage", "" + imageName);
 
 
 //                StringRequest stringRequest = new StringRequest(Request.Method.POST, addPropertyURL, new Response.Listener<String>() {
@@ -635,11 +946,11 @@ public class AddBasicInfoProperties extends Fragment {
 //                };
 //                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 //                requestQueue.add(stringRequest);
+                }
 
-
-            }
 
             });
+        }
 
             super.onViewCreated(view, savedInstanceState);
     }
@@ -733,84 +1044,222 @@ public class AddBasicInfoProperties extends Fragment {
 //        }
 //
 //    }
+
     public void SendData(IGetImageName iGetImageName) {
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, addPropertyURL, new Response.Listener<NetworkResponse>() {
-            @Override
-            public void onResponse(NetworkResponse response) {
-                String resultResponse = new String(response.data);
-                try {
-                    JSONObject jsonObject = new JSONObject(resultResponse);
-                    String status = jsonObject.getString("status");
-                    if (status.compareTo("200") == 0) {
-                        Toast.makeText(getContext(), "Data Inserted Sucessfully!", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getContext(), houseOwnerDashboard.class);
-                        startActivity(intent);
+        if (fragmentName.equals("AddressFragment")) {
+            tole=addPropertyDataBundle.getString("tole");
+            provinceId=addPropertyDataBundle.getInt("provinceId");
+            districtId=addPropertyDataBundle.getInt("districtId");
+            wardId=addPropertyDataBundle.getInt("ward_noId");
+            local_level_ID=addPropertyDataBundle.getInt("local_levelId");
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, addPropertyURL, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    String resultResponse = new String(response.data);
+                    try {
+                        JSONObject jsonObject = new JSONObject(resultResponse);
+                        String status = jsonObject.getString("status");
+                        if (status.compareTo("200") == 0) {
+                            Toast.makeText(getContext(), "Data Inserted Sucessfully!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getContext(), houseOwnerDashboard.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
-                Toast.makeText(getContext(), "Something Went Wrong:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> propertyMap = new HashMap<>();
-                propertyMap.put("price", priceEt.getText().toString());
-                propertyMap.put("status", "0");
-                propertyMap.put("total_bookings", "0");
-                propertyMap.put("tole", tole);
-                propertyMap.put("category_id", category_Id);
-                propertyMap.put("houseowner_id", StaticClasses.loginInfo.UserID);
-                propertyMap.put("province_id", String.valueOf(provinceId));
-                propertyMap.put("district_id", String.valueOf(districtId));
-                propertyMap.put("local_level_id",String.valueOf(local_level_ID));
-
-                propertyMap.put("ward_no_id", String.valueOf(wardId));
-                propertyMap.put("property_details", updatedJson);
-                return propertyMap;
-            }
-
-            @Override
-            protected Map<String, DataPart> getByteData() throws AuthFailureError {
-                Map<String, DataPart> imageMap = new HashMap<>();
-                if (extension.equals("jpeg")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName()+".jpeg", imagebytes, "image/jpeg"));
-                } else if (extension.equals("png")) {
-                    imageMap.put("image", new DataPart(iGetImageName.getName()+".png", imagebytes, "image/png"));
-                }else if(extension.equals("jpg")){
-                    imageMap.put("image", new DataPart(iGetImageName.getName()+".jpg", imagebytes, "image/jpeg"));
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Something Went Wrong:" + error.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                return imageMap;
-            }
+            }) {
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String ,String> headers=new HashMap<>();
-                headers.put("Authorization","Bearer "+StaticClasses.loginInfo.loginToken);
-                return headers;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(volleyMultipartRequest);
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> propertyMap = new HashMap<>();
+                    propertyMap.put("price", priceEt.getText().toString());
+                    propertyMap.put("status", "0");
+                    propertyMap.put("total_bookings", "0");
+                    propertyMap.put("tole", tole);
+                    propertyMap.put("category_id", category_Id);
+                    propertyMap.put("houseowner_id", StaticClasses.loginInfo.UserID);
+                    propertyMap.put("province_id", String.valueOf(provinceId));
+                    propertyMap.put("district_id", String.valueOf(districtId));
+                    propertyMap.put("local_level_id", String.valueOf(local_level_ID));
+
+                    propertyMap.put("ward_no_id", String.valueOf(wardId));
+                    propertyMap.put("property_details", updatedJson);
+                    return propertyMap;
+                }
+
+                @Override
+                protected Map<String, DataPart> getByteData() throws AuthFailureError {
+                    Map<String, DataPart> imageMap = new HashMap<>();
+                    if (extension.equals("jpeg")) {
+                        imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", imagebytes, "image/jpeg"));
+                    } else if (extension.equals("png")) {
+                        imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", imagebytes, "image/png"));
+                    } else if (extension.equals("jpg")) {
+                        imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", imagebytes, "image/jpeg"));
+                    }
+                    return imageMap;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                    return headers;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            requestQueue.add(volleyMultipartRequest);
+        }
+        if(fragmentName.equals("EditFragment")){
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, editPropertyURL, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    String resultResponse = new String(response.data);
+                    try {
+                        JSONObject jsonObject = new JSONObject(resultResponse);
+                        String status = jsonObject.getString("status");
+                        if (status.compareTo("200") == 0) {
+                            Toast.makeText(getContext(), "Data Edited Sucessfully!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getContext(), houseOwnerDashboard.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "Something Went Wrong:" + error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> propertyMap = new HashMap<>();
+                    propertyMap.put("id",Property_id);
+                    propertyMap.put("price", priceEt.getText().toString());
+                    propertyMap.put("property_details", updatedJson);
+                    return propertyMap;
+                }
+
+                @Override
+                protected Map<String, DataPart> getByteData() throws AuthFailureError {
+                    Map<String, DataPart> imageMap = new HashMap<>();
+                        if (extension.equals("jpeg")) {
+                            imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpeg", imagebytes, "image/jpeg"));
+                        } else if (extension.equals("png")) {
+                            imageMap.put("image", new DataPart(iGetImageName.getName() + ".png", imagebytes, "image/png"));
+                        } else if (extension.equals("jpg")) {
+                            imageMap.put("image", new DataPart(iGetImageName.getName() + ".jpg", imagebytes, "image/jpeg"));
+                        }
+
+                    return imageMap;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                    return headers;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            requestQueue.add(volleyMultipartRequest);
+        }
+
+
     }
 
+        private String getRealPathFromURI (Uri uri){
+            String[] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String imagePath = cursor.getString(column_index);
+            Log.d("Image", "" + imagePath);
+            cursor.close();
+            return imagePath;
+        }
+    private void sendImageFromDatabase(String imageName) {
+        if (imageName != null) {
+            Log.d("ImageName1",""+imageName);
+            Log.d("ImgaeBytes1",""+imagebytes);
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, editPropertyURL, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    String resultResponse = new String(response.data);
+                    try {
+                        JSONObject jsonObject = new JSONObject(resultResponse);
+                        String status = jsonObject.getString("status");
+                        if (status.compareTo("200") == 0) {
+                            Toast.makeText(getContext(), "Data Edited Successfully!", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getContext(), houseOwnerDashboard.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    Toast.makeText(getContext(), "Something Went Wrong:" + error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }) {
 
-    private String getRealPathFromURI(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String imagePath = cursor.getString(column_index);
-        Log.d("Image",""+imagePath);
-        cursor.close();
-        return imagePath;
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> propertyMap = new HashMap<>();
+                    propertyMap.put("id", Property_id);
+                    propertyMap.put("price", priceEt.getText().toString());
+                    propertyMap.put("property_details", updatedJson);
+                    return propertyMap;
+                }
+
+                @Override
+                protected Map<String, DataPart> getByteData() throws AuthFailureError {
+                    Map<String, DataPart> imageMap = new HashMap<>();
+                    if (extension.equals("jpeg")) {
+                        imageMap.put("image", new DataPart(imageName ,imagebytes, "image/jpeg"));
+                    } else if (extension.equals("png")) {
+                        imageMap.put("image", new DataPart(imageName, imagebytes, "image/png"));
+                    } else if (extension.equals("jpg")) {
+                        imageMap.put("image", new DataPart(imageName , imagebytes, "image/jpeg"));
+                    }
+                    return imageMap;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + StaticClasses.loginInfo.loginToken);
+                    return headers;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            requestQueue.add(volleyMultipartRequest);
+        } else {
+            // Handle the case when imageName is null
+            // For example, show an error message or log the error
+            Log.e("Image Error", "imageName is null");
+            // Or show a Toast with an error message
+            Toast.makeText(getContext(), "Invalid image data from database", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

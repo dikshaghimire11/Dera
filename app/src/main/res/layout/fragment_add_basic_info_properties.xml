@@ -148,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/bedroom" />
+                        android:entries="@array/BedRoom_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -238,7 +238,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/bathroom" />
+                        android:entries="@array/BathroomType_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -268,7 +268,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/floor" />
+                        android:entries="@array/Floor_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -388,7 +388,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/HouseholdWater" />
+                        android:entries="@array/HouseHoldWater_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -448,7 +448,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/noOfFlats" />
+                        android:entries="@array/NoOfFlats_options" />
                 </com.google.android.material.card.MaterialCardView>
 
 
@@ -479,7 +479,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/noOfShutter" />
+                        android:entries="@array/NoOfShutter_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -509,7 +509,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
                         android:backgroundTint="@color/themecolor"
-                        android:entries="@array/NoOfStore" />
+                        android:entries="@array/NumberOfStore_options" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.button.MaterialButton

@@ -166,6 +166,10 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this,"Invalid Username/Password!",Toast.LENGTH_LONG).show();
                                     errorTV.setText("Invalid Username/Password!");
                                 }
+                                if(status.compareTo("403")==0){
+                                    Toast.makeText(Login.this,"Your account has been suspended by Administrator!",Toast.LENGTH_LONG).show();
+                                    errorTV.setText("Your account has been suspended by Administrator!");
+                                }
 
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);

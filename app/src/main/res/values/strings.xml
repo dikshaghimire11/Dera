@@ -10,7 +10,7 @@
 What type of Property do you
         want to add?
 </string>
-    <string-array name="bedroom">
+    <string-array name="BedRoom_options">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -53,67 +53,19 @@ What type of Property do you
         <item>39</item>
         <item>40</item>
     </string-array>
-    <string-array name="livingroom">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
-        <item>18</item>
-        <item>19</item>
-        <item>20</item>
-        <item>21</item>
-        <item>22</item>
-        <item>23</item>
-        <item>24</item>
-        <item>25</item>
-        <item>26</item>
-        <item>27</item>
-        <item>28</item>
-        <item>29</item>
-        <item>30</item>
-        <item>31</item>
-        <item>32</item>
-        <item>33</item>
-        <item>34</item>
-        <item>35</item>
-        <item>36</item>
-        <item>37</item>
-        <item>38</item>
-        <item>39</item>
-        <item>40</item>
+    <string-array name="LivingRoom_options">
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
-    <string-array name="kitchen">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+    <string-array name="Kitchen_options">
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
-    <string-array name="bathroom">
+    <string-array name="BathroomType_options">
         <item>Attached</item>
         <item>Sharing</item>
     </string-array>
-    <string-array name="floor">
+    <string-array name="Floor_options">
         <item>Basement</item>
         <item>Ground</item>
         <item>First</item>
@@ -127,37 +79,19 @@ What type of Property do you
         <item>Nineth</item>
         <item>Tenth</item>
     </string-array>
-    <string-array name="CarParking">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
-    <string-array name="bikeParking">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
-    <string-array name="SharingInternet">
+    <string-array name="CarParking_options">
         <item>Yes</item>
         <item>No</item>
     </string-array>
-    <string-array name="DrinkingWater">
+    <string-array name="BikeParking_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="SharingInternet_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="DrinkingWater_options">
         <item>Yes</item>
         <item>No</item>
     </string-array>
@@ -165,12 +99,12 @@ What type of Property do you
         <item>Yes</item>
         <item>No</item>
     </string-array>
-    <string-array name="HouseholdWater">
+    <string-array name="HouseHoldWater_options">
         <item>Plently</item>
         <item>Moderate Amount</item>
         <item> Scarcity</item>
     </string-array>
-    <string-array name="noOfFlats">
+    <string-array name="NoOfFlats_options">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -182,7 +116,7 @@ What type of Property do you
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string-array name="noOfbathroom">
+    <string-array name="NoOfbathroom_options">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -194,7 +128,7 @@ What type of Property do you
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string-array name="noOfShutter">
+    <string-array name="NoOfShutter_options">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -206,7 +140,7 @@ What type of Property do you
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string-array name="NoOfStore">
+    <string-array name="NumberOfStore_options">
         <item>0</item>
         <item>1</item>
         <item>2</item>

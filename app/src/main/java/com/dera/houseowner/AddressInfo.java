@@ -257,6 +257,7 @@ public class AddressInfo extends Fragment {
                     Toast.makeText(getContext(),"Please enter tole!",Toast.LENGTH_LONG).show();
                 }else {
                     Fragment addBasicInfoPropertiesFragment = new AddBasicInfoProperties();
+                    addPropertyDataBundle.putString("fragmentName","AddressFragment");
                     addBasicInfoPropertiesFragment.setArguments(addPropertyDataBundle);
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.card.MaterialCardView
         android:layout_margin="10dp"
-        android:layout_width="120dp"
-        android:layout_height="75dp"
+        android:layout_width="140dp"
+        android:layout_height="85dp"
         android:backgroundTint="@color/textboxcolor"
         app:cardCornerRadius="10dp"
         >

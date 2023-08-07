@@ -1,6 +1,9 @@
 package com.dera.houseowner;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +19,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.dera.IpStatic;
+import com.dera.No_Login_UserDashboard;
 import com.dera.R;
 import com.dera.SimilarFiles.UserHome_Category_Fragment;
 import com.dera.StaticClasses;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class chooseCategory extends Fragment {
@@ -53,6 +68,50 @@ public class chooseCategory extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         LayoutInflater inflater=getLayoutInflater();
+
+        String checkUserStatusURL="http://" + IpStatic.IpAddress.ip + ":80/api/CheckUserStatus?id="+StaticClasses.loginInfo.UserID;
+        StringRequest request=new StringRequest(Request.Method.GET, checkUserStatusURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status=jsonObject.getString("status");
+                    String UserStatus=jsonObject.getString("Userstatus");
+                    Log.d("UserStatus",""+UserStatus);
+                    if(status.compareTo("200")==0){
+                        if(UserStatus.equals("0")){
+                            Toast.makeText(getContext(), "Your account has been suspended by Administrator!", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("DeraPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("AccessToken"); // Remove the "sessionToken" key
+                            editor.remove("UserType");
+                            editor.remove("UserId");
+                            editor.apply();
+                            Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
+                            startActivity(intent);
+
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.add(request);
         childFragmentView=mainFragmentView.findViewById(R.id.categoryFragment);
         View fragmentView=inflater.inflate(R.layout.fragment_user_home__category_,null,true);
         GridView gridView=childFragmentView.findViewById(R.id.categoryList);
