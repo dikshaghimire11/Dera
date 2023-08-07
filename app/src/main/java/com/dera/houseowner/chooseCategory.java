@@ -87,6 +87,9 @@ public class chooseCategory extends Fragment {
                             editor.remove("UserType");
                             editor.remove("UserId");
                             editor.apply();
+                            StaticClasses.loginInfo.UserID="";
+                            StaticClasses.loginInfo.loginToken="";
+                            StaticClasses.loginInfo.userName="";
                             Intent intent = new Intent(getContext(), No_Login_UserDashboard.class);
                             startActivity(intent);
 
