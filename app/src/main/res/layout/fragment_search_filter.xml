@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:background="@null"
+            android:inputType="textNoSuggestions"
             android:fontFamily="@font/robotofont"
             android:hint="Search"
             android:textColor="@color/textcolor"
@@ -113,7 +114,7 @@
             android:backgroundTintMode="multiply"
             android:translationZ="10dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="1000dp"
             app:layout_constraintTop_toBottomOf="@id/searchMCV"
             android:id="@+id/suggestionListView"
             />
