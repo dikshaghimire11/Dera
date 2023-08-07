@@ -101,6 +101,11 @@ public class StaticClasses {
 
 
         }
+        public static void enableFilterGFX(MaterialCardView mcv,Context context,int size){
+            mcv.setStrokeWidth(size);
+
+
+        }
         public static void disableFilterGFX(MaterialCardView mcv,Context context){
             mcv.setStrokeWidth(0);
 

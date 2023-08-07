@@ -46,12 +46,12 @@ public class UserHome extends Fragment {
         setHasOptionsMenu(true);
 
         FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
-
-        Fragment userHomeFragment = new UserHome_Category_Fragment();
-        homeTransaction.add(R.id.categoryFragment, userHomeFragment);
-
-        homeTransaction.commit();
+//        FragmentTransaction homeTransaction = fragmentManager.beginTransaction();
+//
+//        Fragment userHomeFragment = new UserHome_Category_Fragment();
+//        homeTransaction.add(R.id.categoryFragment, userHomeFragment);
+//
+//        homeTransaction.commit();
 
 
         FragmentTransaction searchTransaction = fragmentManager.beginTransaction();

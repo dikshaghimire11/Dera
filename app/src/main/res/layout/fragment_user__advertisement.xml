@@ -13,6 +13,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/advertiseMCV"
         android:layout_width="0dp"
+        android:layout_marginTop="10dp"
         android:layout_height="150dp"
         android:backgroundTint="@color/textboxcolor"
         app:cardCornerRadius="10dp"
@@ -33,5 +34,17 @@
         app:layout_constraintEnd_toEndOf="@+id/advertiseMCV"
         app:layout_constraintStart_toStartOf="@+id/advertiseMCV"
         app:layout_constraintTop_toTopOf="@+id/advertiseMCV" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@id/advertiseMCV"
+        app:layout_constraintRight_toRightOf="@id/advertiseMCV"
+        app:layout_constraintTop_toTopOf="@id/advertiseMCV"
+        app:layout_constraintBottom_toBottomOf="@id/advertiseMCV"
+        android:id="@+id/advertisementIV"
+        android:src="@mipmap/advertisement_foreground"
+        android:translationZ="10dp"
+        android:scaleType="centerCrop"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
