@@ -80,6 +80,9 @@ public class houseOwnerDashboard extends AppCompatActivity {
                             editor.remove("UserType");
                             editor.remove("UserId");
                             editor.apply();
+                            StaticClasses.loginInfo.UserID="";
+                            StaticClasses.loginInfo.loginToken="";
+                            StaticClasses.loginInfo.userName="";
                             Intent intent = new Intent(houseOwnerDashboard.this, No_Login_UserDashboard.class);
                             startActivity(intent);
 
