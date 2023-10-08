@@ -416,9 +416,16 @@ public class user_properties extends Fragment {
         Property property = new Property(CategoryName, data.getString("districtName") + "- " + data.getString("tole"),fullLocation, data.getString("price"), giveRoomNumber(details, CategoryName), data.getString("photo"), details, House_Owner_id, Property_id, name, houseOwner_number,Status,HistoryDate,bookingStatus,propertyStatus,PropertyFinalizedDate,UserStatus);
 
         if(searchView!=null) {
-            searchSuggestionList.add(data.getString("tole"));
-            searchSuggestionList.add(data.getString("localLevelName"));
-            searchSuggestionList.add(data.getString("provinceName"));
+            if(!searchSuggestionList.contains(data.getString("tole"))) {
+                searchSuggestionList.add(data.getString("tole"));
+            }
+            if(!searchSuggestionList.contains(data.getString("localLevelName"))) {
+                searchSuggestionList.add(data.getString("localLevelName"));
+            }
+            if(!searchSuggestionList.contains(data.getString("provinceName"))) {
+                searchSuggestionList.add(data.getString("provinceName"));
+            }
+
         }
         return property;
     }
