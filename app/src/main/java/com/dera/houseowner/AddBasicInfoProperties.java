@@ -388,14 +388,12 @@ public class AddBasicInfoProperties extends Fragment {
                 }
 
             }
-            if (imagebytes != null) {
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(imagebytes);
-                // Continue with the rest of your code
-            } else {
-                // Handle the case when imagebytes is null
-                Log.e("Image Error", "imagebytes is null");
-                Toast.makeText(getContext(), "Invalid image data from database", Toast.LENGTH_LONG).show();
-            }
+//            if (imagebytes != null) {
+//                ByteArrayInputStream inputStream = new ByteArrayInputStream(imagebytes);
+//                // Continue with the rest of your code
+//            } else {
+//                // Handle the case when imagebytes is nul
+//            }
 
             if(category_Id.equals("3")){
                 Spinner[] spinners = new Spinner[13];
