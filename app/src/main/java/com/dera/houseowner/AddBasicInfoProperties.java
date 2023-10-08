@@ -196,6 +196,7 @@ public class AddBasicInfoProperties extends Fragment {
             Property property = (Property) addPropertyDataBundle.getSerializable("model");
             addpropertyBtn.setText("Edit Property");
             AddProperty.setText("Edit Property Information");
+            UploadPhoto.setText("Edit Photo");
             Editprice =addPropertyDataBundle.getString("Price");
             Property_id=addPropertyDataBundle.getString("Property_id");
             priceEt.setText(Editprice);
@@ -223,7 +224,9 @@ public class AddBasicInfoProperties extends Fragment {
                                     imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
                                     extension = imageName.substring(imageName.lastIndexOf(".") + 1);
                                     Log.d("Extensions", "" + extension);
-                                    if (extension != null && (extension.equals("png") || extension.equals("jpg"))) {
+
+                                    if (extension != null && (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg"))) {
+                                        Log.d("Glide","This Line is Running");
                                         if (extension.equals("png")) {
                                             resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                                         } else {
@@ -389,6 +392,13 @@ public class AddBasicInfoProperties extends Fragment {
                 }
 
             }
+//            if (imagebytes != null) {
+//                ByteArrayInputStream inputStream = new ByteArrayInputStream(imagebytes);
+//                // Continue with the rest of your code
+//            } else {
+//                // Handle the case when imagebytes is nul
+//            }
+
             if(category_Id.equals("3")){
                 Spinner[] spinners = new Spinner[13];
                 spinners[0] = carparkingSp;
