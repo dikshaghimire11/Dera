@@ -62,6 +62,7 @@ import com.google.android.material.card.MaterialCardView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -195,6 +196,7 @@ public class AddBasicInfoProperties extends Fragment {
             Property property = (Property) addPropertyDataBundle.getSerializable("model");
             addpropertyBtn.setText("Edit Property");
             AddProperty.setText("Edit Property Information");
+            UploadPhoto.setText("Edit Photo");
             Editprice =addPropertyDataBundle.getString("Price");
             Property_id=addPropertyDataBundle.getString("Property_id");
             priceEt.setText(Editprice);
@@ -386,6 +388,15 @@ public class AddBasicInfoProperties extends Fragment {
                 }
 
             }
+            if (imagebytes != null) {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(imagebytes);
+                // Continue with the rest of your code
+            } else {
+                // Handle the case when imagebytes is null
+                Log.e("Image Error", "imagebytes is null");
+                Toast.makeText(getContext(), "Invalid image data from database", Toast.LENGTH_LONG).show();
+            }
+
             if(category_Id.equals("3")){
                 Spinner[] spinners = new Spinner[13];
                 spinners[0] = carparkingSp;
