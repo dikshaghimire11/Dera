@@ -98,7 +98,6 @@ public class user_properties extends Fragment {
 
         homeScroll=getActivity().findViewById(R.id.homeScroll);
         properties=new ArrayList<Property>();
-        Log.d("Gipsy","New Array Created");
         propertiesList=view.findViewById(R.id.propertieslist);
         progressBar=view.findViewById(R.id.progressBar);
         noRecordsIV=view.findViewById(R.id.noRecordsFoundIV);

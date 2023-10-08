@@ -62,6 +62,7 @@ import com.google.android.material.card.MaterialCardView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -198,6 +199,7 @@ public class AddBasicInfoProperties extends Fragment {
             Editprice =addPropertyDataBundle.getString("Price");
             Property_id=addPropertyDataBundle.getString("Property_id");
             priceEt.setText(Editprice);
+            UploadPhoto.setText("Edit Photo");
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.logo_in_bricks_foreground)
                     .error(R.mipmap.logo_in_bricks_foreground)
@@ -240,6 +242,7 @@ public class AddBasicInfoProperties extends Fragment {
                                 } else {
                                     Log.e("Glide", "Failed to load image: resource is null");
                                 }
+
                             }
 
                             @Override
