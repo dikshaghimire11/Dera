@@ -200,6 +200,7 @@ public class AddBasicInfoProperties extends Fragment {
             Editprice =addPropertyDataBundle.getString("Price");
             Property_id=addPropertyDataBundle.getString("Property_id");
             priceEt.setText(Editprice);
+            UploadPhoto.setText("Edit Photo");
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.logo_in_bricks_foreground)
                     .error(R.mipmap.logo_in_bricks_foreground)
@@ -223,7 +224,9 @@ public class AddBasicInfoProperties extends Fragment {
                                     imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
                                     extension = imageName.substring(imageName.lastIndexOf(".") + 1);
                                     Log.d("Extensions", "" + extension);
-                                    if (extension != null && (extension.equals("png") || extension.equals("jpg"))) {
+
+                                    if (extension != null && (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg"))) {
+                                        Log.d("Glide","This Line is Running");
                                         if (extension.equals("png")) {
                                             resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                                         } else {
@@ -242,6 +245,7 @@ public class AddBasicInfoProperties extends Fragment {
                                 } else {
                                     Log.e("Glide", "Failed to load image: resource is null");
                                 }
+
                             }
 
                             @Override

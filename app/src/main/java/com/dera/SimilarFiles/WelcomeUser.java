@@ -53,7 +53,12 @@ public class WelcomeUser extends Fragment {
             if (!username.isEmpty()) {
                 String name=StaticClasses.loginInfo.userName;
                 int spacePosition=name.indexOf(" ");
-                name=name.substring(0,spacePosition);
+                try {
+                    name = name.substring(0, spacePosition);
+                } catch(Exception e){
+                    Log.d("Welcome Screen ","Name has no Spaces");
+
+                    }
                 nameTV.setText(name);
 
             }
