@@ -608,6 +608,7 @@ searchET.setOnClickListener(new View.OnClickListener() {
         maxPriceTV.setText(String.valueOf(maxPrice));
     }
     public void sendSearchData(){
+        suggestionsListView.setVisibility(View.GONE);
     if(searchET.getText().length()==0){
         bundle.remove("searchData");
         if(!querySource.equals("Filter")) {
